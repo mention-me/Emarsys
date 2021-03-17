@@ -56,10 +56,10 @@ class Client
     /**
      * @param HttpClient $client HTTP client implementation
      * @param string $username The username requested by the Emarsys API
-     * @param string $secret     The secret requested by the Emarsys API
-     * @param string $baseUrl    Overrides the default baseUrl if needed
-     * @param array  $fieldsMap  Overrides the default fields mapping if needed
-     * @param array  $choicesMap Overrides the default choices mapping if needed
+     * @param string $secret The secret requested by the Emarsys API
+     * @param string $baseUrl Overrides the default baseUrl if needed
+     * @param array $fieldsMap Overrides the default fields mapping if needed
+     * @param array $choicesMap Overrides the default choices mapping if needed
      */
     public function __construct(
         HttpClient $client,
@@ -68,7 +68,8 @@ class Client
         $baseUrl = null,
         $fieldsMap = array(),
         $choicesMap = array()
-    ) {
+    )
+    {
         $this->client = $client;
         $this->username = $username;
         $this->secret = $secret;
@@ -174,8 +175,8 @@ class Client
      *
      * @param string|int $field
      * @param string|int $choice
-     * @throws Exception\ClientException
      * @return int
+     * @throws Exception\ClientException
      */
     public function getChoiceId($field, $choice)
     {
@@ -198,14 +199,14 @@ class Client
      *
      * @param string|int $field
      * @param int $choiceId
-     * @throws Exception\ClientException
      * @return string|int
+     * @throws Exception\ClientException
      */
     public function getChoiceName($field, $choiceId)
     {
         $fieldName = $this->getFieldName($field);
 
-        if(!array_key_exists($fieldName, $this->choicesMapping)) {
+        if (!array_key_exists($fieldName, $this->choicesMapping)) {
             throw new ClientException(sprintf('Unrecognized field "%s" for choice id "%s"', $field, $choiceId));
         }
 
@@ -866,7 +867,7 @@ class Client
      */
     public function createCustomField($name, $type)
     {
-        return $this->send(HttpClient::POST, 'field', array('name'=>$name, 'application_type'=>$type));
+        return $this->send(HttpClient::POST, 'field', array('name' => $name, 'application_type' => $type));
     }
 
     /**
