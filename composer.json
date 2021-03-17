@@ -13,6 +13,9 @@
             "Snowcap\\Emarsys": "src/"
         }
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "license": "MIT",
     "authors": [
         {
