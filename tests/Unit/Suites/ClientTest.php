@@ -7,6 +7,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use Psr\Log\NullLogger;
 use Snowcap\Emarsys\Exception\ClientException;
+use Http\Mock\Client as MockClient;
 
 /**
  * @covers \Snowcap\Emarsys\Client
@@ -20,13 +21,13 @@ class ClientTest extends PHPUnit_Framework_TestCase
     private $client;
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|HttpClient
+	 * @var PHPUnit_Framework_MockObject_MockObject|MockClient
 	 */
 	private $stubHttpClient;
 
     protected function setUp(): void
     {
-	    $this->stubHttpClient = $this->getMock('\Snowcap\Emarsys\HttpClient');
+	    $this->stubHttpClient = new MockClient();
 	    $this->client = new Client($this->stubHttpClient, 'dummy-api-username', 'dummy-api-secret', new NullLogger());
     }
 
@@ -243,7 +244,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
 		$response = $this->client->getContactData(array());
 
-		self::assertInstanceOf('\Snowcap\Emarsys\Response', $response);
+		self::assertInstanceOf(Response::class, $response);
 	}
 
     /**
@@ -262,17 +263,16 @@ class ClientTest extends PHPUnit_Framework_TestCase
 		);
 		$response = $this->client->createContact($data);
 
-		self::assertInstanceOf('\Snowcap\Emarsys\Response', $response);
+		self::assertInstanceOf(Response::class, $response);
 	}
 
     /**
-     * @expectedException ClientException
-     * @expectedExceptionMessage JSON response could not be decoded, maximum depth reached.
      * @throws ClientException
      * @throws Exception\ServerException
      */
 	public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
     {
+        $this->setExpectedException(ClientException::class, 'JSON response could not be decoded, maximum depth reached.');
 	    $nestedStructure = array();
 	    for ($i=0; $i<511; $i++) {
 	        $nestedStructure = array($nestedStructure);
