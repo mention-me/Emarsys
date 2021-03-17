@@ -41,35 +41,39 @@ class Client
     /**
      * @var array
      */
-    private $fieldsMapping = array();
+    private $fieldsMapping = [];
 
     /**
      * @var array
      */
-    private $choicesMapping = array();
+    private $choicesMapping = [];
 
     /**
      * @var array
      */
-    private $systemFields = array('key_id', 'id', 'contacts', 'uid');
+    private $systemFields = [
+        'key_id',
+        'id',
+        'contacts',
+        'uid',
+    ];
 
     /**
-     * @param HttpClient $client HTTP client implementation
-     * @param string $username The username requested by the Emarsys API
-     * @param string $secret The secret requested by the Emarsys API
-     * @param string $baseUrl Overrides the default baseUrl if needed
-     * @param array $fieldsMap Overrides the default fields mapping if needed
-     * @param array $choicesMap Overrides the default choices mapping if needed
+     * @param HttpClient $client     HTTP client implementation
+     * @param string     $username   The username requested by the Emarsys API
+     * @param string     $secret     The secret requested by the Emarsys API
+     * @param string     $baseUrl    Overrides the default baseUrl if needed
+     * @param array      $fieldsMap  Overrides the default fields mapping if needed
+     * @param array      $choicesMap Overrides the default choices mapping if needed
      */
     public function __construct(
         HttpClient $client,
         $username,
         $secret,
         $baseUrl = null,
-        $fieldsMap = array(),
-        $choicesMap = array()
-    )
-    {
+        $fieldsMap = [],
+        $choicesMap = []
+    ) {
         $this->client = $client;
         $this->username = $username;
         $this->secret = $secret;
@@ -101,7 +105,7 @@ class Client
      *
      * @param array $mapping
      */
-    public function addFieldsMapping($mapping = array())
+    public function addFieldsMapping($mapping = [])
     {
         $this->fieldsMapping = array_merge($this->fieldsMapping, $mapping);
     }
@@ -120,12 +124,12 @@ class Client
      *
      * @param array $mapping
      */
-    public function addChoicesMapping($mapping = array())
+    public function addChoicesMapping($mapping = [])
     {
         foreach ($mapping as $field => $choices) {
             if (is_array($choices)) {
-                if (!array_key_exists($field, $this->choicesMapping)) {
-                    $this->choicesMapping[$field] = array();
+                if ( ! array_key_exists($field, $this->choicesMapping)) {
+                    $this->choicesMapping[$field] = [];
                 }
 
                 $this->choicesMapping[$field] = array_merge($this->choicesMapping[$field], $choices);
@@ -137,6 +141,7 @@ class Client
      * Returns a field id from a field name (specified in the fields mapping)
      *
      * @param string $field
+     *
      * @return int
      * @throws Exception\ClientException
      */
@@ -146,17 +151,18 @@ class Client
             return $field;
         }
 
-        if (!isset($this->fieldsMapping[$field])) {
+        if ( ! isset($this->fieldsMapping[$field])) {
             throw new ClientException(sprintf('Unrecognized field name "%s"', $field));
         }
 
-        return (int)$this->fieldsMapping[$field];
+        return (int) $this->fieldsMapping[$field];
     }
 
     /**
      * Returns a field name from a field id (specified in the fields mapping) or the field id if no mapping is found
      *
      * @param int $fieldId
+     *
      * @return string|int
      */
     public function getFieldName($fieldId)
@@ -175,6 +181,7 @@ class Client
      *
      * @param string|int $field
      * @param string|int $choice
+     *
      * @return int
      * @throws Exception\ClientException
      */
@@ -182,15 +189,15 @@ class Client
     {
         $fieldName = $this->getFieldName($field);
 
-        if (!array_key_exists($fieldName, $this->choicesMapping)) {
+        if ( ! array_key_exists($fieldName, $this->choicesMapping)) {
             throw new ClientException(sprintf('Unrecognized field "%s" for choice "%s"', $field, $choice));
         }
 
-        if (!isset($this->choicesMapping[$fieldName][$choice])) {
+        if ( ! isset($this->choicesMapping[$fieldName][$choice])) {
             throw new ClientException(sprintf('Unrecognized choice "%s" for field "%s"', $choice, $field));
         }
 
-        return (int)$this->choicesMapping[$fieldName][$choice];
+        return (int) $this->choicesMapping[$fieldName][$choice];
     }
 
     /**
@@ -198,7 +205,8 @@ class Client
      * mapping is found
      *
      * @param string|int $field
-     * @param int $choiceId
+     * @param int        $choiceId
+     *
      * @return string|int
      * @throws Exception\ClientException
      */
@@ -206,7 +214,7 @@ class Client
     {
         $fieldName = $this->getFieldName($field);
 
-        if (!array_key_exists($fieldName, $this->choicesMapping)) {
+        if ( ! array_key_exists($fieldName, $this->choicesMapping)) {
             throw new ClientException(sprintf('Unrecognized field "%s" for choice id "%s"', $field, $choiceId));
         }
 
@@ -239,7 +247,9 @@ class Client
      *      '3' => 'recipient@example.com',
      *      'source_id' => '123',
      *  );
+     *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -255,6 +265,7 @@ class Client
      * Updates one or more contacts/recipients, identified by an external ID.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -271,6 +282,7 @@ class Client
      * database, it is created.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -286,6 +298,7 @@ class Client
      * Deletes a single contact/recipient, identified by an external ID.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -300,6 +313,7 @@ class Client
      *
      * @param string $fieldId
      * @param string $fieldValue
+     *
      * @return int
      * @throws ClientException
      * @throws ServerException
@@ -321,6 +335,7 @@ class Client
      * Exports the selected fields of all contacts with properties changed in the time range specified.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -334,6 +349,7 @@ class Client
      * Returns the list of emails sent to the specified contacts.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -356,6 +372,7 @@ class Client
      *  );
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -369,6 +386,7 @@ class Client
      * Exports the selected fields of all contacts which registered in the specified time range.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -382,6 +400,7 @@ class Client
      * Returns a list of contact lists which can be used as recipient source for the email.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -395,6 +414,7 @@ class Client
      * Creates a contact list which can be used as recipient source for the email.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -408,6 +428,7 @@ class Client
      * Deletes a contact list which can be used as recipient source for the email.
      *
      * @param string $listId
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -421,7 +442,8 @@ class Client
      * Creates a contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -435,7 +457,8 @@ class Client
      * This deletes contacts from the contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -449,7 +472,8 @@ class Client
      * Get a list of contact IDs that are in a contact list
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -464,6 +488,7 @@ class Client
      *
      * @param int $contactId
      * @param int $listId
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -479,13 +504,14 @@ class Client
      *
      * @param int|null $status
      * @param int|null $contactList
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
     public function getEmails($status = null, $contactList = null)
     {
-        $data = array();
+        $data = [];
         if (null !== $status) {
             $data['status'] = $status;
         }
@@ -519,6 +545,7 @@ class Client
      *  );
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -532,7 +559,8 @@ class Client
      * Returns the attributes of an email and the personalized text and HTML source.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -546,7 +574,8 @@ class Client
      * Launches an email. This is an asynchronous call, which returns 'OK' if the email is able to launch.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -560,7 +589,8 @@ class Client
      * Returns the HTML or text version of the email either as content type 'application/json' or 'text/html'.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -574,7 +604,8 @@ class Client
      * Returns the summary of the responses of a launched, paused, activated or deactivated email.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -588,7 +619,8 @@ class Client
      * Instructs the system to send a test email.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -602,7 +634,8 @@ class Client
      * Returns the URL to the online version of an email, provided it has been sent to the specified contact.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -616,6 +649,7 @@ class Client
      * Returns the delivery status of an email.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -629,6 +663,7 @@ class Client
      * Lists all the launches of an email with ID, launch date and 'done' status.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -642,6 +677,7 @@ class Client
      * Exports the selected fields of all contacts which responded to emails in the specified time range.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -655,6 +691,7 @@ class Client
      * Flags contacts as unsubscribed for an email campaign launch so they will be included in the campaign statistics.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -668,6 +705,7 @@ class Client
      * Returns a list of email categories which can be used in email creation.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -693,7 +731,8 @@ class Client
      * Triggers the given event for the specified contact.
      *
      * @param string $eventId
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -707,6 +746,7 @@ class Client
      * Fetches the status data of an export.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -732,6 +772,7 @@ class Client
      * Returns the choice options of a field.
      *
      * @param string $fieldId Field ID or custom field name (available in fields mapping)
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -745,6 +786,7 @@ class Client
      * Returns a customer's files.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -758,6 +800,7 @@ class Client
      * Uploads a file to a media database.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -771,6 +814,7 @@ class Client
      * Returns a list of segments which can be used as recipient source for the email.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -784,6 +828,7 @@ class Client
      * Returns a customer's folders.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -797,6 +842,7 @@ class Client
      * Returns a list of the customer's forms.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -834,6 +880,7 @@ class Client
      * Deletes an existing source.
      *
      * @param string $sourceId
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -847,6 +894,7 @@ class Client
      * Creates a new source for the customer with the specified name.
      *
      * @param array $data
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
@@ -861,13 +909,21 @@ class Client
      *
      * @param string $name
      * @param string $type shorttext|longtext|largetext|date|url|numeric
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
     public function createCustomField($name, $type)
     {
-        return $this->send(HttpClient::POST, 'field', array('name' => $name, 'application_type' => $type));
+        return $this->send(
+            HttpClient::POST,
+            'field',
+            [
+                'name'             => $name,
+                'application_type' => $type,
+            ]
+        );
     }
 
     /**
@@ -875,13 +931,21 @@ class Client
      *
      * @param array $emails
      * @param array $domains
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function addBlacklistEntries(array $emails = array(), array $domains = array())
+    public function addBlacklistEntries(array $emails = [], array $domains = [])
     {
-        return $this->send(HttpClient::POST, 'blacklist', array('emails' => $emails, 'domains' => $domains));
+        return $this->send(
+            HttpClient::POST,
+            'blacklist',
+            [
+                'emails'  => $emails,
+                'domains' => $domains,
+            ]
+        );
     }
 
     /**
@@ -889,14 +953,18 @@ class Client
      *
      * @param string $method
      * @param string $uri
-     * @param array $body
+     * @param array  $body
+     *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    protected function send($method = 'GET', $uri, array $body = array())
+    protected function send($method = 'GET', $uri, array $body = [])
     {
-        $headers = array('Content-Type: application/json', 'X-WSSE: ' . $this->getAuthenticationSignature());
+        $headers = [
+            'Content-Type: application/json',
+            'X-WSSE: ' . $this->getAuthenticationSignature(),
+        ];
         $uri = $this->baseUrl . $uri;
 
         try {
@@ -956,16 +1024,17 @@ class Client
      * Convert field names to field ids
      *
      * @param array $data
+     *
      * @return array
      * @throws ClientException
      */
     private function mapFieldsToIds(array $data)
     {
-        $mappedData = array();
+        $mappedData = [];
 
         foreach ($data as $name => $value) {
             if (is_numeric($name)) {
-                $mappedData[(int)$name] = $value;
+                $mappedData[(int) $name] = $value;
             } else {
                 $mappedData[$this->getFieldId($name)] = $value;
             }
@@ -976,6 +1045,7 @@ class Client
 
     /**
      * @param string $filename
+     *
      * @return array
      */
     private function parseIniFile($filename)
@@ -987,6 +1057,7 @@ class Client
 
     /**
      * @param mixed $data
+     *
      * @return mixed
      */
     private function castIniFileValues($data)
@@ -995,7 +1066,7 @@ class Client
             if (is_array($value)) {
                 $data[$key] = $this->castIniFileValues($value);
             } elseif (is_numeric($value)) {
-                $data[$key] = (int)$value;
+                $data[$key] = (int) $value;
             }
         }
 
@@ -1004,15 +1075,27 @@ class Client
 
     /**
      * @param array $data
+     *
      * @return array
      */
     private function mapFieldsForMultipleContacts(array $data)
     {
-        if (!isset($data['contacts']) || !is_array($data['contacts'])) {
+        if ( ! isset($data['contacts']) || ! is_array($data['contacts'])) {
             return $data;
         }
 
-        return array_merge($data, array('contacts' => array_map(array($this, 'mapFieldsToIds'), $data['contacts'])));
+        return array_merge(
+            $data,
+            array(
+                'contacts' => array_map(
+                    array(
+                        $this,
+                        'mapFieldsToIds',
+                    ),
+                    $data['contacts']
+                ),
+            )
+        );
     }
 
 }
