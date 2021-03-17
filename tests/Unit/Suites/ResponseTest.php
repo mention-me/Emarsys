@@ -2,60 +2,75 @@
 
 namespace Snowcap\Emarsys;
 
+use PHPUnit_Framework_Exception;
+use PHPUnit_Framework_TestCase;
+use Snowcap\Emarsys\Exception\ClientException;
+
 /**
  * @covers \Snowcap\Emarsys\Response
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @expectedException \Snowcap\Emarsys\Exception\ClientException
-	 * @expectedExceptionMessage Invalid result structure
-	 */
-	public function testItThrowsClientException()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItThrowsClientException(): void
+    {
+        $this->setExpectedException(ClientException::class, 'Invalid result structure');
 		$dummyResult = array('dummy');
 		new Response($dummyResult);
 	}
 
-	public function testItGetsResponseData()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItGetsResponseData(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('createContact');
 		$result = new Response($expectedResponse);
 
-		$this->assertInternalType('array', $result->getData());
-		$this->assertNotEmpty($result);
+		self::assertNotEmpty($result);
 
 	}
 
-	public function testItSetsAndGetsReplyCode()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItSetsAndGetsReplyCode(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('createContact');
 		$result = new Response($expectedResponse);
 
-		$this->assertSame(Response::REPLY_CODE_OK, $result->getReplyCode());
+		self::assertSame(Response::REPLY_CODE_OK, $result->getReplyCode());
 	}
 
-	public function testItSetsAndGetsReplyText()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItSetsAndGetsReplyText(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('createContact');
 		$result = new Response($expectedResponse);
 
-		$this->assertEquals('OK', $result->getReplyText());
+		self::assertEquals('OK', $result->getReplyText());
 	}
 
-	public function testItResponseWithoutData()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItResponseWithoutData(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('insertRecord');
 		$result = new Response($expectedResponse);
 
-		$this->assertEmpty($result->getData());
+		self::assertEmpty($result->getData());
 	}
 
 	/**
      * @param string $fileName
      * @return mixed
      */
-    private function createExpectedResponse($fileName)
+    private function createExpectedResponse(string $fileName)
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 

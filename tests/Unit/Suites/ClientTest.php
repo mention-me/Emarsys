@@ -2,56 +2,68 @@
 
 namespace Snowcap\Emarsys;
 
+use PHPUnit_Framework_Exception;
+use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit_Framework_TestCase;
+use Psr\Log\NullLogger;
+use Snowcap\Emarsys\Exception\ClientException;
+
 /**
  * @covers \Snowcap\Emarsys\Client
  * @uses \Snowcap\Emarsys\Response
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Client
+     * @var PHPUnit_Framework_MockObject_MockObject|Client
      */
     private $client;
 
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject|HttpClient
+	 * @var PHPUnit_Framework_MockObject_MockObject|HttpClient
 	 */
 	private $stubHttpClient;
 
-    protected function setUp()
+    protected function setUp(): void
     {
 	    $this->stubHttpClient = $this->getMock('\Snowcap\Emarsys\HttpClient');
-	    $this->client = new Client($this->stubHttpClient, 'dummy-api-username', 'dummy-api-secret');
+	    $this->client = new Client($this->stubHttpClient, 'dummy-api-username', 'dummy-api-secret', new NullLogger());
     }
 
-	public function testItAddsFieldsMapping()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItAddsFieldsMapping(): void
+    {
 		$customField1Id = 7147;
-		$customField1Name = 'myCustomField1';
+		$customField1StringId = 'myCustomField1';
 		$customField2Id = 7148;
-		$customField2Name = 'myCustomField2';
+		$customField2StringId = 'myCustomField2';
 
 		$mapping = array(
-			$customField1Name => $customField1Id,
-			$customField2Name => $customField2Id
+			$customField1StringId => $customField1Id,
+			$customField2StringId => $customField2Id
 		);
 
 		$this->client->addFieldsMapping($mapping);
 
-		$resultField1Id = $this->client->getFieldId($customField1Name);
-		$resultField1Name = $this->client->getFieldName($customField1Id);
-		$resultField2Id = $this->client->getFieldId($customField2Name);
-		$resultField2Name = $this->client->getFieldName($customField2Id);
+		$resultField1Id = $this->client->getFieldId($customField1StringId);
+		$resultField1StringId = $this->client->getFieldStringId($customField1Id);
+		$resultField2Id = $this->client->getFieldId($customField2StringId);
+		$resultField2StringId = $this->client->getFieldStringId($customField2Id);
 
-		$this->assertEquals($customField1Id, $resultField1Id);
-		$this->assertEquals($customField1Name, $resultField1Name);
-		$this->assertEquals($customField2Id, $resultField2Id);
-		$this->assertEquals($customField2Name, $resultField2Name);
+		self::assertEquals($customField1Id, $resultField1Id);
+		self::assertEquals($customField1StringId, $resultField1StringId);
+		self::assertEquals($customField2Id, $resultField2Id);
+		self::assertEquals($customField2StringId, $resultField2StringId);
 	}
 
-	public function testItAddsChoicesMapping()
-	{
-		$customFieldName = 'myCustomField';
+    /**
+     * @throws ClientException
+     */
+	public function testItAddsChoicesMapping(): void
+    {
+		$customFieldStringId = 'myCustomField';
 		$customChoice1Id = 1;
 		$customChoice1Name = 'myCustomChoice1';
 		$customChoice2Id = 2;
@@ -60,7 +72,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		$customChoice3Name = 'myCustomChoice3';
 
 		$mapping = array(
-			$customFieldName => array(
+			$customFieldStringId => array(
 				$customChoice1Name => $customChoice1Id
 			)
 		);
@@ -69,7 +81,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		$this->client->addChoicesMapping($mapping);
 
 		$mapping = array(
-			$customFieldName => array(
+			$customFieldStringId => array(
 				$customChoice2Name => $customChoice2Id,
 				$customChoice3Name => $customChoice3Id
 			)
@@ -77,45 +89,45 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$this->client->addChoicesMapping($mapping);
 
-		$resultField1Id = $this->client->getChoiceId($customFieldName, $customChoice1Name);
-		$resultField1Name = $this->client->getChoiceName($customFieldName, $customChoice1Id);
-		$resultField2Id = $this->client->getChoiceId($customFieldName, $customChoice2Name);
-		$resultField2Name = $this->client->getChoiceName($customFieldName, $customChoice2Id);
-		$resultField3Id = $this->client->getChoiceId($customFieldName, $customChoice3Name);
-		$resultField3Name = $this->client->getChoiceName($customFieldName, $customChoice3Id);
+		$resultChoice1Id = $this->client->getChoiceId($customFieldStringId, $customChoice1Name);
+		$resultChoice1Name = $this->client->getChoiceName($customFieldStringId, $customChoice1Id);
+		$resultChoice2Id = $this->client->getChoiceId($customFieldStringId, $customChoice2Name);
+		$resultChoice2Name = $this->client->getChoiceName($customFieldStringId, $customChoice2Id);
+		$resultChoice3Id = $this->client->getChoiceId($customFieldStringId, $customChoice3Name);
+		$resultChoice3Name = $this->client->getChoiceName($customFieldStringId, $customChoice3Id);
 
-		$this->assertEquals($customChoice1Id, $resultField1Id);
-		$this->assertEquals($customChoice1Name, $resultField1Name);
-		$this->assertEquals($customChoice2Id, $resultField2Id);
-		$this->assertEquals($customChoice2Name, $resultField2Name);
-		$this->assertEquals($customChoice3Id, $resultField3Id);
-		$this->assertEquals($customChoice3Name, $resultField3Name);
+		self::assertEquals($customChoice1Id, $resultChoice1Id);
+		self::assertEquals($customChoice1Name, $resultChoice1Name);
+		self::assertEquals($customChoice2Id, $resultChoice2Id);
+		self::assertEquals($customChoice2Name, $resultChoice2Name);
+		self::assertEquals($customChoice3Id, $resultChoice3Id);
+		self::assertEquals($customChoice3Name, $resultChoice3Name);
 	}
 
-	/**
-	 * @expectedException \Snowcap\Emarsys\Exception\ClientException
-	 * @expectedExceptionMessage Unrecognized field name "non-existing-field-name"
-	 */
-	public function testItThrowsAnExceptionIfFieldDoesNotExist()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
+    {
+        $this->setExpectedException(ClientException::class, 'Unrecognized field name "non-existing-field-name"');
 		$this->client->getFieldId('non-existing-field-name');
 	}
 
-	/**
-	 * @expectedException \Snowcap\Emarsys\Exception\ClientException
-	 * @expectedExceptionMessage Unrecognized field "non-existing-field-name" for choice "choice-name"
-	 */
-	public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
+    {
+        $this->setExpectedException(ClientException::class, 'Unrecognized field "non-existing-field-name" for choice "choice-name"');
 		$this->client->getChoiceId('non-existing-field-name', 'choice-name');
 	}
 
-	/**
-	 * @expectedException \Snowcap\Emarsys\Exception\ClientException
-	 * @expectedExceptionMessage Unrecognized choice "choice-name" for field "myCustomField"
-	 */
-	public function testItThrowsAnExceptionIfChoiceDoesNotExist()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
+    {
+        $this->setExpectedException(ClientException::class, 'Unrecognized choice "choice-name" for field "myCustomField"');
 		$fieldName = 'myCustomField';
 		$mapping = array($fieldName => array());
 
@@ -123,8 +135,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		$this->client->getChoiceId($fieldName, 'choice-name');
 	}
 
-	public function testItReturnsChoiceIdIfChoiceNameIsNotFound()
-	{
+    /**
+     * @throws ClientException
+     */
+	public function testItReturnsChoiceIdIfChoiceNameIsNotFound(): void
+    {
 		$fieldName = 'myCustomField';
 		$choiceId = 1;
 		$mapping = array($fieldName => array());
@@ -132,40 +147,50 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		$this->client->addChoicesMapping($mapping);
 		$result = $this->client->getChoiceName($fieldName, $choiceId);
 
-		$this->assertEquals($choiceId, $result);
+		self::assertEquals($choiceId, $result);
 	}
 
-    public function testGetEmails()
+    /**
+     * @throws ClientException
+     * @throws Exception\ServerException
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function testGetEmails(): void
     {
         $expectedResponse = $this->createExpectedResponse('emails');
         $this->stubHttpClient->method('send')->willReturn($expectedResponse);
 
         $response = $this->client->getEmails();
 
-        $this->assertEquals($response->getReplyCode(), Response::REPLY_CODE_OK);
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $response = $this->client->getEmails(Client::EMAIL_STATUS_READY);
 
-        $this->assertEquals($response->getReplyCode(), Response::REPLY_CODE_OK);
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $response = $this->client->getEmails(null, 123);
 
-        $this->assertEquals($response->getReplyCode(), Response::REPLY_CODE_OK);
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $response = $this->client->getEmails(Client::EMAIL_STATUS_READY, 123);
 
-        $this->assertEquals($response->getReplyCode(), Response::REPLY_CODE_OK);
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        $this->assertNotEmpty($response->getData());
+        self::assertNotEmpty($response->getData());
 
         foreach ($response->getData() as $data) {
-            $this->assertArrayHasKey('id', $data);
-            $this->assertArrayHasKey('name', $data);
-            $this->assertArrayHasKey('status', $data);
+            self::assertArrayHasKey('id', $data);
+            self::assertArrayHasKey('name', $data);
+            self::assertArrayHasKey('status', $data);
         }
     }
 
-    public function testCreateEmail()
+    /**
+     * @throws ClientException
+     * @throws Exception\ServerException
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function testCreateEmail(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
 	    $this->stubHttpClient->method('send')->willReturn($expectedResponse);
@@ -187,11 +212,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->client->createEmail($data);
 
-        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
-        $this->assertArrayHasKey('id', $response->getData());
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        self::assertArrayHasKey('id', $response->getData());
     }
 
-    public function testGetContactIdSuccess()
+    /**
+     * @throws ClientException
+     * @throws Exception\ServerException
+     */
+    public function testGetContactIdSuccess(): void
     {
         $expectedResponse = $this->createExpectedResponse('getContactId');
 	    $this->stubHttpClient->method('send')->willReturn($expectedResponse);
@@ -199,21 +228,31 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = $this->client->getContactId('3', 'sender@example.com');
 
         $expectedData = json_decode($expectedResponse, true);
-        $this->assertEquals($expectedData['data']['id'], $response);
+        self::assertEquals($expectedData['data']['id'], $response);
     }
 
-	public function testItReturnsContactData()
-	{
+    /**
+     * @throws ClientException
+     * @throws Exception\ServerException
+     * @throws PHPUnit_Framework_Exception
+     */
+	public function testItReturnsContactData(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('getContactData');
 		$this->stubHttpClient->method('send')->willReturn($expectedResponse);
 
 		$response = $this->client->getContactData(array());
 
-		$this->assertInstanceOf('\Snowcap\Emarsys\Response', $response);
+		self::assertInstanceOf('\Snowcap\Emarsys\Response', $response);
 	}
 
-	public function testItCreatesContact()
-	{
+    /**
+     * @throws ClientException
+     * @throws Exception\ServerException
+     * @throws PHPUnit_Framework_Exception
+     */
+	public function testItCreatesContact(): void
+    {
 		$expectedResponse = $this->createExpectedResponse('createContact');
 		$this->stubHttpClient->method('send')->willReturn($expectedResponse);
 
@@ -223,15 +262,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		);
 		$response = $this->client->createContact($data);
 
-		$this->assertInstanceOf('\Snowcap\Emarsys\Response', $response);
+		self::assertInstanceOf('\Snowcap\Emarsys\Response', $response);
 	}
 
     /**
-     * @expectedException \Snowcap\Emarsys\Exception\ClientException
+     * @expectedException ClientException
      * @expectedExceptionMessage JSON response could not be decoded, maximum depth reached.
+     * @throws ClientException
+     * @throws Exception\ServerException
      */
-	public function testThrowsExceptionIfJsonDepthExceedsLimit()
-	{
+	public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
+    {
 	    $nestedStructure = array();
 	    for ($i=0; $i<511; $i++) {
 	        $nestedStructure = array($nestedStructure);
@@ -248,7 +289,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      * @param string $fileName
      * @return mixed
      */
-    private function createExpectedResponse($fileName)
+    private function createExpectedResponse(string $fileName)
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 

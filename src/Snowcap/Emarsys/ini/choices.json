@@ -1,0 +1,3109 @@
+{
+    "9": [
+        {
+            "id": "4",
+            "choice": "Dr.",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Mag.",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Ing.",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "Dipl.Ing.",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "Prof.",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "Dkfm.",
+            "bit_position": null
+        },
+        {
+            "id": "1",
+            "choice": "Dir.",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "Prok.",
+            "bit_position": null
+        }
+    ],
+    "46": [
+        {
+            "id": "6",
+            "choice": "Mx.",
+            "bit_position": null
+        },
+        {
+            "id": "1",
+            "choice": "Mr.",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Ms.",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Family",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Company",
+            "bit_position": null
+        }
+    ],
+    "26": [
+        {
+            "id": "1",
+            "choice": "HTML",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Text only",
+            "bit_position": null
+        }
+    ],
+    "14": [
+        {
+            "id": "203",
+            "choice": "Gibraltar",
+            "bit_position": null
+        },
+        {
+            "id": "204",
+            "choice": "Netherlands Antilles",
+            "bit_position": null
+        },
+        {
+            "id": "205",
+            "choice": "Hong Kong",
+            "bit_position": null
+        },
+        {
+            "id": "206",
+            "choice": "Macau",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "Austria",
+            "bit_position": null
+        },
+        {
+            "id": "65",
+            "choice": "Germany",
+            "bit_position": null
+        },
+        {
+            "id": "168",
+            "choice": "Switzerland",
+            "bit_position": null
+        },
+        {
+            "id": "100",
+            "choice": "Liechtenstein",
+            "bit_position": null
+        },
+        {
+            "id": "1",
+            "choice": "Afghanistan",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Albania",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Algeria",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Andorra",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Angola",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Antigua and Barbuda",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "Argentina",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "Armenia",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "Azerbaijan",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "Australia",
+            "bit_position": null
+        },
+        {
+            "id": "53",
+            "choice": "Egypt",
+            "bit_position": null
+        },
+        {
+            "id": "55",
+            "choice": "Equatorial Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "58",
+            "choice": "Ethiopia",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "Bahamas",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "Bahrain",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "Bangladesh",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "Barbados",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "Belgium",
+            "bit_position": null
+        },
+        {
+            "id": "18",
+            "choice": "Belize",
+            "bit_position": null
+        },
+        {
+            "id": "19",
+            "choice": "Benin",
+            "bit_position": null
+        },
+        {
+            "id": "20",
+            "choice": "Bhutan",
+            "bit_position": null
+        },
+        {
+            "id": "21",
+            "choice": "Bolivia",
+            "bit_position": null
+        },
+        {
+            "id": "22",
+            "choice": "Bosnia and Herzegovina",
+            "bit_position": null
+        },
+        {
+            "id": "23",
+            "choice": "Botswana",
+            "bit_position": null
+        },
+        {
+            "id": "24",
+            "choice": "Brazil",
+            "bit_position": null
+        },
+        {
+            "id": "25",
+            "choice": "Brunei Darussalam",
+            "bit_position": null
+        },
+        {
+            "id": "26",
+            "choice": "Bulgaria",
+            "bit_position": null
+        },
+        {
+            "id": "27",
+            "choice": "Burkina Faso",
+            "bit_position": null
+        },
+        {
+            "id": "28",
+            "choice": "Burma",
+            "bit_position": null
+        },
+        {
+            "id": "29",
+            "choice": "Burundi",
+            "bit_position": null
+        },
+        {
+            "id": "36",
+            "choice": "Chile",
+            "bit_position": null
+        },
+        {
+            "id": "37",
+            "choice": "China",
+            "bit_position": null
+        },
+        {
+            "id": "42",
+            "choice": "Costa Rica",
+            "bit_position": null
+        },
+        {
+            "id": "48",
+            "choice": "Denmark",
+            "bit_position": null
+        },
+        {
+            "id": "50",
+            "choice": "Dominica",
+            "bit_position": null
+        },
+        {
+            "id": "51",
+            "choice": "Dominican Republic",
+            "bit_position": null
+        },
+        {
+            "id": "52",
+            "choice": "Ecuador",
+            "bit_position": null
+        },
+        {
+            "id": "54",
+            "choice": "El Salvador",
+            "bit_position": null
+        },
+        {
+            "id": "43",
+            "choice": "Cote d'Ivoire",
+            "bit_position": null
+        },
+        {
+            "id": "56",
+            "choice": "Eritrea",
+            "bit_position": null
+        },
+        {
+            "id": "57",
+            "choice": "Estonia",
+            "bit_position": null
+        },
+        {
+            "id": "59",
+            "choice": "Fiji",
+            "bit_position": null
+        },
+        {
+            "id": "60",
+            "choice": "Finland",
+            "bit_position": null
+        },
+        {
+            "id": "61",
+            "choice": "France",
+            "bit_position": null
+        },
+        {
+            "id": "62",
+            "choice": "Gabon",
+            "bit_position": null
+        },
+        {
+            "id": "63",
+            "choice": "Gambia, The",
+            "bit_position": null
+        },
+        {
+            "id": "64",
+            "choice": "Georgia",
+            "bit_position": null
+        },
+        {
+            "id": "66",
+            "choice": "Ghana",
+            "bit_position": null
+        },
+        {
+            "id": "68",
+            "choice": "Grenada",
+            "bit_position": null
+        },
+        {
+            "id": "67",
+            "choice": "Greece",
+            "bit_position": null
+        },
+        {
+            "id": "184",
+            "choice": "United Kingdom",
+            "bit_position": null
+        },
+        {
+            "id": "198",
+            "choice": "Greenland",
+            "bit_position": null
+        },
+        {
+            "id": "69",
+            "choice": "Guatemala",
+            "bit_position": null
+        },
+        {
+            "id": "70",
+            "choice": "Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "71",
+            "choice": "Guinea-Bissau",
+            "bit_position": null
+        },
+        {
+            "id": "72",
+            "choice": "Guyana",
+            "bit_position": null
+        },
+        {
+            "id": "73",
+            "choice": "Haiti",
+            "bit_position": null
+        },
+        {
+            "id": "74",
+            "choice": "Honduras",
+            "bit_position": null
+        },
+        {
+            "id": "77",
+            "choice": "India",
+            "bit_position": null
+        },
+        {
+            "id": "78",
+            "choice": "Indonesia",
+            "bit_position": null
+        },
+        {
+            "id": "80",
+            "choice": "Iraq",
+            "bit_position": null
+        },
+        {
+            "id": "79",
+            "choice": "Iran",
+            "bit_position": null
+        },
+        {
+            "id": "81",
+            "choice": "Ireland",
+            "bit_position": null
+        },
+        {
+            "id": "76",
+            "choice": "Iceland",
+            "bit_position": null
+        },
+        {
+            "id": "82",
+            "choice": "Israel",
+            "bit_position": null
+        },
+        {
+            "id": "83",
+            "choice": "Italy",
+            "bit_position": null
+        },
+        {
+            "id": "84",
+            "choice": "Jamaica",
+            "bit_position": null
+        },
+        {
+            "id": "85",
+            "choice": "Japan",
+            "bit_position": null
+        },
+        {
+            "id": "193",
+            "choice": "Yemen",
+            "bit_position": null
+        },
+        {
+            "id": "86",
+            "choice": "Jordan",
+            "bit_position": null
+        },
+        {
+            "id": "194",
+            "choice": "Yugoslavia",
+            "bit_position": null
+        },
+        {
+            "id": "199",
+            "choice": "Virgin Islands",
+            "bit_position": null
+        },
+        {
+            "id": "30",
+            "choice": "Cambodia",
+            "bit_position": null
+        },
+        {
+            "id": "31",
+            "choice": "Cameroon",
+            "bit_position": null
+        },
+        {
+            "id": "32",
+            "choice": "Canada",
+            "bit_position": null
+        },
+        {
+            "id": "201",
+            "choice": "Canary Islands",
+            "bit_position": null
+        },
+        {
+            "id": "33",
+            "choice": "Cape Verde",
+            "bit_position": null
+        },
+        {
+            "id": "87",
+            "choice": "Kazakhstan",
+            "bit_position": null
+        },
+        {
+            "id": "88",
+            "choice": "Kenya",
+            "bit_position": null
+        },
+        {
+            "id": "93",
+            "choice": "Kyrgyzstan",
+            "bit_position": null
+        },
+        {
+            "id": "89",
+            "choice": "Kiribati",
+            "bit_position": null
+        },
+        {
+            "id": "38",
+            "choice": "Colombia",
+            "bit_position": null
+        },
+        {
+            "id": "39",
+            "choice": "Comoros",
+            "bit_position": null
+        },
+        {
+            "id": "40",
+            "choice": "Congo",
+            "bit_position": null
+        },
+        {
+            "id": "41",
+            "choice": "Congo, Democratic Republic of the",
+            "bit_position": null
+        },
+        {
+            "id": "90",
+            "choice": "Korea, North",
+            "bit_position": null
+        },
+        {
+            "id": "91",
+            "choice": "Korea, South",
+            "bit_position": null
+        },
+        {
+            "id": "44",
+            "choice": "Croatia",
+            "bit_position": null
+        },
+        {
+            "id": "45",
+            "choice": "Cuba",
+            "bit_position": null
+        },
+        {
+            "id": "92",
+            "choice": "Kuwait",
+            "bit_position": null
+        },
+        {
+            "id": "94",
+            "choice": "Laos",
+            "bit_position": null
+        },
+        {
+            "id": "97",
+            "choice": "Lesotho",
+            "bit_position": null
+        },
+        {
+            "id": "95",
+            "choice": "Latvia",
+            "bit_position": null
+        },
+        {
+            "id": "96",
+            "choice": "Lebanon",
+            "bit_position": null
+        },
+        {
+            "id": "98",
+            "choice": "Liberia",
+            "bit_position": null
+        },
+        {
+            "id": "99",
+            "choice": "Libya",
+            "bit_position": null
+        },
+        {
+            "id": "101",
+            "choice": "Lithuania",
+            "bit_position": null
+        },
+        {
+            "id": "102",
+            "choice": "Luxembourg",
+            "bit_position": null
+        },
+        {
+            "id": "104",
+            "choice": "Madagascar",
+            "bit_position": null
+        },
+        {
+            "id": "105",
+            "choice": "Malawi",
+            "bit_position": null
+        },
+        {
+            "id": "106",
+            "choice": "Malaysia",
+            "bit_position": null
+        },
+        {
+            "id": "107",
+            "choice": "Maldives",
+            "bit_position": null
+        },
+        {
+            "id": "108",
+            "choice": "Mali",
+            "bit_position": null
+        },
+        {
+            "id": "109",
+            "choice": "Malta",
+            "bit_position": null
+        },
+        {
+            "id": "118",
+            "choice": "Morocco",
+            "bit_position": null
+        },
+        {
+            "id": "110",
+            "choice": "Marshall Islands",
+            "bit_position": null
+        },
+        {
+            "id": "111",
+            "choice": "Mauritania",
+            "bit_position": null
+        },
+        {
+            "id": "112",
+            "choice": "Mauritius",
+            "bit_position": null
+        },
+        {
+            "id": "103",
+            "choice": "Macedonia",
+            "bit_position": null
+        },
+        {
+            "id": "113",
+            "choice": "Mexico",
+            "bit_position": null
+        },
+        {
+            "id": "114",
+            "choice": "Micronesia",
+            "bit_position": null
+        },
+        {
+            "id": "115",
+            "choice": "Moldova",
+            "bit_position": null
+        },
+        {
+            "id": "116",
+            "choice": "Monaco",
+            "bit_position": null
+        },
+        {
+            "id": "117",
+            "choice": "Mongolia",
+            "bit_position": null
+        },
+        {
+            "id": "119",
+            "choice": "Mozambique",
+            "bit_position": null
+        },
+        {
+            "id": "120",
+            "choice": "Myanmar",
+            "bit_position": null
+        },
+        {
+            "id": "121",
+            "choice": "Namibia",
+            "bit_position": null
+        },
+        {
+            "id": "122",
+            "choice": "Nauru",
+            "bit_position": null
+        },
+        {
+            "id": "123",
+            "choice": "Nepal",
+            "bit_position": null
+        },
+        {
+            "id": "125",
+            "choice": "New Zealand",
+            "bit_position": null
+        },
+        {
+            "id": "126",
+            "choice": "Nicaragua",
+            "bit_position": null
+        },
+        {
+            "id": "124",
+            "choice": "The Netherlands",
+            "bit_position": null
+        },
+        {
+            "id": "127",
+            "choice": "Niger",
+            "bit_position": null
+        },
+        {
+            "id": "128",
+            "choice": "Nigeria",
+            "bit_position": null
+        },
+        {
+            "id": "129",
+            "choice": "Norway",
+            "bit_position": null
+        },
+        {
+            "id": "130",
+            "choice": "Oman",
+            "bit_position": null
+        },
+        {
+            "id": "131",
+            "choice": "Pakistan",
+            "bit_position": null
+        },
+        {
+            "id": "132",
+            "choice": "Palau",
+            "bit_position": null
+        },
+        {
+            "id": "134",
+            "choice": "Panama",
+            "bit_position": null
+        },
+        {
+            "id": "135",
+            "choice": "Papua New Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "136",
+            "choice": "Paraguay",
+            "bit_position": null
+        },
+        {
+            "id": "137",
+            "choice": "Peru",
+            "bit_position": null
+        },
+        {
+            "id": "138",
+            "choice": "Philippines",
+            "bit_position": null
+        },
+        {
+            "id": "139",
+            "choice": "Poland",
+            "bit_position": null
+        },
+        {
+            "id": "140",
+            "choice": "Portugal",
+            "bit_position": null
+        },
+        {
+            "id": "141",
+            "choice": "Qatar",
+            "bit_position": null
+        },
+        {
+            "id": "144",
+            "choice": "Rwanda",
+            "bit_position": null
+        },
+        {
+            "id": "142",
+            "choice": "Romania",
+            "bit_position": null
+        },
+        {
+            "id": "143",
+            "choice": "Russia",
+            "bit_position": null
+        },
+        {
+            "id": "196",
+            "choice": "Zambia",
+            "bit_position": null
+        },
+        {
+            "id": "148",
+            "choice": "Samoa",
+            "bit_position": null
+        },
+        {
+            "id": "149",
+            "choice": "San Marino",
+            "bit_position": null
+        },
+        {
+            "id": "151",
+            "choice": "Saudi Arabia",
+            "bit_position": null
+        },
+        {
+            "id": "150",
+            "choice": "São Tomé and Príncipe",
+            "bit_position": null
+        },
+        {
+            "id": "167",
+            "choice": "Sweden",
+            "bit_position": null
+        },
+        {
+            "id": "152",
+            "choice": "Senegal",
+            "bit_position": null
+        },
+        {
+            "id": "153",
+            "choice": "Serbia",
+            "bit_position": null
+        },
+        {
+            "id": "154",
+            "choice": "Seychelles",
+            "bit_position": null
+        },
+        {
+            "id": "155",
+            "choice": "Sierra Leone",
+            "bit_position": null
+        },
+        {
+            "id": "156",
+            "choice": "Singapore",
+            "bit_position": null
+        },
+        {
+            "id": "157",
+            "choice": "Slovakia",
+            "bit_position": null
+        },
+        {
+            "id": "158",
+            "choice": "Slovenia",
+            "bit_position": null
+        },
+        {
+            "id": "159",
+            "choice": "Solomon Islands",
+            "bit_position": null
+        },
+        {
+            "id": "160",
+            "choice": "Somalia",
+            "bit_position": null
+        },
+        {
+            "id": "162",
+            "choice": "Spain",
+            "bit_position": null
+        },
+        {
+            "id": "163",
+            "choice": "Sri Lanka",
+            "bit_position": null
+        },
+        {
+            "id": "145",
+            "choice": "St. Kitts and Nevis",
+            "bit_position": null
+        },
+        {
+            "id": "146",
+            "choice": "St. Lucia",
+            "bit_position": null
+        },
+        {
+            "id": "147",
+            "choice": "St. Vincent and The Grenadines",
+            "bit_position": null
+        },
+        {
+            "id": "164",
+            "choice": "Sudan",
+            "bit_position": null
+        },
+        {
+            "id": "165",
+            "choice": "Suriname",
+            "bit_position": null
+        },
+        {
+            "id": "161",
+            "choice": "South Africa",
+            "bit_position": null
+        },
+        {
+            "id": "166",
+            "choice": "Swaziland",
+            "bit_position": null
+        },
+        {
+            "id": "169",
+            "choice": "Syria",
+            "bit_position": null
+        },
+        {
+            "id": "171",
+            "choice": "Tajikistan",
+            "bit_position": null
+        },
+        {
+            "id": "170",
+            "choice": "Taiwan",
+            "bit_position": null
+        },
+        {
+            "id": "172",
+            "choice": "Tanzania",
+            "bit_position": null
+        },
+        {
+            "id": "173",
+            "choice": "Thailand",
+            "bit_position": null
+        },
+        {
+            "id": "174",
+            "choice": "Togo",
+            "bit_position": null
+        },
+        {
+            "id": "175",
+            "choice": "Tonga",
+            "bit_position": null
+        },
+        {
+            "id": "176",
+            "choice": "Trinidad and Tobago",
+            "bit_position": null
+        },
+        {
+            "id": "35",
+            "choice": "Chad",
+            "bit_position": null
+        },
+        {
+            "id": "47",
+            "choice": "Czech Republic",
+            "bit_position": null
+        },
+        {
+            "id": "49",
+            "choice": "Djibouti",
+            "bit_position": null
+        },
+        {
+            "id": "177",
+            "choice": "Tunisia",
+            "bit_position": null
+        },
+        {
+            "id": "179",
+            "choice": "Turkmenistan",
+            "bit_position": null
+        },
+        {
+            "id": "180",
+            "choice": "Tuvalu",
+            "bit_position": null
+        },
+        {
+            "id": "178",
+            "choice": "Turkey",
+            "bit_position": null
+        },
+        {
+            "id": "181",
+            "choice": "Uganda",
+            "bit_position": null
+        },
+        {
+            "id": "182",
+            "choice": "Ukraine",
+            "bit_position": null
+        },
+        {
+            "id": "75",
+            "choice": "Hungary",
+            "bit_position": null
+        },
+        {
+            "id": "186",
+            "choice": "Uruguay",
+            "bit_position": null
+        },
+        {
+            "id": "187",
+            "choice": "Uzbekistan",
+            "bit_position": null
+        },
+        {
+            "id": "188",
+            "choice": "Vanuatu",
+            "bit_position": null
+        },
+        {
+            "id": "189",
+            "choice": "Vatican City",
+            "bit_position": null
+        },
+        {
+            "id": "190",
+            "choice": "Venezuela",
+            "bit_position": null
+        },
+        {
+            "id": "183",
+            "choice": "United Arab Emirates",
+            "bit_position": null
+        },
+        {
+            "id": "185",
+            "choice": "United States of America",
+            "bit_position": null
+        },
+        {
+            "id": "191",
+            "choice": "Vietnam",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "Belarus",
+            "bit_position": null
+        },
+        {
+            "id": "192",
+            "choice": "Western Sahara",
+            "bit_position": null
+        },
+        {
+            "id": "195",
+            "choice": "Zaire",
+            "bit_position": null
+        },
+        {
+            "id": "202",
+            "choice": "Montenegro",
+            "bit_position": null
+        },
+        {
+            "id": "34",
+            "choice": "Central African Republic",
+            "bit_position": null
+        },
+        {
+            "id": "197",
+            "choice": "Zimbabwe",
+            "bit_position": null
+        },
+        {
+            "id": "46",
+            "choice": "Cyprus",
+            "bit_position": null
+        },
+        {
+            "id": "257",
+            "choice": "Isle of Man",
+            "bit_position": null
+        },
+        {
+            "id": "258",
+            "choice": "East Timor",
+            "bit_position": null
+        },
+        {
+            "id": "259",
+            "choice": "Kosovo",
+            "bit_position": null
+        },
+        {
+            "id": "260",
+            "choice": "Åland Islands",
+            "bit_position": null
+        },
+        {
+            "id": "261",
+            "choice": "Anguilla",
+            "bit_position": null
+        },
+        {
+            "id": "262",
+            "choice": "Aruba",
+            "bit_position": null
+        },
+        {
+            "id": "263",
+            "choice": "Bermuda",
+            "bit_position": null
+        },
+        {
+            "id": "264",
+            "choice": "Bouvet Island",
+            "bit_position": null
+        },
+        {
+            "id": "265",
+            "choice": "British Indian Ocean Territory",
+            "bit_position": null
+        },
+        {
+            "id": "266",
+            "choice": "Cayman Islands",
+            "bit_position": null
+        },
+        {
+            "id": "267",
+            "choice": "Christmas Island",
+            "bit_position": null
+        },
+        {
+            "id": "268",
+            "choice": "Cocos (Keeling) Islands",
+            "bit_position": null
+        },
+        {
+            "id": "269",
+            "choice": "Cook Islands",
+            "bit_position": null
+        },
+        {
+            "id": "270",
+            "choice": "Curaçao",
+            "bit_position": null
+        },
+        {
+            "id": "271",
+            "choice": "Falkland Islands",
+            "bit_position": null
+        },
+        {
+            "id": "272",
+            "choice": "French Guiana",
+            "bit_position": null
+        },
+        {
+            "id": "273",
+            "choice": "French Polynesia",
+            "bit_position": null
+        },
+        {
+            "id": "274",
+            "choice": "French Southern and Antarctic Lands",
+            "bit_position": null
+        },
+        {
+            "id": "275",
+            "choice": "Guadeloupe",
+            "bit_position": null
+        },
+        {
+            "id": "276",
+            "choice": "Guernsey",
+            "bit_position": null
+        },
+        {
+            "id": "277",
+            "choice": "Heard Island and McDonald Islands",
+            "bit_position": null
+        },
+        {
+            "id": "278",
+            "choice": "Jersey",
+            "bit_position": null
+        },
+        {
+            "id": "279",
+            "choice": "Martinique",
+            "bit_position": null
+        },
+        {
+            "id": "280",
+            "choice": "Mayotte",
+            "bit_position": null
+        },
+        {
+            "id": "281",
+            "choice": "Montserrat",
+            "bit_position": null
+        },
+        {
+            "id": "282",
+            "choice": "New Caledonia",
+            "bit_position": null
+        },
+        {
+            "id": "283",
+            "choice": "Niue",
+            "bit_position": null
+        },
+        {
+            "id": "284",
+            "choice": "Norfolk Island",
+            "bit_position": null
+        },
+        {
+            "id": "285",
+            "choice": "Palestinian territories",
+            "bit_position": null
+        },
+        {
+            "id": "286",
+            "choice": "Pitcairn Islands",
+            "bit_position": null
+        },
+        {
+            "id": "287",
+            "choice": "Réunion",
+            "bit_position": null
+        },
+        {
+            "id": "288",
+            "choice": "Saint Barthélemy",
+            "bit_position": null
+        },
+        {
+            "id": "289",
+            "choice": "Saint Helena",
+            "bit_position": null
+        },
+        {
+            "id": "290",
+            "choice": "Saint Martin",
+            "bit_position": null
+        },
+        {
+            "id": "291",
+            "choice": "Saint Pierre and Miquelon",
+            "bit_position": null
+        },
+        {
+            "id": "292",
+            "choice": "Sint Maarten",
+            "bit_position": null
+        },
+        {
+            "id": "293",
+            "choice": "South Georgia and the South Sandwich Islands",
+            "bit_position": null
+        },
+        {
+            "id": "294",
+            "choice": "South Sudan",
+            "bit_position": null
+        },
+        {
+            "id": "295",
+            "choice": "Svalbard and Jan Mayen",
+            "bit_position": null
+        },
+        {
+            "id": "296",
+            "choice": "Tokelau",
+            "bit_position": null
+        },
+        {
+            "id": "297",
+            "choice": "Turks and Caicos Islands",
+            "bit_position": null
+        },
+        {
+            "id": "298",
+            "choice": "United States Minor Outlying Islands",
+            "bit_position": null
+        },
+        {
+            "id": "299",
+            "choice": "Wallis and Futuna",
+            "bit_position": null
+        },
+        {
+            "id": "300",
+            "choice": "Faroe Islands",
+            "bit_position": null
+        }
+    ],
+    "5": [
+        {
+            "id": "1",
+            "choice": "Male",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Female",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Prefer not to say",
+            "bit_position": null
+        }
+    ],
+    "8": [
+        {
+            "id": "1",
+            "choice": "Elementary School",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Comprehensive School",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Apprenticeship",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "High School, Grammar School",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "College, College/University degree",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Post-graduate studies",
+            "bit_position": null
+        }
+    ],
+    "6": [
+        {
+            "id": "1",
+            "choice": "Single",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Married",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Partnership",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Divorced",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Widowed",
+            "bit_position": null
+        }
+    ],
+    "7": [
+        {
+            "id": "1",
+            "choice": "0",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "1",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "2",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "3",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "> 3",
+            "bit_position": null
+        }
+    ],
+    "45": [
+        {
+            "id": "203",
+            "choice": "Gibraltar",
+            "bit_position": null
+        },
+        {
+            "id": "204",
+            "choice": "Netherlands Antilles",
+            "bit_position": null
+        },
+        {
+            "id": "205",
+            "choice": "Hong Kong",
+            "bit_position": null
+        },
+        {
+            "id": "206",
+            "choice": "Macau",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "Austria",
+            "bit_position": null
+        },
+        {
+            "id": "65",
+            "choice": "Germany",
+            "bit_position": null
+        },
+        {
+            "id": "168",
+            "choice": "Switzerland",
+            "bit_position": null
+        },
+        {
+            "id": "100",
+            "choice": "Liechtenstein",
+            "bit_position": null
+        },
+        {
+            "id": "1",
+            "choice": "Afghanistan",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Albania",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Algeria",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Andorra",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Angola",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Antigua and Barbuda",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "Argentina",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "Armenia",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "Azerbaijan",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "Australia",
+            "bit_position": null
+        },
+        {
+            "id": "53",
+            "choice": "Egypt",
+            "bit_position": null
+        },
+        {
+            "id": "55",
+            "choice": "Equatorial Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "58",
+            "choice": "Ethiopia",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "Bahamas",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "Bahrain",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "Bangladesh",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "Barbados",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "Belgium",
+            "bit_position": null
+        },
+        {
+            "id": "18",
+            "choice": "Belize",
+            "bit_position": null
+        },
+        {
+            "id": "19",
+            "choice": "Benin",
+            "bit_position": null
+        },
+        {
+            "id": "20",
+            "choice": "Bhutan",
+            "bit_position": null
+        },
+        {
+            "id": "21",
+            "choice": "Bolivia",
+            "bit_position": null
+        },
+        {
+            "id": "22",
+            "choice": "Bosnia and Herzegovina",
+            "bit_position": null
+        },
+        {
+            "id": "23",
+            "choice": "Botswana",
+            "bit_position": null
+        },
+        {
+            "id": "24",
+            "choice": "Brazil",
+            "bit_position": null
+        },
+        {
+            "id": "25",
+            "choice": "Brunei Darussalam",
+            "bit_position": null
+        },
+        {
+            "id": "26",
+            "choice": "Bulgaria",
+            "bit_position": null
+        },
+        {
+            "id": "27",
+            "choice": "Burkina Faso",
+            "bit_position": null
+        },
+        {
+            "id": "28",
+            "choice": "Burma",
+            "bit_position": null
+        },
+        {
+            "id": "29",
+            "choice": "Burundi",
+            "bit_position": null
+        },
+        {
+            "id": "36",
+            "choice": "Chile",
+            "bit_position": null
+        },
+        {
+            "id": "37",
+            "choice": "China",
+            "bit_position": null
+        },
+        {
+            "id": "42",
+            "choice": "Costa Rica",
+            "bit_position": null
+        },
+        {
+            "id": "48",
+            "choice": "Denmark",
+            "bit_position": null
+        },
+        {
+            "id": "50",
+            "choice": "Dominica",
+            "bit_position": null
+        },
+        {
+            "id": "51",
+            "choice": "Dominican Republic",
+            "bit_position": null
+        },
+        {
+            "id": "52",
+            "choice": "Ecuador",
+            "bit_position": null
+        },
+        {
+            "id": "54",
+            "choice": "El Salvador",
+            "bit_position": null
+        },
+        {
+            "id": "43",
+            "choice": "Cote d'Ivoire",
+            "bit_position": null
+        },
+        {
+            "id": "56",
+            "choice": "Eritrea",
+            "bit_position": null
+        },
+        {
+            "id": "57",
+            "choice": "Estonia",
+            "bit_position": null
+        },
+        {
+            "id": "59",
+            "choice": "Fiji",
+            "bit_position": null
+        },
+        {
+            "id": "60",
+            "choice": "Finland",
+            "bit_position": null
+        },
+        {
+            "id": "61",
+            "choice": "France",
+            "bit_position": null
+        },
+        {
+            "id": "62",
+            "choice": "Gabon",
+            "bit_position": null
+        },
+        {
+            "id": "63",
+            "choice": "Gambia, The",
+            "bit_position": null
+        },
+        {
+            "id": "64",
+            "choice": "Georgia",
+            "bit_position": null
+        },
+        {
+            "id": "66",
+            "choice": "Ghana",
+            "bit_position": null
+        },
+        {
+            "id": "68",
+            "choice": "Grenada",
+            "bit_position": null
+        },
+        {
+            "id": "67",
+            "choice": "Greece",
+            "bit_position": null
+        },
+        {
+            "id": "184",
+            "choice": "United Kingdom",
+            "bit_position": null
+        },
+        {
+            "id": "198",
+            "choice": "Greenland",
+            "bit_position": null
+        },
+        {
+            "id": "69",
+            "choice": "Guatemala",
+            "bit_position": null
+        },
+        {
+            "id": "70",
+            "choice": "Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "71",
+            "choice": "Guinea-Bissau",
+            "bit_position": null
+        },
+        {
+            "id": "72",
+            "choice": "Guyana",
+            "bit_position": null
+        },
+        {
+            "id": "73",
+            "choice": "Haiti",
+            "bit_position": null
+        },
+        {
+            "id": "74",
+            "choice": "Honduras",
+            "bit_position": null
+        },
+        {
+            "id": "77",
+            "choice": "India",
+            "bit_position": null
+        },
+        {
+            "id": "78",
+            "choice": "Indonesia",
+            "bit_position": null
+        },
+        {
+            "id": "80",
+            "choice": "Iraq",
+            "bit_position": null
+        },
+        {
+            "id": "79",
+            "choice": "Iran",
+            "bit_position": null
+        },
+        {
+            "id": "81",
+            "choice": "Ireland",
+            "bit_position": null
+        },
+        {
+            "id": "76",
+            "choice": "Iceland",
+            "bit_position": null
+        },
+        {
+            "id": "82",
+            "choice": "Israel",
+            "bit_position": null
+        },
+        {
+            "id": "83",
+            "choice": "Italy",
+            "bit_position": null
+        },
+        {
+            "id": "84",
+            "choice": "Jamaica",
+            "bit_position": null
+        },
+        {
+            "id": "85",
+            "choice": "Japan",
+            "bit_position": null
+        },
+        {
+            "id": "193",
+            "choice": "Yemen",
+            "bit_position": null
+        },
+        {
+            "id": "86",
+            "choice": "Jordan",
+            "bit_position": null
+        },
+        {
+            "id": "194",
+            "choice": "Yugoslavia",
+            "bit_position": null
+        },
+        {
+            "id": "199",
+            "choice": "Virgin Islands",
+            "bit_position": null
+        },
+        {
+            "id": "30",
+            "choice": "Cambodia",
+            "bit_position": null
+        },
+        {
+            "id": "31",
+            "choice": "Cameroon",
+            "bit_position": null
+        },
+        {
+            "id": "32",
+            "choice": "Canada",
+            "bit_position": null
+        },
+        {
+            "id": "201",
+            "choice": "Canary Islands",
+            "bit_position": null
+        },
+        {
+            "id": "33",
+            "choice": "Cape Verde",
+            "bit_position": null
+        },
+        {
+            "id": "87",
+            "choice": "Kazakhstan",
+            "bit_position": null
+        },
+        {
+            "id": "88",
+            "choice": "Kenya",
+            "bit_position": null
+        },
+        {
+            "id": "93",
+            "choice": "Kyrgyzstan",
+            "bit_position": null
+        },
+        {
+            "id": "89",
+            "choice": "Kiribati",
+            "bit_position": null
+        },
+        {
+            "id": "38",
+            "choice": "Colombia",
+            "bit_position": null
+        },
+        {
+            "id": "39",
+            "choice": "Comoros",
+            "bit_position": null
+        },
+        {
+            "id": "40",
+            "choice": "Congo",
+            "bit_position": null
+        },
+        {
+            "id": "41",
+            "choice": "Congo, Democratic Republic of the",
+            "bit_position": null
+        },
+        {
+            "id": "90",
+            "choice": "Korea, North",
+            "bit_position": null
+        },
+        {
+            "id": "91",
+            "choice": "Korea, South",
+            "bit_position": null
+        },
+        {
+            "id": "44",
+            "choice": "Croatia",
+            "bit_position": null
+        },
+        {
+            "id": "45",
+            "choice": "Cuba",
+            "bit_position": null
+        },
+        {
+            "id": "92",
+            "choice": "Kuwait",
+            "bit_position": null
+        },
+        {
+            "id": "94",
+            "choice": "Laos",
+            "bit_position": null
+        },
+        {
+            "id": "97",
+            "choice": "Lesotho",
+            "bit_position": null
+        },
+        {
+            "id": "95",
+            "choice": "Latvia",
+            "bit_position": null
+        },
+        {
+            "id": "96",
+            "choice": "Lebanon",
+            "bit_position": null
+        },
+        {
+            "id": "98",
+            "choice": "Liberia",
+            "bit_position": null
+        },
+        {
+            "id": "99",
+            "choice": "Libya",
+            "bit_position": null
+        },
+        {
+            "id": "101",
+            "choice": "Lithuania",
+            "bit_position": null
+        },
+        {
+            "id": "102",
+            "choice": "Luxembourg",
+            "bit_position": null
+        },
+        {
+            "id": "104",
+            "choice": "Madagascar",
+            "bit_position": null
+        },
+        {
+            "id": "105",
+            "choice": "Malawi",
+            "bit_position": null
+        },
+        {
+            "id": "106",
+            "choice": "Malaysia",
+            "bit_position": null
+        },
+        {
+            "id": "107",
+            "choice": "Maldives",
+            "bit_position": null
+        },
+        {
+            "id": "108",
+            "choice": "Mali",
+            "bit_position": null
+        },
+        {
+            "id": "109",
+            "choice": "Malta",
+            "bit_position": null
+        },
+        {
+            "id": "118",
+            "choice": "Morocco",
+            "bit_position": null
+        },
+        {
+            "id": "110",
+            "choice": "Marshall Islands",
+            "bit_position": null
+        },
+        {
+            "id": "111",
+            "choice": "Mauritania",
+            "bit_position": null
+        },
+        {
+            "id": "112",
+            "choice": "Mauritius",
+            "bit_position": null
+        },
+        {
+            "id": "103",
+            "choice": "Macedonia",
+            "bit_position": null
+        },
+        {
+            "id": "113",
+            "choice": "Mexico",
+            "bit_position": null
+        },
+        {
+            "id": "114",
+            "choice": "Micronesia",
+            "bit_position": null
+        },
+        {
+            "id": "115",
+            "choice": "Moldova",
+            "bit_position": null
+        },
+        {
+            "id": "116",
+            "choice": "Monaco",
+            "bit_position": null
+        },
+        {
+            "id": "117",
+            "choice": "Mongolia",
+            "bit_position": null
+        },
+        {
+            "id": "119",
+            "choice": "Mozambique",
+            "bit_position": null
+        },
+        {
+            "id": "120",
+            "choice": "Myanmar",
+            "bit_position": null
+        },
+        {
+            "id": "121",
+            "choice": "Namibia",
+            "bit_position": null
+        },
+        {
+            "id": "122",
+            "choice": "Nauru",
+            "bit_position": null
+        },
+        {
+            "id": "123",
+            "choice": "Nepal",
+            "bit_position": null
+        },
+        {
+            "id": "125",
+            "choice": "New Zealand",
+            "bit_position": null
+        },
+        {
+            "id": "126",
+            "choice": "Nicaragua",
+            "bit_position": null
+        },
+        {
+            "id": "124",
+            "choice": "The Netherlands",
+            "bit_position": null
+        },
+        {
+            "id": "127",
+            "choice": "Niger",
+            "bit_position": null
+        },
+        {
+            "id": "128",
+            "choice": "Nigeria",
+            "bit_position": null
+        },
+        {
+            "id": "129",
+            "choice": "Norway",
+            "bit_position": null
+        },
+        {
+            "id": "130",
+            "choice": "Oman",
+            "bit_position": null
+        },
+        {
+            "id": "131",
+            "choice": "Pakistan",
+            "bit_position": null
+        },
+        {
+            "id": "132",
+            "choice": "Palau",
+            "bit_position": null
+        },
+        {
+            "id": "134",
+            "choice": "Panama",
+            "bit_position": null
+        },
+        {
+            "id": "135",
+            "choice": "Papua New Guinea",
+            "bit_position": null
+        },
+        {
+            "id": "136",
+            "choice": "Paraguay",
+            "bit_position": null
+        },
+        {
+            "id": "137",
+            "choice": "Peru",
+            "bit_position": null
+        },
+        {
+            "id": "138",
+            "choice": "Philippines",
+            "bit_position": null
+        },
+        {
+            "id": "139",
+            "choice": "Poland",
+            "bit_position": null
+        },
+        {
+            "id": "140",
+            "choice": "Portugal",
+            "bit_position": null
+        },
+        {
+            "id": "141",
+            "choice": "Qatar",
+            "bit_position": null
+        },
+        {
+            "id": "144",
+            "choice": "Rwanda",
+            "bit_position": null
+        },
+        {
+            "id": "142",
+            "choice": "Romania",
+            "bit_position": null
+        },
+        {
+            "id": "143",
+            "choice": "Russia",
+            "bit_position": null
+        },
+        {
+            "id": "196",
+            "choice": "Zambia",
+            "bit_position": null
+        },
+        {
+            "id": "148",
+            "choice": "Samoa",
+            "bit_position": null
+        },
+        {
+            "id": "149",
+            "choice": "San Marino",
+            "bit_position": null
+        },
+        {
+            "id": "151",
+            "choice": "Saudi Arabia",
+            "bit_position": null
+        },
+        {
+            "id": "150",
+            "choice": "São Tomé and Príncipe",
+            "bit_position": null
+        },
+        {
+            "id": "167",
+            "choice": "Sweden",
+            "bit_position": null
+        },
+        {
+            "id": "152",
+            "choice": "Senegal",
+            "bit_position": null
+        },
+        {
+            "id": "153",
+            "choice": "Serbia",
+            "bit_position": null
+        },
+        {
+            "id": "154",
+            "choice": "Seychelles",
+            "bit_position": null
+        },
+        {
+            "id": "155",
+            "choice": "Sierra Leone",
+            "bit_position": null
+        },
+        {
+            "id": "156",
+            "choice": "Singapore",
+            "bit_position": null
+        },
+        {
+            "id": "157",
+            "choice": "Slovakia",
+            "bit_position": null
+        },
+        {
+            "id": "158",
+            "choice": "Slovenia",
+            "bit_position": null
+        },
+        {
+            "id": "159",
+            "choice": "Solomon Islands",
+            "bit_position": null
+        },
+        {
+            "id": "160",
+            "choice": "Somalia",
+            "bit_position": null
+        },
+        {
+            "id": "162",
+            "choice": "Spain",
+            "bit_position": null
+        },
+        {
+            "id": "163",
+            "choice": "Sri Lanka",
+            "bit_position": null
+        },
+        {
+            "id": "145",
+            "choice": "St. Kitts and Nevis",
+            "bit_position": null
+        },
+        {
+            "id": "146",
+            "choice": "St. Lucia",
+            "bit_position": null
+        },
+        {
+            "id": "147",
+            "choice": "St. Vincent and The Grenadines",
+            "bit_position": null
+        },
+        {
+            "id": "164",
+            "choice": "Sudan",
+            "bit_position": null
+        },
+        {
+            "id": "165",
+            "choice": "Suriname",
+            "bit_position": null
+        },
+        {
+            "id": "161",
+            "choice": "South Africa",
+            "bit_position": null
+        },
+        {
+            "id": "166",
+            "choice": "Swaziland",
+            "bit_position": null
+        },
+        {
+            "id": "169",
+            "choice": "Syria",
+            "bit_position": null
+        },
+        {
+            "id": "171",
+            "choice": "Tajikistan",
+            "bit_position": null
+        },
+        {
+            "id": "170",
+            "choice": "Taiwan",
+            "bit_position": null
+        },
+        {
+            "id": "172",
+            "choice": "Tanzania",
+            "bit_position": null
+        },
+        {
+            "id": "173",
+            "choice": "Thailand",
+            "bit_position": null
+        },
+        {
+            "id": "174",
+            "choice": "Togo",
+            "bit_position": null
+        },
+        {
+            "id": "175",
+            "choice": "Tonga",
+            "bit_position": null
+        },
+        {
+            "id": "176",
+            "choice": "Trinidad and Tobago",
+            "bit_position": null
+        },
+        {
+            "id": "35",
+            "choice": "Chad",
+            "bit_position": null
+        },
+        {
+            "id": "47",
+            "choice": "Czech Republic",
+            "bit_position": null
+        },
+        {
+            "id": "49",
+            "choice": "Djibouti",
+            "bit_position": null
+        },
+        {
+            "id": "177",
+            "choice": "Tunisia",
+            "bit_position": null
+        },
+        {
+            "id": "179",
+            "choice": "Turkmenistan",
+            "bit_position": null
+        },
+        {
+            "id": "180",
+            "choice": "Tuvalu",
+            "bit_position": null
+        },
+        {
+            "id": "178",
+            "choice": "Turkey",
+            "bit_position": null
+        },
+        {
+            "id": "181",
+            "choice": "Uganda",
+            "bit_position": null
+        },
+        {
+            "id": "182",
+            "choice": "Ukraine",
+            "bit_position": null
+        },
+        {
+            "id": "75",
+            "choice": "Hungary",
+            "bit_position": null
+        },
+        {
+            "id": "186",
+            "choice": "Uruguay",
+            "bit_position": null
+        },
+        {
+            "id": "187",
+            "choice": "Uzbekistan",
+            "bit_position": null
+        },
+        {
+            "id": "188",
+            "choice": "Vanuatu",
+            "bit_position": null
+        },
+        {
+            "id": "189",
+            "choice": "Vatican City",
+            "bit_position": null
+        },
+        {
+            "id": "190",
+            "choice": "Venezuela",
+            "bit_position": null
+        },
+        {
+            "id": "183",
+            "choice": "United Arab Emirates",
+            "bit_position": null
+        },
+        {
+            "id": "185",
+            "choice": "United States of America",
+            "bit_position": null
+        },
+        {
+            "id": "191",
+            "choice": "Vietnam",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "Belarus",
+            "bit_position": null
+        },
+        {
+            "id": "192",
+            "choice": "Western Sahara",
+            "bit_position": null
+        },
+        {
+            "id": "195",
+            "choice": "Zaire",
+            "bit_position": null
+        },
+        {
+            "id": "202",
+            "choice": "Montenegro",
+            "bit_position": null
+        },
+        {
+            "id": "34",
+            "choice": "Central African Republic",
+            "bit_position": null
+        },
+        {
+            "id": "197",
+            "choice": "Zimbabwe",
+            "bit_position": null
+        },
+        {
+            "id": "46",
+            "choice": "Cyprus",
+            "bit_position": null
+        }
+    ],
+    "17": [
+        {
+            "id": "1",
+            "choice": "Administration",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "CEO",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "CFO",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "CIO",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "CMO",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "COO",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "CTO",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "Chairman",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "Consultant",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "Controller",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "Designer",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "IT/IS Director",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "IT/IS Staff",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "Manager",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "PR/Marketing",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "President",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "Press/Journalist",
+            "bit_position": null
+        },
+        {
+            "id": "18",
+            "choice": "Product/Brand Management",
+            "bit_position": null
+        },
+        {
+            "id": "19",
+            "choice": "Sales/Business Development",
+            "bit_position": null
+        },
+        {
+            "id": "20",
+            "choice": "Supervisor",
+            "bit_position": null
+        },
+        {
+            "id": "21",
+            "choice": "System Integrator",
+            "bit_position": null
+        },
+        {
+            "id": "22",
+            "choice": "VP Marketing",
+            "bit_position": null
+        },
+        {
+            "id": "23",
+            "choice": "VP Sales",
+            "bit_position": null
+        },
+        {
+            "id": "24",
+            "choice": "Self-employed",
+            "bit_position": null
+        },
+        {
+            "id": "25",
+            "choice": "Intern",
+            "bit_position": null
+        },
+        {
+            "id": "26",
+            "choice": "Student",
+            "bit_position": null
+        },
+        {
+            "id": "27",
+            "choice": "Retired",
+            "bit_position": null
+        },
+        {
+            "id": "28",
+            "choice": "Unemployed",
+            "bit_position": null
+        },
+        {
+            "id": "29",
+            "choice": "Home",
+            "bit_position": null
+        },
+        {
+            "id": "30",
+            "choice": "Other",
+            "bit_position": null
+        }
+    ],
+    "19": [
+        {
+            "id": "1",
+            "choice": "E-Commerce",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Executive",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Finance",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Information Technology",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Investments",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Manufacturing",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "Marketing",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "New Business",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "New Media",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "Operations",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "PR/Communications",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "Research & Development",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "Sales",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "Telecommunications",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "Human Resources",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "Customer Service/Support",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "Other",
+            "bit_position": null
+        }
+    ],
+    "20": [
+        {
+            "id": "1",
+            "choice": "Agriculture",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Automotive/Transportation",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "Consulting/Other Services",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "Consumer Packaged Goods",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "Education/Research",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "Entertainment/Leisure",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "Financial Services",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "Government/Military/Public Sector",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "Hardware/Software",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "Health Care/Pharmaceutical",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "Manufacturing",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "Media/Publishing",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "Non-Profit",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "Retail/Wholesale/E-Commerce",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "Telecommunication",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "Travel/Hospitality",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "Utilities",
+            "bit_position": null
+        },
+        {
+            "id": "18",
+            "choice": "Advertising/PR agency",
+            "bit_position": null
+        }
+    ],
+    "23": [
+        {
+            "id": "1",
+            "choice": "1-Sep",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "Oct-49",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "50 - 99",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "100 - 249",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "250 - 499",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "500 - 999",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": "1,000 - 2,499",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "2,500 - 9,999",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": ">= 10,000",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "I don't know",
+            "bit_position": null
+        }
+    ],
+    "24": [
+        {
+            "id": "1",
+            "choice": "< 99",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "100 - 249",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "250 - 499",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "500 - 999",
+            "bit_position": null
+        },
+        {
+            "id": "5",
+            "choice": "1,000 - 2,499",
+            "bit_position": null
+        },
+        {
+            "id": "6",
+            "choice": "2,500 - 9,999",
+            "bit_position": null
+        },
+        {
+            "id": "7",
+            "choice": ">= 10,000",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "I don't know",
+            "bit_position": null
+        }
+    ],
+    "100012424": [
+        {
+            "id": "1",
+            "choice": "off",
+            "bit_position": "1"
+        },
+        {
+            "id": "2",
+            "choice": "on",
+            "bit_position": "2"
+        }
+    ],
+    "35": [
+        {
+            "id": "48",
+            "choice": "Hindi",
+            "bit_position": null
+        },
+        {
+            "id": "49",
+            "choice": "Brazilian",
+            "bit_position": null
+        },
+        {
+            "id": "50",
+            "choice": "Mexican",
+            "bit_position": null
+        },
+        {
+            "id": "51",
+            "choice": "Vietnamese",
+            "bit_position": null
+        },
+        {
+            "id": "52",
+            "choice": "Lithuanian",
+            "bit_position": null
+        },
+        {
+            "id": "55",
+            "choice": "English (US)",
+            "bit_position": null
+        },
+        {
+            "id": "2",
+            "choice": "german",
+            "bit_position": null
+        },
+        {
+            "id": "1",
+            "choice": "english",
+            "bit_position": null
+        },
+        {
+            "id": "3",
+            "choice": "french",
+            "bit_position": null
+        },
+        {
+            "id": "4",
+            "choice": "italian",
+            "bit_position": null
+        },
+        {
+            "id": "8",
+            "choice": "spanish",
+            "bit_position": null
+        },
+        {
+            "id": "9",
+            "choice": "swedish",
+            "bit_position": null
+        },
+        {
+            "id": "10",
+            "choice": "norwegian",
+            "bit_position": null
+        },
+        {
+            "id": "11",
+            "choice": "dutch",
+            "bit_position": null
+        },
+        {
+            "id": "12",
+            "choice": "danish",
+            "bit_position": null
+        },
+        {
+            "id": "13",
+            "choice": "finnish",
+            "bit_position": null
+        },
+        {
+            "id": "14",
+            "choice": "portuguese",
+            "bit_position": null
+        },
+        {
+            "id": "25",
+            "choice": "turkish",
+            "bit_position": null
+        },
+        {
+            "id": "22",
+            "choice": "bulgarian",
+            "bit_position": null
+        },
+        {
+            "id": "23",
+            "choice": "moldavian",
+            "bit_position": null
+        },
+        {
+            "id": "24",
+            "choice": "slovak",
+            "bit_position": null
+        },
+        {
+            "id": "15",
+            "choice": "czech",
+            "bit_position": null
+        },
+        {
+            "id": "16",
+            "choice": "hungarian",
+            "bit_position": null
+        },
+        {
+            "id": "20",
+            "choice": "japanese",
+            "bit_position": null
+        },
+        {
+            "id": "17",
+            "choice": "polish",
+            "bit_position": null
+        },
+        {
+            "id": "21",
+            "choice": "russian",
+            "bit_position": null
+        },
+        {
+            "id": "18",
+            "choice": "romanian",
+            "bit_position": null
+        },
+        {
+            "id": "19",
+            "choice": "slovenian",
+            "bit_position": null
+        },
+        {
+            "id": "26",
+            "choice": "korean",
+            "bit_position": null
+        },
+        {
+            "id": "27",
+            "choice": "thai",
+            "bit_position": null
+        },
+        {
+            "id": "28",
+            "choice": "chinese (simplified)",
+            "bit_position": null
+        },
+        {
+            "id": "29",
+            "choice": "chinese (traditional)",
+            "bit_position": null
+        },
+        {
+            "id": "38",
+            "choice": "ukrainian",
+            "bit_position": null
+        },
+        {
+            "id": "39",
+            "choice": "macedonian",
+            "bit_position": null
+        },
+        {
+            "id": "40",
+            "choice": "arabic",
+            "bit_position": null
+        },
+        {
+            "id": "41",
+            "choice": "serbocroatian",
+            "bit_position": null
+        },
+        {
+            "id": "42",
+            "choice": "hebrew",
+            "bit_position": null
+        },
+        {
+            "id": "43",
+            "choice": "Serbian",
+            "bit_position": null
+        },
+        {
+            "id": "44",
+            "choice": "greek",
+            "bit_position": null
+        },
+        {
+            "id": "45",
+            "choice": "Latvian",
+            "bit_position": null
+        },
+        {
+            "id": "46",
+            "choice": "Estonian",
+            "bit_position": null
+        },
+        {
+            "id": "47",
+            "choice": "croatian",
+            "bit_position": null
+        },
+        {
+            "id": "58",
+            "choice": "Afrikaans",
+            "bit_position": null
+        },
+        {
+            "id": "68",
+            "choice": "Persian",
+            "bit_position": null
+        }
+    ]
+}

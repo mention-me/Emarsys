@@ -3,7 +3,9 @@
     "description": "Emarsys RestFull API client",
     "require": {
         "php": ">=5.3.3",
-        "lib-curl": "*"
+        "lib-curl": "*",
+        "psr/http-client": "^1.0.1",
+        "psr/log": "^1.1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"

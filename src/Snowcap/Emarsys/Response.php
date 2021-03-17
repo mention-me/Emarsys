@@ -4,8 +4,19 @@ namespace Snowcap\Emarsys;
 
 use Snowcap\Emarsys\Exception\ClientException;
 
+/**
+ * All endpoints return data using the standard Emarsys API response JSON schema, as follows:
+ *
+ * {
+ *   "replyCode": "integer",
+ *   "replyText": "summary",
+ *   "data": {}
+ * }
+ */
 class Response
 {
+    // Successful requests return with replyCode 0.
+    // https://dev.emarsys.com/v2/response-codes/error-codes
     const REPLY_CODE_OK = 0;
     const REPLY_CODE_INTERNAL_ERROR = 1;
     const REPLY_CODE_INVALID_KEY_FIELD = 2004;
@@ -19,34 +30,37 @@ class Response
      * @var int
      */
     protected $replyCode;
+
     /**
      * @var string
      */
     protected $replyText;
+
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @param array $result
+     *
      * @throws ClientException
      */
-    public function __construct(array $result = array())
+    public function __construct(array $result = [])
     {
-        if (!isset($result['replyCode']) || !isset($result['replyText'])) {
-            throw new ClientException('Invalid result structure');
+        if ( ! isset($result['replyCode']) || ! isset($result['replyText'])) {
+            throw ClientException::invalidResponseStructure();
         }
 
         $this->replyCode = $result['replyCode'];
         $this->replyText = $result['replyText'];
-        $this->data = isset($result['data']) ? $result['data'] : array();
+        $this->data = $result['data'] ?? [];
     }
 
     /**
      * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
@@ -54,7 +68,7 @@ class Response
     /**
      * @return int
      */
-    public function getReplyCode()
+    public function getReplyCode(): int
     {
         return $this->replyCode;
     }
@@ -62,7 +76,7 @@ class Response
     /**
      * @return string
      */
-    public function getReplyText()
+    public function getReplyText(): string
     {
         return $this->replyText;
     }
