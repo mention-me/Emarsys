@@ -74,14 +74,14 @@ class Client
     private $logger;
 
     /**
-     * @param ClientInterface $client HTTP client implementation
-     * @param RequestFactory $requestFactory HTTP request factory
-     * @param string $username The username requested by the Emarsys API
-     * @param string $secret The secret requested by the Emarsys API
-     * @param LoggerInterface $logger Logger
-     * @param string|null $baseUri Overrides the default baseUrl if needed
-     * @param array $fieldsMap Overrides the default fields mapping if needed
-     * @param array $choicesMap Overrides the default choices mapping if needed
+     * @param ClientInterface $client         HTTP client implementation
+     * @param RequestFactory  $requestFactory HTTP request factory
+     * @param string          $username       The username requested by the Emarsys API
+     * @param string          $secret         The secret requested by the Emarsys API
+     * @param LoggerInterface $logger         Logger
+     * @param string|null     $baseUri        Overrides the default baseUrl if needed
+     * @param array           $fieldsMap      Overrides the default fields mapping if needed
+     * @param array           $choicesMap     Overrides the default choices mapping if needed
      */
     public function __construct(
         ClientInterface $client,
@@ -208,6 +208,12 @@ class Client
      */
     public function getChoiceId($fieldId, $choice): int
     {
+//        if (is_int($fieldId)) {
+//            $fieldStringId = $this->getFieldStringId($fieldId);
+//        } else {
+//            $fieldStringId = $fieldId;
+//        }
+
         $fieldStringId = $this->getFieldStringId($fieldId);
 
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
@@ -460,7 +466,7 @@ class Client
      * @throws ClientException
      * @throws ServerException
      */
-    public function deleteContactList($listId): Response
+    public function deleteContactList(string $listId): Response
     {
         return $this->send('POST', sprintf('contactlist/%s/deletelist', $listId));
     }
@@ -469,13 +475,13 @@ class Client
      * Creates a contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function addContactsToContactList($listId, array $data): Response
+    public function addContactsToContactList(string $listId, array $data): Response
     {
         return $this->send('POST', sprintf('contactlist/%s/add', $listId), $data);
     }
@@ -484,13 +490,13 @@ class Client
      * This deletes contacts from the contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function removeContactsFromContactList($listId, array $data): Response
+    public function removeContactsFromContactList(string $listId, array $data): Response
     {
         return $this->send('POST', sprintf('contactlist/%s/delete', $listId), $data);
     }
@@ -499,13 +505,13 @@ class Client
      * Get a list of contact IDs that are in a contact list
      *
      * @param string $listId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getContactsFromContactList($listId, array $data): Response
+    public function getContactsFromContactList(string $listId, array $data): Response
     {
         return $this->send('GET', sprintf('contactlist/%s/contacts', $listId), $data);
     }
@@ -521,7 +527,7 @@ class Client
      * @throws ServerException
      * @link http://documentation.emarsys.com/resource/developers/endpoints/contacts/check-a-contact-in-a-contact-list/
      */
-    public function checkContactInList($contactId, $listId): Response
+    public function checkContactInList(int $contactId, int $listId): Response
     {
         return $this->send('GET', sprintf('contactlist/%s/contacts/%s', $listId, $contactId));
     }
@@ -586,13 +592,13 @@ class Client
      * Returns the attributes of an email and the personalized text and HTML source.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmail($emailId, array $data): Response
+    public function getEmail(string $emailId, array $data): Response
     {
         return $this->send('GET', sprintf('email/%s', $emailId), $data);
     }
@@ -601,13 +607,13 @@ class Client
      * Launches an email. This is an asynchronous call, which returns 'OK' if the email is able to launch.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function launchEmail($emailId, array $data): Response
+    public function launchEmail(string $emailId, array $data): Response
     {
         return $this->send('POST', sprintf('email/%s/launch', $emailId), $data);
     }
@@ -616,13 +622,13 @@ class Client
      * Returns the HTML or text version of the email either as content type 'application/json' or 'text/html'.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function previewEmail($emailId, array $data): Response
+    public function previewEmail(string $emailId, array $data): Response
     {
         return $this->send('POST', sprintf('email/%s/launch', $emailId), $data);
     }
@@ -631,13 +637,13 @@ class Client
      * Returns the summary of the responses of a launched, paused, activated or deactivated email.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmailResponseSummary($emailId, array $data): Response
+    public function getEmailResponseSummary(string $emailId, array $data): Response
     {
         return $this->send('POST', sprintf('email/%s/responsesummary', $emailId), $data);
     }
@@ -646,13 +652,13 @@ class Client
      * Instructs the system to send a test email.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function sendEmailTest($emailId, array $data): Response
+    public function sendEmailTest(string $emailId, array $data): Response
     {
         return $this->send('POST', sprintf('email/%s/sendtestmail', $emailId), $data);
     }
@@ -661,13 +667,13 @@ class Client
      * Returns the URL to the online version of an email, provided it has been sent to the specified contact.
      *
      * @param string $emailId
-     * @param array  $data
+     * @param array $data
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmailUrl($emailId, array $data): Response
+    public function getEmailUrl(string $emailId, array $data): Response
     {
         return $this->send('POST', sprintf('email/%s/url', $emailId), $data);
     }
@@ -804,7 +810,7 @@ class Client
      * @throws ClientException
      * @throws ServerException
      */
-    public function getFieldChoices($fieldId): Response
+    public function getFieldChoices(string $fieldId): Response
     {
         return $this->send(HttpClient::GET, sprintf('field/%s/choice', $this->getFieldId($fieldId)));
     }
@@ -912,7 +918,7 @@ class Client
      * @throws ClientException
      * @throws ServerException
      */
-    public function deleteSource($sourceId): Response
+    public function deleteSource(string $sourceId): Response
     {
         return $this->send(HttpClient::DELETE, sprintf('source/%s/delete', $sourceId));
     }
@@ -994,7 +1000,7 @@ class Client
         ];
         $uri = $this->baseUrl . $uri;
 
-        $request = $this->requestFactory->createRequest($method,$uri,$headers, json_encode($body));
+        $request = $this->requestFactory->createRequest($method, $uri, $headers, json_encode($body));
 
         try {
             $responseJson = $this->client->sendRequest($request);
