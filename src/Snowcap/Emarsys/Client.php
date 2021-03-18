@@ -182,11 +182,11 @@ class Client
     /**
      * Returns a field name from a field id (specified in the fields mapping) or the field id if no mapping is found
      *
-     * @param int $fieldId
+     * @param string|int $fieldId
      *
      * @return string|int
      */
-    public function getFieldStringId(int $fieldId)
+    public function getFieldStringId($fieldId)
     {
         $fieldName = array_search($fieldId, $this->fieldsMapping);
 
