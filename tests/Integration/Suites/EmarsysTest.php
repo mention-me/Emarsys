@@ -2,15 +2,15 @@
 
 namespace Snowcap\Emarsys\Tests\Integration;
 
-use PHPUnit_Framework_Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\CurlClient;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 
-class EmarsysTest extends PHPUnit_Framework_TestCase
+class EmarsysTest extends TestCase
 {
     /**
      * @var Client
@@ -37,7 +37,7 @@ class EmarsysTest extends PHPUnit_Framework_TestCase
      * @test
      * @throws ServerException
      * @throws ClientException
-     * @throws PHPUnit_Framework_Exception
+     * @throws Exception
      */
     public function itShouldGetAvailableLanguages(): void
     {
@@ -53,7 +53,7 @@ class EmarsysTest extends PHPUnit_Framework_TestCase
      * @test
      * @throws ServerException
      * @throws ClientException
-     * @throws PHPUnit_Framework_Exception
+     * @throws Exception
      */
     public function itShouldGetAvailableFields(): void
     {
