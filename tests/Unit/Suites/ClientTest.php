@@ -159,7 +159,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
     public function testGetEmails(): void
     {
         $expectedResponse = $this->createExpectedResponse('emails');
-        $this->stubHttpClient->method('send')->willReturn($expectedResponse);
+        $this->stubHttpClient->method('sendRequest')->willReturn($expectedResponse);
 
         $response = $this->client->getEmails();
 
@@ -194,7 +194,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
     public function testCreateEmail(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-	    $this->stubHttpClient->method('send')->willReturn($expectedResponse);
+	    $this->stubHttpClient->method('sendRequest')->willReturn($expectedResponse);
 
         $data = array(
             'language' => 'en',
@@ -240,7 +240,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 	public function testItReturnsContactData(): void
     {
 		$expectedResponse = $this->createExpectedResponse('getContactData');
-		$this->stubHttpClient->method('send')->willReturn($expectedResponse);
+		$this->stubHttpClient->method('sendRequest')->willReturn($expectedResponse);
 
 		$response = $this->client->getContactData(array());
 
@@ -255,7 +255,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 	public function testItCreatesContact(): void
     {
 		$expectedResponse = $this->createExpectedResponse('createContact');
-		$this->stubHttpClient->method('send')->willReturn($expectedResponse);
+		$this->stubHttpClient->method('sendRequest')->willReturn($expectedResponse);
 
 		$data = array(
 			'3'         => 'recipient@example.com',
@@ -278,7 +278,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 	        $nestedStructure = array($nestedStructure);
         }
 
-        $this->stubHttpClient->method('send')->willReturn(json_encode($nestedStructure));
+        $this->stubHttpClient->method('sendRequest')->willReturn(json_encode($nestedStructure));
 
         $this->client->createContact(array());
 	}

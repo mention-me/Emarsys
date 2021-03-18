@@ -2,6 +2,7 @@
 
 namespace Snowcap\Emarsys;
 
+use DateTime;
 use Exception;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
@@ -1016,8 +1017,8 @@ class Client
     private function getAuthenticationSignature(): string
     {
         // the current time encoded as an ISO 8601 date string
-        $created = new \DateTime();
-        $iso8601 = $created->format(\DateTime::ISO8601);
+        $created = new DateTime();
+        $iso8601 = $created->format(DateTime::ATOM);
         // the md5 of a random string . e.g. a timestamp
         $nonce = md5($created->modify('next friday')->getTimestamp());
         // The algorithm to generate the digest is as follows:
