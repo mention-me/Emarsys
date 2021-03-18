@@ -2,33 +2,36 @@
 
 namespace Snowcap\Emarsys;
 
-use PHPUnit_Framework_Exception;
-use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
+use Http\Message\MessageFactory\GuzzleMessageFactory;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Exception;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\NullLogger;
 use Snowcap\Emarsys\Exception\ClientException;
 use Http\Mock\Client as MockClient;
+use Snowcap\Emarsys\Exception\ServerException;
 
 /**
  * @covers \Snowcap\Emarsys\Client
  * @uses \Snowcap\Emarsys\Response
  */
-class ClientTest extends PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Client
+     * @var MockObject|Client
      */
     private $client;
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|MockClient
+	 * @var MockObject|MockClient
 	 */
 	private $stubHttpClient;
 
     protected function setUp(): void
     {
 	    $this->stubHttpClient = new MockClient();
-	    $this->client = new Client($this->stubHttpClient, 'dummy-api-username', 'dummy-api-secret', new NullLogger());
+	    $this->client = new Client($this->stubHttpClient, new GuzzleMessageFactory(), 'dummy-api-username', 'dummy-api-secret', new NullLogger());
     }
 
     /**
@@ -110,7 +113,8 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
 	public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
     {
-        $this->setExpectedException(ClientException::class, 'Unrecognized field name "non-existing-field-name"');
+        $this->expectException(ClientException::class);
+        $this->expectErrorMessage('Unrecognized field name "non-existing-field-name"');
 		$this->client->getFieldId('non-existing-field-name');
 	}
 
@@ -119,7 +123,8 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
 	public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
     {
-        $this->setExpectedException(ClientException::class, 'Unrecognized field "non-existing-field-name" for choice "choice-name"');
+        $this->expectException(ClientException::class);
+        $this->expectErrorMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
 		$this->client->getChoiceId('non-existing-field-name', 'choice-name');
 	}
 
@@ -128,7 +133,8 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
 	public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
     {
-        $this->setExpectedException(ClientException::class, 'Unrecognized choice "choice-name" for field "myCustomField"');
+        $this->expectException(ClientException::class);
+        $this->expectErrorMessage('Unrecognized choice "choice-name" for field "myCustomField"');
 		$fieldName = 'myCustomField';
 		$mapping = array($fieldName => array());
 
@@ -153,13 +159,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
-     * @throws PHPUnit_Framework_Exception
+     * @throws ServerException
+     * @throws Exception
      */
     public function testGetEmails(): void
     {
-        $expectedResponse = $this->createExpectedResponse('emails');
-        $this->stubHttpClient->method('doSendRequest')->willReturn($expectedResponse);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('emails'));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
         $response = $this->client->getEmails();
 
@@ -188,13 +195,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
-     * @throws PHPUnit_Framework_Exception
+     * @throws ServerException
+     * @throws Exception
      */
     public function testCreateEmail(): void
     {
-        $expectedResponse = $this->createExpectedResponse('createContact');
-	    $this->stubHttpClient->method('doSendRequest')->willReturn($expectedResponse);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
         $data = array(
             'language' => 'en',
@@ -219,28 +227,30 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
+     * @throws ServerException
      */
     public function testGetContactIdSuccess(): void
     {
-        $expectedResponse = $this->createExpectedResponse('getContactId');
-	    $this->stubHttpClient->method('doSendRequest')->willReturn($expectedResponse);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getContactId'));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
         $response = $this->client->getContactId('3', 'sender@example.com');
 
-        $expectedData = json_decode($expectedResponse, true);
+        $expectedData = json_decode($expectedResponse->getBody(), true);
         self::assertEquals($expectedData['data']['id'], $response);
     }
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
-     * @throws PHPUnit_Framework_Exception
+     * @throws ServerException
+     * @throws Exception
      */
 	public function testItReturnsContactData(): void
     {
-		$expectedResponse = $this->createExpectedResponse('getContactData');
-		$this->stubHttpClient->method('doSendRequest')->willReturn($expectedResponse);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getContactData'));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
 		$response = $this->client->getContactData(array());
 
@@ -249,13 +259,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
-     * @throws PHPUnit_Framework_Exception
+     * @throws ServerException
+     * @throws Exception
      */
 	public function testItCreatesContact(): void
     {
-		$expectedResponse = $this->createExpectedResponse('createContact');
-		$this->stubHttpClient->method('doSendRequest')->willReturn($expectedResponse);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
 		$data = array(
 			'3'         => 'recipient@example.com',
@@ -268,17 +279,20 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @throws ClientException
-     * @throws Exception\ServerException
+     * @throws ServerException
      */
 	public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
     {
-        $this->setExpectedException(ClientException::class, 'JSON response could not be decoded, maximum depth reached.');
+        $this->expectException(ClientException::class);
+        $this->expectErrorMessage('JSON response could not be decoded, maximum depth reached.');
 	    $nestedStructure = array();
 	    for ($i=0; $i<511; $i++) {
 	        $nestedStructure = array($nestedStructure);
         }
 
-        $this->stubHttpClient->method('doSendRequest')->willReturn(json_encode($nestedStructure));
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn(json_encode($nestedStructure));
+        $this->stubHttpClient->addResponse($expectedResponse);
 
         $this->client->createContact(array());
 	}

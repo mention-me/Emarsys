@@ -2,33 +2,34 @@
 
 namespace Snowcap\Emarsys;
 
+use PHPUnit\Framework\TestCase;
+use Snowcap\Emarsys\Exception\ClientException;
+
 /**
  * @covers \Snowcap\Emarsys\CurlClient
  */
-class CurlClientTest extends \PHPUnit_Framework_TestCase
+class CurlClientTest extends TestCase
 {
 	/**
 	 * @var CurlClient
 	 */
 	private $client;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->client = new CurlClient();
 	}
 
-	/**
-	 * @expectedException \Snowcap\Emarsys\Exception\ClientException
-	 */
-	public function testRequestToNonExistingHostFails()
-	{
-		$this->client->send('POST', 'http://foo.bar');
+    public function testRequestToNonExistingHostFails(): void
+    {
+        $this->expectException(ClientException::class);
+        $this->client->send('POST', 'http://foo.bar');
 	}
 
-	public function testRequestReturnsOutput()
-	{
+	public function testRequestReturnsOutput(): void
+    {
 		$result = $this->client->send('GET', 'http://google.com', array(), array('foo' => 'bar'));
 
-		$this->assertContains('<html', $result);
+		self::assertStringContainsString('<html', $result);
 	}
 }

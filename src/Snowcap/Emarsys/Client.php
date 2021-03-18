@@ -4,9 +4,10 @@ namespace Snowcap\Emarsys;
 
 use DateTime;
 use Exception;
+use Http\Message\RequestFactory;
+use Psr\Log\LoggerInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Client\ClientInterface;
 
 class Client
@@ -43,6 +44,11 @@ class Client
     private $client;
 
     /**
+     * @var RequestFactory
+     */
+    private $requestFactory;
+
+    /**
      * @var array
      */
     private $fieldsMapping;
@@ -68,16 +74,18 @@ class Client
     private $logger;
 
     /**
-     * @param ClientInterface $client     HTTP client implementation
-     * @param LoggerInterface $logger     Logger
-     * @param string          $username   The username requested by the Emarsys API
-     * @param string          $secret     The secret requested by the Emarsys API
-     * @param string|null     $baseUri    Overrides the default baseUrl if needed
-     * @param array           $fieldsMap  Overrides the default fields mapping if needed
-     * @param array           $choicesMap Overrides the default choices mapping if needed
+     * @param ClientInterface $client HTTP client implementation
+     * @param RequestFactory $requestFactory HTTP request factory
+     * @param string $username The username requested by the Emarsys API
+     * @param string $secret The secret requested by the Emarsys API
+     * @param LoggerInterface $logger Logger
+     * @param string|null $baseUri Overrides the default baseUrl if needed
+     * @param array $fieldsMap Overrides the default fields mapping if needed
+     * @param array $choicesMap Overrides the default choices mapping if needed
      */
     public function __construct(
         ClientInterface $client,
+        RequestFactory $requestFactory,
         string $username,
         string $secret,
         LoggerInterface $logger,
@@ -86,6 +94,7 @@ class Client
         $choicesMap = []
     ) {
         $this->client = $client;
+        $this->requestFactory = $requestFactory;
         $this->logger = $logger;
         $this->username = $username;
         $this->secret = $secret;
@@ -985,13 +994,15 @@ class Client
         ];
         $uri = $this->baseUrl . $uri;
 
+        $request = $this->requestFactory->createRequest($method,$uri,$headers, json_encode($body));
+
         try {
-            $responseJson = $this->client->sendRequest($method, $uri, $headers, $body);
+            $responseJson = $this->client->sendRequest($request);
         } catch (Exception $e) {
             throw new ServerException($e->getMessage());
         }
 
-        $responseArray = json_decode($responseJson, true);
+        $responseArray = json_decode($responseJson->getBody(), true);
 
         if ($responseArray === null) {
             switch (json_last_error()) {

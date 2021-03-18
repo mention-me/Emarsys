@@ -2,21 +2,21 @@
 
 namespace Snowcap\Emarsys;
 
-use PHPUnit_Framework_Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Exception\ClientException;
 
 /**
  * @covers \Snowcap\Emarsys\Response
  */
-class ResponseTest extends PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     /**
      * @throws ClientException
      */
 	public function testItThrowsClientException(): void
     {
-        $this->setExpectedException(ClientException::class, 'Invalid result structure');
+        $this->expectException(ClientException::class);
+        $this->expectErrorMessage('Unexpect response structure, no replyCode or replyText');
 		$dummyResult = array('dummy');
 		new Response($dummyResult);
 	}
