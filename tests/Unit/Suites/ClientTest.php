@@ -254,7 +254,8 @@ class ClientTest extends TestCase
 
 		$response = $this->client->getContactData(array());
 
-		self::assertInstanceOf(Response::class, $response);
+
+		self::assertEquals("123456", $response->getData()['result'][0]['emailId']);
 	}
 
     /**
@@ -274,7 +275,7 @@ class ClientTest extends TestCase
 		);
 		$response = $this->client->createContact($data);
 
-		self::assertInstanceOf(Response::class, $response);
+		self::assertEquals(2140, $response->getData()['id']);
 	}
 
     /**
@@ -307,6 +308,14 @@ class ClientTest extends TestCase
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 
-        return $fileContent;
+        return $this->removeBomUtf8($fileContent);
+    }
+
+    private function removeBomUtf8($s){
+        if(strpos($s, chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) === 0){
+            return substr($s,3);
+        }
+
+        return $s;
     }
 }

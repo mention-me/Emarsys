@@ -5,6 +5,7 @@ namespace Snowcap\Emarsys;
 use DateTime;
 use Exception;
 use Http\Message\RequestFactory;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
@@ -208,13 +209,10 @@ class Client
      */
     public function getChoiceId($fieldId, $choice): int
     {
-//        if (is_int($fieldId)) {
-//            $fieldStringId = $this->getFieldStringId($fieldId);
-//        } else {
-//            $fieldStringId = $fieldId;
-//        }
-
-        $fieldStringId = $this->getFieldStringId($fieldId);
+        $fieldStringId = $fieldId;
+        if (is_int($fieldId)) {
+            $fieldStringId = $this->getFieldStringId($fieldId);
+        }
 
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choice);
@@ -239,7 +237,10 @@ class Client
      */
     public function getChoiceName($fieldId, int $choiceId)
     {
-        $fieldStringId = $this->getFieldStringId($fieldId);
+        $fieldStringId = $fieldId;
+        if (is_int($fieldId)) {
+            $fieldStringId = $this->getFieldStringId($fieldId);
+        }
 
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
@@ -555,7 +556,6 @@ class Client
         if (count($data) > 0) {
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
-
         return $this->send('GET', $url);
     }
 
@@ -1003,12 +1003,15 @@ class Client
         $request = $this->requestFactory->createRequest($method, $uri, $headers, json_encode($body));
 
         try {
-            $responseJson = $this->client->sendRequest($request);
+            $response = $this->client->sendRequest($request);
         } catch (Exception $e) {
             throw new ServerException($e->getMessage());
+        } catch (ClientExceptionInterface $e) {
+            throw new ClientException($e->getMessage());
         }
 
-        $responseArray = json_decode($responseJson->getBody(), true);
+        echo($response->getBody());
+        $responseArray = json_decode($response->getBody(), true);
 
         if ($responseArray === null) {
             switch (json_last_error()) {
@@ -1018,7 +1021,6 @@ class Client
                     throw ServerException::jsonDecodingException(json_last_error_msg());
             }
         }
-
         if (is_array($responseArray) === false) {
             throw ServerException::jsonResponseNotArrayException($responseArray);
         }
