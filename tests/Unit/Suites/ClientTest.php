@@ -175,22 +175,21 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('emails'));
+
         $this->stubHttpClient->addResponse($expectedResponse);
-
         $response = $this->client->getEmails();
-
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
+        $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(Client::EMAIL_STATUS_READY);
-
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
+        $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(null, 123);
-
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
+        $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(Client::EMAIL_STATUS_READY, 123);
-
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         self::assertNotEmpty($response->getData());
@@ -317,15 +316,6 @@ class ClientTest extends TestCase
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 
-        return $this->removeBomUtf8($fileContent);
-    }
-
-    private function removeBomUtf8($s)
-    {
-        if (strpos($s, chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) === 0) {
-            return substr($s, 3);
-        }
-
-        return $s;
+        return $fileContent;
     }
 }
