@@ -1,9 +1,10 @@
 <?php
 
-namespace Snowcap\Emarsys;
+namespace Snowcap\Emarsys\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Exception\ClientException;
+use Snowcap\Emarsys\Response;
 
 /**
  * @covers \Snowcap\Emarsys\Response

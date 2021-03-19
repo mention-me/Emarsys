@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowcap\Emarsys;
+namespace Snowcap\Emarsys\Tests\Unit;
 
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -8,9 +8,11 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\NullLogger;
+use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\Exception\ClientException;
 use Http\Mock\Client as MockClient;
 use Snowcap\Emarsys\Exception\ServerException;
+use Snowcap\Emarsys\Response;
 
 /**
  * @covers \Snowcap\Emarsys\Client

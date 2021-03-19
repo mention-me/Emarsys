@@ -1,8 +1,9 @@
 <?php
 
-namespace Snowcap\Emarsys;
+namespace Snowcap\Emarsys\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Snowcap\Emarsys\CurlClient;
 use Snowcap\Emarsys\Exception\ClientException;
 
 /**
