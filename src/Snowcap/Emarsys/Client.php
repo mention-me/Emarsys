@@ -111,7 +111,7 @@ class Client
         }
 
         if (empty($this->choicesMapping)) {
-            $this->choicesMapping = $this->parseJsonIniFile('choices.json');
+            $this->choicesMapping = $this->parseChoicesIniFile('choices.json');
         }
     }
 
@@ -201,25 +201,21 @@ class Client
     /**
      * Returns a choice id for a field from a choice name (specified in the choices mapping)
      *
-     * @param string|int $fieldId
+     * @param string|int $fieldStringId
      * @param string|int $choice
      *
      * @return int
      * @throws ClientException
      */
-    public function getChoiceId($fieldId, $choice): int
+    public function getChoiceId($fieldStringId, $choice): int
     {
-        $fieldStringId = $fieldId;
-        if (is_int($fieldId)) {
-            $fieldStringId = $this->getFieldStringId($fieldId);
-        }
 
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
-            throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choice);
+            throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
         }
 
         if ( ! isset($this->choicesMapping[$fieldStringId][$choice])) {
-            throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldId);
+            throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldStringId);
         }
 
         return (int) $this->choicesMapping[$fieldStringId][$choice];
@@ -246,10 +242,10 @@ class Client
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
         }
         $choiceName = null;
-        foreach ($this->choicesMapping[$fieldId] as $choiceObject) {
+        foreach ($this->choicesMapping[$fieldId] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
-            if ($choiceId == $choiceObject['id']) {
-                $choiceName = $choiceObject['choice'];
+            if ($choiceId == $choiceValue) {
+                $choiceName = $key;
                 break;
             }
         }
@@ -1010,7 +1006,6 @@ class Client
             throw new ClientException($e->getMessage());
         }
 
-        echo($response->getBody());
         $responseArray = json_decode($response->getBody(), true);
 
         if ($responseArray === null) {
@@ -1080,32 +1075,54 @@ class Client
         return $mappedData;
     }
 
-    private function parseFieldsIniFile($filename)
-    {
-        $iniObject = $this->parseJsonIniFile($filename);
-
-        return $this->castIniFileToFields($iniObject);
-    }
-
-    private function castIniFileToFields($data)
-    {
-        foreach ($data as $field) {
-            $data[$field['string_id']] = $field['id'];
-        }
-
-        return $data;
-    }
-
     /**
      * @param $filename
      *
      * @return mixed
      */
-    private function parseJsonIniFile($filename)
+    private function parseIniFile($filename)
     {
         $string = file_get_contents(__DIR__ . '/ini/' . $filename);
 
         return json_decode($string, true);
+    }
+
+    private function parseFieldsIniFile($filename): array
+    {
+        $iniObject = $this->parseIniFile($filename);
+
+        return $this->castIniFileToFields($iniObject);
+    }
+
+    private function parseChoicesIniFile($filename): array
+    {
+        $iniObject = $this->parseIniFile($filename);
+
+        return $this->castIniFileToChoices($iniObject);
+    }
+
+    private function castIniFileToFields($data): array
+    {
+        $mapping = [];
+        foreach ($data as $field) {
+            $mapping[$field['string_id']] = $field['id'];
+        }
+
+        return $mapping;
+    }
+
+    private function castIniFileToChoices($data): array
+    {
+        $mapping = [];
+        foreach ($data as $key => $value) {
+            $fieldStringId = $this->getFieldStringId($key);
+            $mapping[$fieldStringId] = [];
+            foreach ($value as $choice) {
+                $mapping[$fieldStringId] = [$choice['choice'] => $choice['id']];
+            }
+        }
+
+        return $mapping;
     }
 
     /**

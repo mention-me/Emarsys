@@ -14,7 +14,7 @@ use Snowcap\Emarsys\Exception\ServerException;
 
 /**
  * @covers \Snowcap\Emarsys\Client
- * @uses \Snowcap\Emarsys\Response
+ * @uses   \Snowcap\Emarsys\Response
  */
 class ClientTest extends TestCase
 {
@@ -23,139 +23,148 @@ class ClientTest extends TestCase
      */
     private $client;
 
-	/**
-	 * @var MockObject|MockClient
-	 */
-	private $stubHttpClient;
+    /**
+     * @var MockObject|MockClient
+     */
+    private $stubHttpClient;
 
     protected function setUp(): void
     {
-	    $this->stubHttpClient = new MockClient();
-	    $this->client = new Client($this->stubHttpClient, new GuzzleMessageFactory(), 'dummy-api-username', 'dummy-api-secret', new NullLogger());
+        $this->stubHttpClient = new MockClient();
+        $this->client = new Client(
+            $this->stubHttpClient,
+            new GuzzleMessageFactory(),
+            'dummy-api-username',
+            'dummy-api-secret',
+            new NullLogger()
+        );
     }
 
     /**
      * @throws ClientException
      */
-	public function testItAddsFieldsMapping(): void
+    public function testItAddsFieldsMapping(): void
     {
-		$customField1Id = 7147;
-		$customField1StringId = 'myCustomField1';
-		$customField2Id = 7148;
-		$customField2StringId = 'myCustomField2';
+        $customField1Id = 7147;
+        $customField1StringId = 'myCustomField1';
+        $customField2Id = 7148;
+        $customField2StringId = 'myCustomField2';
 
-		$mapping = array(
-			$customField1StringId => $customField1Id,
-			$customField2StringId => $customField2Id
-		);
+        $mapping = [
+            $customField1StringId => $customField1Id,
+            $customField2StringId => $customField2Id,
+        ];
 
-		$this->client->addFieldsMapping($mapping);
+        $this->client->addFieldsMapping($mapping);
 
-		$resultField1Id = $this->client->getFieldId($customField1StringId);
-		$resultField1StringId = $this->client->getFieldStringId($customField1Id);
-		$resultField2Id = $this->client->getFieldId($customField2StringId);
-		$resultField2StringId = $this->client->getFieldStringId($customField2Id);
+        $resultField1Id = $this->client->getFieldId($customField1StringId);
+        $resultField1StringId = $this->client->getFieldStringId($customField1Id);
+        $resultField2Id = $this->client->getFieldId($customField2StringId);
+        $resultField2StringId = $this->client->getFieldStringId($customField2Id);
 
-		self::assertEquals($customField1Id, $resultField1Id);
-		self::assertEquals($customField1StringId, $resultField1StringId);
-		self::assertEquals($customField2Id, $resultField2Id);
-		self::assertEquals($customField2StringId, $resultField2StringId);
-	}
+        self::assertEquals($customField1Id, $resultField1Id);
+        self::assertEquals($customField1StringId, $resultField1StringId);
+        self::assertEquals($customField2Id, $resultField2Id);
+        self::assertEquals($customField2StringId, $resultField2StringId);
+    }
 
     /**
      * @throws ClientException
      */
-	public function testItAddsChoicesMapping(): void
+    public function testItAddsChoicesMapping(): void
     {
-		$customFieldStringId = 'myCustomField';
-		$customChoice1Id = 1;
-		$customChoice1Name = 'myCustomChoice1';
-		$customChoice2Id = 2;
-		$customChoice2Name = 'myCustomChoice2';
-		$customChoice3Id = 3;
-		$customChoice3Name = 'myCustomChoice3';
+        $customFieldId = 9999;
+        $customFieldStringId = 'myCustomField';
+        $customChoice1Id = 1;
+        $customChoice1Name = 'myCustomChoice1';
+        $customChoice2Id = 2;
+        $customChoice2Name = 'myCustomChoice2';
+        $customChoice3Id = 3;
+        $customChoice3Name = 'myCustomChoice3';
 
-		$mapping = array(
-			$customFieldStringId => array(
-				$customChoice1Name => $customChoice1Id
-			)
-		);
+        $this->client->addFieldsMapping([$customFieldStringId => $customFieldId]);
 
-		/* Adding one choice first to test later that it is not overwritten by adding more choices */
-		$this->client->addChoicesMapping($mapping);
+        $mapping = [
+            $customFieldStringId => [
+                $customChoice1Name => $customChoice1Id,
+            ],
+        ];
 
-		$mapping = array(
-			$customFieldStringId => array(
-				$customChoice2Name => $customChoice2Id,
-				$customChoice3Name => $customChoice3Id
-			)
-		);
+        /* Adding one choice first to test later that it is not overwritten by adding more choices */
+        $this->client->addChoicesMapping($mapping);
 
-		$this->client->addChoicesMapping($mapping);
+        $mapping = [
+            $customFieldStringId => [
+                $customChoice2Name => $customChoice2Id,
+                $customChoice3Name => $customChoice3Id,
+            ],
+        ];
 
-		$resultChoice1Id = $this->client->getChoiceId($customFieldStringId, $customChoice1Name);
-		$resultChoice1Name = $this->client->getChoiceName($customFieldStringId, $customChoice1Id);
-		$resultChoice2Id = $this->client->getChoiceId($customFieldStringId, $customChoice2Name);
-		$resultChoice2Name = $this->client->getChoiceName($customFieldStringId, $customChoice2Id);
-		$resultChoice3Id = $this->client->getChoiceId($customFieldStringId, $customChoice3Name);
-		$resultChoice3Name = $this->client->getChoiceName($customFieldStringId, $customChoice3Id);
+        $this->client->addChoicesMapping($mapping);
 
-		self::assertEquals($customChoice1Id, $resultChoice1Id);
-		self::assertEquals($customChoice1Name, $resultChoice1Name);
-		self::assertEquals($customChoice2Id, $resultChoice2Id);
-		self::assertEquals($customChoice2Name, $resultChoice2Name);
-		self::assertEquals($customChoice3Id, $resultChoice3Id);
-		self::assertEquals($customChoice3Name, $resultChoice3Name);
-	}
+        $resultChoice1Id = $this->client->getChoiceId($customFieldStringId, $customChoice1Name);
+        $resultChoice1Name = $this->client->getChoiceName($customFieldStringId, $customChoice1Id);
+        $resultChoice2Id = $this->client->getChoiceId($customFieldStringId, $customChoice2Name);
+        $resultChoice2Name = $this->client->getChoiceName($customFieldStringId, $customChoice2Id);
+        $resultChoice3Id = $this->client->getChoiceId($customFieldStringId, $customChoice3Name);
+        $resultChoice3Name = $this->client->getChoiceName($customFieldStringId, $customChoice3Id);
+
+        self::assertEquals($customChoice1Id, $resultChoice1Id);
+        self::assertEquals($customChoice1Name, $resultChoice1Name);
+        self::assertEquals($customChoice2Id, $resultChoice2Id);
+        self::assertEquals($customChoice2Name, $resultChoice2Name);
+        self::assertEquals($customChoice3Id, $resultChoice3Id);
+        self::assertEquals($customChoice3Name, $resultChoice3Name);
+    }
 
     /**
      * @throws ClientException
      */
-	public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
+    public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
         $this->expectErrorMessage('Unrecognized field name "non-existing-field-name"');
-		$this->client->getFieldId('non-existing-field-name');
-	}
+        $this->client->getFieldId('non-existing-field-name');
+    }
 
     /**
      * @throws ClientException
      */
-	public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
+    public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
         $this->expectErrorMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
-		$this->client->getChoiceId('non-existing-field-name', 'choice-name');
-	}
+        $this->client->getChoiceId('non-existing-field-name', 'choice-name');
+    }
 
     /**
      * @throws ClientException
      */
-	public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
+    public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
         $this->expectErrorMessage('Unrecognized choice "choice-name" for field "myCustomField"');
-		$fieldName = 'myCustomField';
-		$mapping = array($fieldName => array());
+        $fieldName = 'myCustomField';
+        $mapping = [$fieldName => []];
 
-		$this->client->addChoicesMapping($mapping);
-		$this->client->getChoiceId($fieldName, 'choice-name');
-	}
+        $this->client->addChoicesMapping($mapping);
+        $this->client->getChoiceId($fieldName, 'choice-name');
+    }
 
     /**
      * @throws ClientException
      */
-	public function testItReturnsChoiceIdIfChoiceNameIsNotFound(): void
+    public function testItReturnsChoiceIdIfChoiceNameIsNotFound(): void
     {
-		$fieldName = 'myCustomField';
-		$choiceId = 1;
-		$mapping = array($fieldName => array());
+        $fieldName = 'myCustomField';
+        $choiceId = 1;
+        $mapping = [$fieldName => []];
 
-		$this->client->addChoicesMapping($mapping);
-		$result = $this->client->getChoiceName($fieldName, $choiceId);
+        $this->client->addChoicesMapping($mapping);
+        $result = $this->client->getChoiceName($fieldName, $choiceId);
 
-		self::assertEquals($choiceId, $result);
-	}
+        self::assertEquals($choiceId, $result);
+    }
 
     /**
      * @throws ClientException
@@ -204,20 +213,20 @@ class ClientTest extends TestCase
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
         $this->stubHttpClient->addResponse($expectedResponse);
 
-        $data = array(
-            'language' => 'en',
-            'name' => 'test api 010',
-            'fromemail' => 'sender@example.com',
-            'fromname' => 'sender email',
-            'subject' => 'subject here',
+        $data = [
+            'language'       => 'en',
+            'name'           => 'test api 010',
+            'fromemail'      => 'sender@example.com',
+            'fromname'       => 'sender email',
+            'subject'        => 'subject here',
             'email_category' => '17',
-            'html_source' => '<html>Hello $First Name$,... </html>',
-            'text_source' => 'email text',
-            'segment' => 1121,
-            'contactlist' => 0,
-            'unsubscribe' => 1,
-            'browse' => 0,
-        );
+            'html_source'    => '<html>Hello $First Name$,... </html>',
+            'text_source'    => 'email text',
+            'segment'        => 1121,
+            'contactlist'    => 0,
+            'unsubscribe'    => 1,
+            'browse'         => 0,
+        ];
 
         $response = $this->client->createEmail($data);
 
@@ -246,62 +255,62 @@ class ClientTest extends TestCase
      * @throws ServerException
      * @throws Exception
      */
-	public function testItReturnsContactData(): void
+    public function testItReturnsContactData(): void
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getContactData'));
         $this->stubHttpClient->addResponse($expectedResponse);
 
-		$response = $this->client->getContactData(array());
+        $response = $this->client->getContactData([]);
 
-
-		self::assertEquals("123456", $response->getData()['result'][0]['emailId']);
-	}
+        self::assertEquals("123456", $response->getData()['result'][0]['emailId']);
+    }
 
     /**
      * @throws ClientException
      * @throws ServerException
      * @throws Exception
      */
-	public function testItCreatesContact(): void
+    public function testItCreatesContact(): void
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
         $this->stubHttpClient->addResponse($expectedResponse);
 
-		$data = array(
-			'3'         => 'recipient@example.com',
-			'source'    => '123',
-		);
-		$response = $this->client->createContact($data);
+        $data = [
+            '3'      => 'recipient@example.com',
+            'source' => '123',
+        ];
+        $response = $this->client->createContact($data);
 
-		self::assertEquals(2140, $response->getData()['id']);
-	}
+        self::assertEquals(2140, $response->getData()['id']);
+    }
 
     /**
      * @throws ClientException
      * @throws ServerException
      */
-	public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
+    public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
     {
         $this->expectException(ClientException::class);
         $this->expectErrorMessage('JSON response could not be decoded, maximum depth reached.');
-	    $nestedStructure = array();
-	    for ($i=0; $i<511; $i++) {
-	        $nestedStructure = array($nestedStructure);
+        $nestedStructure = [];
+        for ($i = 0; $i < 511; $i++) {
+            $nestedStructure = [$nestedStructure];
         }
 
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn(json_encode($nestedStructure));
         $this->stubHttpClient->addResponse($expectedResponse);
 
-        $this->client->createContact(array());
-	}
+        $this->client->createContact([]);
+    }
 
-	/**
+    /**
      * Get a json test data and decode it
      *
      * @param string $fileName
+     *
      * @return mixed
      */
     private function createExpectedResponse(string $fileName)
@@ -311,9 +320,10 @@ class ClientTest extends TestCase
         return $this->removeBomUtf8($fileContent);
     }
 
-    private function removeBomUtf8($s){
-        if(strpos($s, chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) === 0){
-            return substr($s,3);
+    private function removeBomUtf8($s)
+    {
+        if (strpos($s, chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) === 0) {
+            return substr($s, 3);
         }
 
         return $s;
