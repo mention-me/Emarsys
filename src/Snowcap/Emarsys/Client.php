@@ -12,16 +12,22 @@ use Psr\Http\Client\ClientInterface;
 
 class Client
 {
-    const EMAIL_STATUS_IN_DESIGN = 1;
-    const EMAIL_STATUS_TESTED = 2;
-    const EMAIL_STATUS_LAUNCHED = 3;
-    const EMAIL_STATUS_READY = 4;
-    const EMAIL_STATUS_DEACTIVATED = -3;
+    public const GET = 'GET';
+    public const POST = 'POST';
+    public const PUT = 'PUT';
+    public const DELETE = 'DELETE';
+    public const PATCH = 'PATCH';
 
-    const LAUNCH_STATUS_NOT_LAUNCHED = 0;
-    const LAUNCH_STATUS_IN_PROGRESS = 1;
-    const LAUNCH_STATUS_SCHEDULED = 2;
-    const LAUNCH_STATUS_ERROR = -10;
+    public const EMAIL_STATUS_IN_DESIGN = 1;
+    public const EMAIL_STATUS_TESTED = 2;
+    public const EMAIL_STATUS_LAUNCHED = 3;
+    public const EMAIL_STATUS_READY = 4;
+    public const EMAIL_STATUS_DEACTIVATED = -3;
+
+    public const LAUNCH_STATUS_NOT_LAUNCHED = 0;
+    public const LAUNCH_STATUS_IN_PROGRESS = 1;
+    public const LAUNCH_STATUS_SCHEDULED = 2;
+    public const LAUNCH_STATUS_ERROR = -10;
 
     /**
      * @var string
@@ -74,8 +80,8 @@ class Client
      * @param string          $username       The username requested by the Emarsys API
      * @param string          $secret         The secret requested by the Emarsys API
      * @param string|null     $baseUrl        Overrides the default baseUrl if needed
-     * @param array           $fieldsMap      Overrides the default fields mapping if needed
-     * @param array           $choicesMap     Overrides the default choices mapping if needed
+     * @param array           $fieldsMapping  Overrides the default fields mapping if needed
+     * @param array           $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
         ClientInterface $client,
@@ -83,15 +89,15 @@ class Client
         string $username,
         string $secret,
         $baseUrl = null,
-        $fieldsMap = [],
-        $choicesMap = []
+        $fieldsMapping = [],
+        $choicesMapping = []
     ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
         $this->username = $username;
         $this->secret = $secret;
-        $this->fieldsMapping = $fieldsMap;
-        $this->choicesMapping = $choicesMap;
+        $this->fieldsMapping = $fieldsMapping;
+        $this->choicesMapping = $choicesMapping;
 
         if (null !== $baseUrl) {
             $this->baseUrl = $baseUrl;
@@ -200,7 +206,6 @@ class Client
      */
     public function getChoiceId($fieldStringId, $choice): int
     {
-
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
         }
@@ -257,7 +262,7 @@ class Client
      */
     public function getConditions(): Response
     {
-        return $this->send('GET', 'condition');
+        return $this->send($this::GET, 'condition');
     }
 
     /**
@@ -279,7 +284,7 @@ class Client
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send('POST', 'contact', $this->mapFieldsToIds($data));
+        return $this->send($this::POST, 'contact', $this->mapFieldsToIds($data));
     }
 
     /**
@@ -295,7 +300,7 @@ class Client
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send('PUT', 'contact', $this->mapFieldsToIds($data));
+        return $this->send($this::PUT, 'contact', $this->mapFieldsToIds($data));
     }
 
     /**
@@ -312,7 +317,7 @@ class Client
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send('PUT', 'contact/?create_if_not_exists=1', $this->mapFieldsToIds($data));
+        return $this->send($this::PUT, 'contact/?create_if_not_exists=1', $this->mapFieldsToIds($data));
     }
 
     /**
@@ -326,7 +331,7 @@ class Client
      */
     public function deleteContact(array $data): Response
     {
-        return $this->send('POST', 'contact/delete', $data);
+        return $this->send($this::POST, 'contact/delete', $data);
     }
 
     /**
@@ -341,7 +346,7 @@ class Client
      */
     public function getContactId(string $fieldId, string $fieldValue): int
     {
-        $response = $this->send('GET', sprintf('contact/%s=%s', $fieldId, $fieldValue));
+        $response = $this->send($this::GET, sprintf('contact/%s=%s', $fieldId, $fieldValue));
 
         $data = $response->getData();
 
@@ -363,7 +368,7 @@ class Client
      */
     public function getContactChanges(array $data): Response
     {
-        return $this->send('POST', 'contact/getchanges', $data);
+        return $this->send($this::POST, 'contact/getchanges', $data);
     }
 
     /**
@@ -377,7 +382,7 @@ class Client
      */
     public function getContactHistory(array $data): Response
     {
-        return $this->send('POST', 'contact/getcontacthistory', $data);
+        return $this->send($this::POST, 'contact/getcontacthistory', $data);
     }
 
     /**
@@ -400,7 +405,7 @@ class Client
      */
     public function getContactData(array $data): Response
     {
-        return $this->send('POST', 'contact/getdata', $data);
+        return $this->send($this::POST, 'contact/getdata', $data);
     }
 
     /**
@@ -414,7 +419,7 @@ class Client
      */
     public function getContactRegistrations(array $data): Response
     {
-        return $this->send('POST', 'contact/getregistrations', $data);
+        return $this->send($this::POST, 'contact/getregistrations', $data);
     }
 
     /**
@@ -428,7 +433,7 @@ class Client
      */
     public function getContactList(array $data): Response
     {
-        return $this->send('GET', 'contactlist', $data);
+        return $this->send($this::GET, 'contactlist', $data);
     }
 
     /**
@@ -442,7 +447,7 @@ class Client
      */
     public function createContactList(array $data): Response
     {
-        return $this->send('POST', 'contactlist', $data);
+        return $this->send($this::POST, 'contactlist', $data);
     }
 
     /**
@@ -456,14 +461,14 @@ class Client
      */
     public function deleteContactList(string $listId): Response
     {
-        return $this->send('POST', sprintf('contactlist/%s/deletelist', $listId));
+        return $this->send($this::POST, sprintf('contactlist/%s/deletelist', $listId));
     }
 
     /**
      * Creates a contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -471,14 +476,14 @@ class Client
      */
     public function addContactsToContactList(string $listId, array $data): Response
     {
-        return $this->send('POST', sprintf('contactlist/%s/add', $listId), $data);
+        return $this->send($this::POST, sprintf('contactlist/%s/add', $listId), $data);
     }
 
     /**
      * This deletes contacts from the contact list which can be used as recipient source for the email.
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -486,14 +491,14 @@ class Client
      */
     public function removeContactsFromContactList(string $listId, array $data): Response
     {
-        return $this->send('POST', sprintf('contactlist/%s/delete', $listId), $data);
+        return $this->send($this::POST, sprintf('contactlist/%s/delete', $listId), $data);
     }
 
     /**
      * Get a list of contact IDs that are in a contact list
      *
      * @param string $listId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -501,7 +506,7 @@ class Client
      */
     public function getContactsFromContactList(string $listId, array $data): Response
     {
-        return $this->send('GET', sprintf('contactlist/%s/contacts', $listId), $data);
+        return $this->send($this::GET, sprintf('contactlist/%s/contacts', $listId), $data);
     }
 
     /**
@@ -517,7 +522,7 @@ class Client
      */
     public function checkContactInList(int $contactId, int $listId): Response
     {
-        return $this->send('GET', sprintf('contactlist/%s/contacts/%s', $listId, $contactId));
+        return $this->send($this::GET, sprintf('contactlist/%s/contacts/%s', $listId, $contactId));
     }
 
     /**
@@ -543,7 +548,8 @@ class Client
         if (count($data) > 0) {
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
-        return $this->send('GET', $url);
+
+        return $this->send($this::GET, $url);
     }
 
     /**
@@ -572,14 +578,14 @@ class Client
      */
     public function createEmail(array $data): Response
     {
-        return $this->send('POST', 'email', $data);
+        return $this->send($this::POST, 'email', $data);
     }
 
     /**
      * Returns the attributes of an email and the personalized text and HTML source.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -587,14 +593,14 @@ class Client
      */
     public function getEmail(string $emailId, array $data): Response
     {
-        return $this->send('GET', sprintf('email/%s', $emailId), $data);
+        return $this->send($this::GET, sprintf('email/%s', $emailId), $data);
     }
 
     /**
      * Launches an email. This is an asynchronous call, which returns 'OK' if the email is able to launch.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -602,14 +608,14 @@ class Client
      */
     public function launchEmail(string $emailId, array $data): Response
     {
-        return $this->send('POST', sprintf('email/%s/launch', $emailId), $data);
+        return $this->send($this::POST, sprintf('email/%s/launch', $emailId), $data);
     }
 
     /**
      * Returns the HTML or text version of the email either as content type 'application/json' or 'text/html'.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -617,14 +623,14 @@ class Client
      */
     public function previewEmail(string $emailId, array $data): Response
     {
-        return $this->send('POST', sprintf('email/%s/launch', $emailId), $data);
+        return $this->send($this::POST, sprintf('email/%s/launch', $emailId), $data);
     }
 
     /**
      * Returns the summary of the responses of a launched, paused, activated or deactivated email.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -632,14 +638,14 @@ class Client
      */
     public function getEmailResponseSummary(string $emailId, array $data): Response
     {
-        return $this->send('POST', sprintf('email/%s/responsesummary', $emailId), $data);
+        return $this->send($this::POST, sprintf('email/%s/responsesummary', $emailId), $data);
     }
 
     /**
      * Instructs the system to send a test email.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -647,14 +653,14 @@ class Client
      */
     public function sendEmailTest(string $emailId, array $data): Response
     {
-        return $this->send('POST', sprintf('email/%s/sendtestmail', $emailId), $data);
+        return $this->send($this::POST, sprintf('email/%s/sendtestmail', $emailId), $data);
     }
 
     /**
      * Returns the URL to the online version of an email, provided it has been sent to the specified contact.
      *
      * @param string $emailId
-     * @param array $data
+     * @param array  $data
      *
      * @return Response
      * @throws ClientException
@@ -662,7 +668,7 @@ class Client
      */
     public function getEmailUrl(string $emailId, array $data): Response
     {
-        return $this->send('POST', sprintf('email/%s/url', $emailId), $data);
+        return $this->send($this::POST, sprintf('email/%s/url', $emailId), $data);
     }
 
     /**
@@ -676,7 +682,7 @@ class Client
      */
     public function getEmailDeliveryStatus(array $data): Response
     {
-        return $this->send('POST', 'email/getdeliverystatus', $data);
+        return $this->send($this::POST, 'email/getdeliverystatus', $data);
     }
 
     /**
@@ -690,7 +696,7 @@ class Client
      */
     public function getEmailLaunches(array $data): Response
     {
-        return $this->send('POST', 'email/getlaunchesofemail', $data);
+        return $this->send($this::POST, 'email/getlaunchesofemail', $data);
     }
 
     /**
@@ -704,7 +710,7 @@ class Client
      */
     public function getEmailResponses(array $data): Response
     {
-        return $this->send('POST', 'email/getresponses', $data);
+        return $this->send($this::POST, 'email/getresponses', $data);
     }
 
     /**
@@ -718,7 +724,7 @@ class Client
      */
     public function unsubscribeEmail(array $data): Response
     {
-        return $this->send('POST', 'email/unsubscribe', $data);
+        return $this->send($this::POST, 'email/unsubscribe', $data);
     }
 
     /**
@@ -732,7 +738,7 @@ class Client
      */
     public function getEmailCategories(array $data): Response
     {
-        return $this->send('GET', 'emailcategory', $data);
+        return $this->send($this::GET, 'emailcategory', $data);
     }
 
     /**
@@ -744,7 +750,7 @@ class Client
      */
     public function getEvents(): Response
     {
-        return $this->send('GET', 'event');
+        return $this->send($this::GET, 'event');
     }
 
     /**
@@ -759,7 +765,7 @@ class Client
      */
     public function triggerEvent(string $eventId, array $data): Response
     {
-        return $this->send('POST', sprintf('event/%s/trigger', $eventId), $data);
+        return $this->send($this::POST, sprintf('event/%s/trigger', $eventId), $data);
     }
 
     /**
@@ -773,7 +779,7 @@ class Client
      */
     public function getExportStatus(array $data): Response
     {
-        return $this->send('GET', 'export', $data);
+        return $this->send($this::GET, 'export', $data);
     }
 
     /**
@@ -785,7 +791,7 @@ class Client
      */
     public function getFields(): Response
     {
-        return $this->send('GET', 'field');
+        return $this->send($this::GET, 'field');
     }
 
     /**
@@ -799,7 +805,7 @@ class Client
      */
     public function getFieldChoices(string $fieldId): Response
     {
-        return $this->send(HttpClient::GET, sprintf('field/%s/choice', $this->getFieldId($fieldId)));
+        return $this->send($this::GET, sprintf('field/%s/choice', $this->getFieldId($fieldId)));
     }
 
     /**
@@ -813,7 +819,7 @@ class Client
      */
     public function getFiles(array $data): Response
     {
-        return $this->send(HttpClient::GET, 'file', $data);
+        return $this->send($this::GET, 'file', $data);
     }
 
     /**
@@ -827,7 +833,7 @@ class Client
      */
     public function uploadFile(array $data): Response
     {
-        return $this->send(HttpClient::POST, 'file', $data);
+        return $this->send($this::POST, 'file', $data);
     }
 
     /**
@@ -841,7 +847,7 @@ class Client
      */
     public function getSegments(array $data): Response
     {
-        return $this->send(HttpClient::GET, 'filter', $data);
+        return $this->send($this::GET, 'filter', $data);
     }
 
     /**
@@ -855,7 +861,7 @@ class Client
      */
     public function getFolders(array $data): Response
     {
-        return $this->send(HttpClient::GET, 'folder', $data);
+        return $this->send($this::GET, 'folder', $data);
     }
 
     /**
@@ -869,7 +875,7 @@ class Client
      */
     public function getForms(array $data): Response
     {
-        return $this->send(HttpClient::GET, 'form', $data);
+        return $this->send($this::GET, 'form', $data);
     }
 
     /**
@@ -881,7 +887,7 @@ class Client
      */
     public function getLanguages(): Response
     {
-        return $this->send(HttpClient::GET, 'language');
+        return $this->send($this::GET, 'language');
     }
 
     /**
@@ -893,7 +899,7 @@ class Client
      */
     public function getSources(): Response
     {
-        return $this->send(HttpClient::GET, 'source');
+        return $this->send($this::GET, 'source');
     }
 
     /**
@@ -907,7 +913,7 @@ class Client
      */
     public function deleteSource(string $sourceId): Response
     {
-        return $this->send(HttpClient::DELETE, sprintf('source/%s/delete', $sourceId));
+        return $this->send($this::DELETE, sprintf('source/%s/delete', $sourceId));
     }
 
     /**
@@ -921,27 +927,27 @@ class Client
      */
     public function createSource(array $data): Response
     {
-        return $this->send(HttpClient::POST, 'source/create', $data);
+        return $this->send($this::POST, 'source/create', $data);
     }
 
     /**
      * Creates custom field in your Emarsys account
      *
      * @param string $name
-     * @param string $type shorttext|longtext|largetext|date|url|numeric
+     * @param string $applicationType shorttext|longtext|largetext|date|url|numeric
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function createCustomField(string $name, string $type): Response
+    public function createCustomField(string $name, string $applicationType): Response
     {
         return $this->send(
-            HttpClient::POST,
+            $this::POST,
             'field',
             [
                 'name'             => $name,
-                'application_type' => $type,
+                'application_type' => $applicationType,
             ]
         );
     }
@@ -959,7 +965,7 @@ class Client
     public function addBlacklistEntries(array $emails = [], array $domains = []): Response
     {
         return $this->send(
-            HttpClient::POST,
+            $this::POST,
             'blacklist',
             [
                 'emails'  => $emails,
@@ -983,8 +989,9 @@ class Client
     {
         $headers = [
             'Content-Type' => 'application/json',
-            'X-WSSE' => $this->getAuthenticationSignature(),
+            'X-WSSE'       => $this->getAuthenticationSignature(),
         ];
+
         $uri = $this->baseUrl . $uri;
 
         $request = $this->requestFactory->createRequest($method, $uri, $headers, json_encode($body));
@@ -1020,7 +1027,7 @@ class Client
      * @return string
      * @throws Exception
      */
-    private function getAuthenticationSignature(): string
+    protected function getAuthenticationSignature(): string
     {
         // the current time encoded as an ISO 8601 date string
         $created = new DateTime();
