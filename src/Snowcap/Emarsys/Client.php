@@ -29,6 +29,8 @@ class Client
     public const LAUNCH_STATUS_SCHEDULED = 2;
     public const LAUNCH_STATUS_ERROR = -10;
 
+    public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
+
     /**
      * @var string
      */
@@ -99,9 +101,7 @@ class Client
         $this->fieldsMapping = $fieldsMapping;
         $this->choicesMapping = $choicesMapping;
 
-        if (null !== $baseUrl) {
-            $this->baseUrl = $baseUrl;
-        }
+        $this->baseUrl = $baseUrl ?? $this::LIVE_BASE_URL;
 
         if (empty($this->fieldsMapping)) {
             $this->fieldsMapping = $this->parseFieldsIniFile('fields.json');
@@ -117,10 +117,10 @@ class Client
      * This is useful if you want to use string identifiers instead of ids when you play with contacts fields
      *
      * Example:
-     *  $mapping = array(
+     *  $mapping = [
      *      'myCustomField' => 7147,
      *      'myCustomField2' => 7148,
-     *  );
+     *  ];
      *
      * @param array $mapping
      */
@@ -134,12 +134,12 @@ class Client
      * This is useful if you want to use string identifiers instead of ids when you play with contacts field choices
      *
      * Example:
-     *  $mapping = array(
-     *      'myCustomField' => array(
+     *  $mapping = [
+     *      'myCustomField' => [
      *          'myCustomChoice' => 1,
      *          'myCustomChoice2' => 2,
-     *      )
-     *  );
+     *      ]
+     *  ];
      *
      * @param array $mapping
      */
@@ -1079,28 +1079,51 @@ class Client
      *
      * @return mixed
      */
-    private function parseIniFile($filename)
+    private function readJsonFile($filename)
     {
-        $string = file_get_contents(__DIR__ . '/ini/' . $filename);
+        $json = file_get_contents(__DIR__ . '/json/' . $filename);
 
-        return json_decode($string, true);
+        return json_decode($json, true);
     }
 
     private function parseFieldsIniFile($filename): array
     {
-        $iniObject = $this->parseIniFile($filename);
+        $jsonObject = $this->readJsonFile($filename);
 
-        return $this->castIniFileToFields($iniObject);
+        return $this->castJsonObjectFileToFields($jsonObject);
     }
 
     private function parseChoicesIniFile($filename): array
     {
-        $iniObject = $this->parseIniFile($filename);
+        $jsonObject = $this->readJsonFile($filename);
 
-        return $this->castIniFileToChoices($iniObject);
+        return $this->castJsonObjectToChoices($jsonObject);
     }
 
-    private function castIniFileToFields($data): array
+    /**
+     * This will take a JSON object with the following structure (same as the data property of the result when making a
+     * https://dev.emarsys.com/v2/fields/list-available-fields request)
+     *
+     * [
+     *   {
+     *   "id": 0,
+     *   "name": "Interests",
+     *   "application_type": "interests",
+     *   "string_id": "interests"
+     *   }
+     * ]
+     *
+     * and cast it into the fields mapping structure
+     *
+     *  $fieldsMapping = [
+     *      'myCustomField' => 7147,
+     *      'myCustomField2' => 7148,
+     *  ];
+     *
+     * @param $data
+     * @return array
+     */
+    private function castJsonObjectFileToFields($data): array
     {
         $mapping = [];
         foreach ($data as $field) {
@@ -1110,7 +1133,36 @@ class Client
         return $mapping;
     }
 
-    private function castIniFileToChoices($data): array
+    /**
+     * This will take a JSON object with the following structure (which can easily be put together from responses from
+     * the https://dev.emarsys.com/v2/fields/list-available-choices-of-a-single-field endpoint)
+     *
+     * {
+     *  "9": [
+     *    {
+     *      "id": "4",
+     *      "choice": "Dr."
+     *    },
+     *    {
+     *      "id": "5",
+     *      "choice": "Mag."
+     *    }
+     *  ]
+     * }
+     *
+     * and cast it into the choices mapping structure
+     *
+     * $choicesMapping = [
+     *      'fieldId' => [
+     *          'choiceName1' => 1,
+     *          'choiceName2' => 2,
+     *      ]
+     *  ];
+     *
+     * @param $data
+     * @return array
+     */
+    private function castJsonObjectToChoices($data): array
     {
         $mapping = [];
         foreach ($data as $key => $value) {
