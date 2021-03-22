@@ -6,7 +6,6 @@ use DateTime;
 use Exception;
 use Http\Message\RequestFactory;
 use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Log\LoggerInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
@@ -70,16 +69,10 @@ class Client
     ];
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @param ClientInterface $client         HTTP client implementation
      * @param RequestFactory  $requestFactory HTTP request factory
      * @param string          $username       The username requested by the Emarsys API
      * @param string          $secret         The secret requested by the Emarsys API
-     * @param LoggerInterface $logger         Logger
      * @param string|null     $baseUri        Overrides the default baseUrl if needed
      * @param array           $fieldsMap      Overrides the default fields mapping if needed
      * @param array           $choicesMap     Overrides the default choices mapping if needed
@@ -89,14 +82,12 @@ class Client
         RequestFactory $requestFactory,
         string $username,
         string $secret,
-        LoggerInterface $logger,
         $baseUri = null,
         $fieldsMap = [],
         $choicesMap = []
     ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
-        $this->logger = $logger;
         $this->username = $username;
         $this->secret = $secret;
         $this->fieldsMapping = $fieldsMap;
@@ -991,8 +982,8 @@ class Client
     protected function send($method = 'GET', $uri, array $body = []): Response
     {
         $headers = [
-            'Content-Type: application/json',
-            'X-WSSE: ' . $this->getAuthenticationSignature(),
+            'Content-Type' => 'application/json',
+            'X-WSSE' => $this->getAuthenticationSignature(),
         ];
         $uri = $this->baseUrl . $uri;
 
@@ -1027,6 +1018,7 @@ class Client
      * Generate X-WSSE signature used to authenticate
      *
      * @return string
+     * @throws Exception
      */
     private function getAuthenticationSignature(): string
     {

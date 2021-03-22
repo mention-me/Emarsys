@@ -7,7 +7,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Exception;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\NullLogger;
 use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\Exception\ClientException;
 use Http\Mock\Client as MockClient;
@@ -38,7 +37,6 @@ class ClientTest extends TestCase
             new GuzzleMessageFactory(),
             'dummy-api-username',
             'dummy-api-secret',
-            new NullLogger()
         );
     }
 

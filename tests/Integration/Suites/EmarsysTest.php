@@ -2,13 +2,13 @@
 
 namespace Snowcap\Emarsys\Tests\Integration;
 
+use Http\Message\MessageFactory\GuzzleMessageFactory;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use Snowcap\Emarsys\Client;
-use Snowcap\Emarsys\CurlClient;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
+use GuzzleHttp\Client as GuzzleClient;
 
 class EmarsysTest extends TestCase
 {
@@ -23,8 +23,8 @@ class EmarsysTest extends TestCase
             self::markTestSkipped('No Emarsys credentials are specified');
         }
 
-        $httpClient = new CurlClient();
-        $this->client = new Client($httpClient, EMARSYS_API_USERNAME, EMARSYS_API_SECRET, new NullLogger());
+        $httpClient = new GuzzleClient();
+        $this->client = new Client($httpClient,  new GuzzleMessageFactory(),'EMARSYS_API_USERNAME', 'EMARSYS_API_SECRET', 'https://trunk-int.s.emarsys.com/api/v2/');
 
         $connectionTestResponse = $this->client->getLanguages();
 
@@ -58,10 +58,13 @@ class EmarsysTest extends TestCase
     public function itShouldGetAvailableFields(): void
     {
         $response = $this->client->getFields();
-        $expectation = ['id'               => 1,
-            'name'             => 'First Name',
-            'application_type' => 'shorttext',
-        ];
+        $expectation =
+            [
+                'id'               => 1,
+                'name'             => 'First Name',
+                'application_type' => 'shorttext',
+                'string_id'        => 'first_name',
+            ];
 
         self::assertContains($expectation, $response->getData());
     }
