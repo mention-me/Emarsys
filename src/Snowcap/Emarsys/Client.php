@@ -73,7 +73,7 @@ class Client
      * @param RequestFactory  $requestFactory HTTP request factory
      * @param string          $username       The username requested by the Emarsys API
      * @param string          $secret         The secret requested by the Emarsys API
-     * @param string|null     $baseUri        Overrides the default baseUrl if needed
+     * @param string|null     $baseUrl        Overrides the default baseUrl if needed
      * @param array           $fieldsMap      Overrides the default fields mapping if needed
      * @param array           $choicesMap     Overrides the default choices mapping if needed
      */
@@ -82,7 +82,7 @@ class Client
         RequestFactory $requestFactory,
         string $username,
         string $secret,
-        $baseUri = null,
+        $baseUrl = null,
         $fieldsMap = [],
         $choicesMap = []
     ) {
@@ -93,8 +93,8 @@ class Client
         $this->fieldsMapping = $fieldsMap;
         $this->choicesMapping = $choicesMap;
 
-        if (null !== $baseUri) {
-            $this->baseUrl = $baseUri;
+        if (null !== $baseUrl) {
+            $this->baseUrl = $baseUrl;
         }
 
         if (empty($this->fieldsMapping)) {
