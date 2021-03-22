@@ -24,7 +24,13 @@ class EmarsysTest extends TestCase
         }
 
         $httpClient = new GuzzleClient();
-        $this->client = new Client($httpClient,  new GuzzleMessageFactory(),'EMARSYS_API_USERNAME', 'EMARSYS_API_SECRET', 'https://trunk-int.s.emarsys.com/api/v2/');
+        $this->client = new Client(
+            $httpClient,
+            new GuzzleMessageFactory(),
+            'EMARSYS_API_USERNAME',
+            'EMARSYS_API_SECRET',
+            'https://trunk-int.s.emarsys.com/api/v2/'
+        );
 
         $connectionTestResponse = $this->client->getLanguages();
 
@@ -39,10 +45,11 @@ class EmarsysTest extends TestCase
      * @throws ClientException
      * @throws Exception
      */
-    public function itShouldGetAvailableLanguages(): void
+    public function testItShouldGetAvailableLanguages(): void
     {
         $response = $this->client->getLanguages();
-        $expectation = ['id'       => 'en',
+        $expectation = [
+            'id'       => 'en',
             'language' => 'english',
         ];
 
@@ -55,7 +62,7 @@ class EmarsysTest extends TestCase
      * @throws ClientException
      * @throws Exception
      */
-    public function itShouldGetAvailableFields(): void
+    public function testItShouldGetAvailableFields(): void
     {
         $response = $this->client->getFields();
         $expectation =
