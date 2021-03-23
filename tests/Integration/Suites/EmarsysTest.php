@@ -6,6 +6,7 @@ use Http\Message\MessageFactory\GuzzleMessageFactory;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Client;
+use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use GuzzleHttp\Client as GuzzleClient;
@@ -13,7 +14,7 @@ use GuzzleHttp\Client as GuzzleClient;
 class EmarsysTest extends TestCase
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 

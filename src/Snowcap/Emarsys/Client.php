@@ -10,7 +10,7 @@ use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
 
-class Client
+class Client implements \Snowcap\Emarsys\ClientInterface
 {
     public const GET = 'GET';
     public const POST = 'POST';
@@ -34,7 +34,7 @@ class Client
     /**
      * @var string
      */
-    private $baseUrl = 'https://api.emarsys.net/api/v2/';
+    private $baseUrl;
 
     /**
      * @var string
@@ -113,15 +113,6 @@ class Client
     }
 
     /**
-     * Add your custom fields mapping
-     * This is useful if you want to use string identifiers instead of ids when you play with contacts fields
-     *
-     * Example:
-     *  $mapping = [
-     *      'myCustomField' => 7147,
-     *      'myCustomField2' => 7148,
-     *  ];
-     *
      * @param array $mapping
      */
     public function addFieldsMapping($mapping = []): void
@@ -129,20 +120,6 @@ class Client
         $this->fieldsMapping = array_merge($this->fieldsMapping, $mapping);
     }
 
-    /**
-     * Add your custom field choices mapping
-     * This is useful if you want to use string identifiers instead of ids when you play with contacts field choices
-     *
-     * Example:
-     *  $mapping = [
-     *      'myCustomField' => [
-     *          'myCustomChoice' => 1,
-     *          'myCustomChoice2' => 2,
-     *      ]
-     *  ];
-     *
-     * @param array $mapping
-     */
     public function addChoicesMapping($mapping = []): void
     {
         foreach ($mapping as $fieldStringId => $choices) {
@@ -156,14 +133,6 @@ class Client
         }
     }
 
-    /**
-     * Returns a field id from a field string_id (specified in the fields mapping)
-     *
-     * @param string $fieldStringId
-     *
-     * @return int
-     * @throws ClientException
-     */
     public function getFieldId(string $fieldStringId): int
     {
         if (in_array($fieldStringId, $this->systemFields)) {
@@ -177,13 +146,6 @@ class Client
         return (int) $this->fieldsMapping[$fieldStringId];
     }
 
-    /**
-     * Returns a field name from a field id (specified in the fields mapping) or the field id if no mapping is found
-     *
-     * @param string|int $fieldId
-     *
-     * @return string|int
-     */
     public function getFieldStringId($fieldId)
     {
         $fieldName = array_search($fieldId, $this->fieldsMapping);
@@ -195,15 +157,6 @@ class Client
         return $fieldId;
     }
 
-    /**
-     * Returns a choice id for a field from a choice name (specified in the choices mapping)
-     *
-     * @param string|int $fieldStringId
-     * @param string|int $choice
-     *
-     * @return int
-     * @throws ClientException
-     */
     public function getChoiceId($fieldStringId, $choice): int
     {
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
@@ -217,16 +170,6 @@ class Client
         return (int) $this->choicesMapping[$fieldStringId][$choice];
     }
 
-    /**
-     * Returns a choice name for a field from a choice id (specified in the choices mapping) or the choice id if no
-     * mapping is found
-     *
-     * @param string|int $fieldId
-     * @param int        $choiceId
-     *
-     * @return string|int
-     * @throws ClientException
-     */
     public function getChoiceName($fieldId, int $choiceId)
     {
         $fieldStringId = $fieldId;
@@ -254,11 +197,7 @@ class Client
     }
 
     /**
-     * Returns a list of condition rules.
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getConditions(): Response
     {
@@ -266,19 +205,7 @@ class Client
     }
 
     /**
-     * Creates one or more new contacts/recipients.
-     * Example :
-     *  $data = array(
-     *      'key_id' => '3',
-     *      '3' => 'recipient@example.com',
-     *      'source_id' => '123',
-     *  );
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function createContact(array $data): Response
     {
@@ -288,13 +215,7 @@ class Client
     }
 
     /**
-     * Updates one or more contacts/recipients, identified by an external ID.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function updateContact(array $data): Response
     {
@@ -304,14 +225,7 @@ class Client
     }
 
     /**
-     * Updates one or more contacts/recipients, identified by an external ID. If the contact does not exist in the
-     * database, it is created.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function updateContactAndCreateIfNotExists(array $data): Response
     {
@@ -321,13 +235,7 @@ class Client
     }
 
     /**
-     * Deletes a single contact/recipient, identified by an external ID.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function deleteContact(array $data): Response
     {
@@ -335,14 +243,7 @@ class Client
     }
 
     /**
-     * Returns the internal ID of a contact specified by its external ID.
-     *
-     * @param string $fieldId
-     * @param string $fieldValue
-     *
-     * @return int
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactId(string $fieldId, string $fieldValue): int
     {
@@ -358,13 +259,7 @@ class Client
     }
 
     /**
-     * Exports the selected fields of all contacts with properties changed in the time range specified.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactChanges(array $data): Response
     {
@@ -372,13 +267,7 @@ class Client
     }
 
     /**
-     * Returns the list of emails sent to the specified contacts.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactHistory(array $data): Response
     {
@@ -386,22 +275,7 @@ class Client
     }
 
     /**
-     * Returns all data associated with a contact.
-     *
-     * Example:
-     *
-     *  $data = array(
-     *      'keyId' => 3, // Contact element used as a key to select the contacts.
-     *                    // To use the internalID, pass "id" to the "keyId" parameter.
-     *      'keyValues' => array('example@example.com', 'example2@example.com') // An array of contactIDs or values of
-     *                                                                          // the column used to select contacts.
-     *  );
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactData(array $data): Response
     {
@@ -409,13 +283,7 @@ class Client
     }
 
     /**
-     * Exports the selected fields of all contacts which registered in the specified time range.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactRegistrations(array $data): Response
     {
@@ -423,13 +291,7 @@ class Client
     }
 
     /**
-     * Returns a list of contact lists which can be used as recipient source for the email.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactList(array $data): Response
     {
@@ -437,13 +299,7 @@ class Client
     }
 
     /**
-     * Creates a contact list which can be used as recipient source for the email.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function createContactList(array $data): Response
     {
@@ -451,13 +307,7 @@ class Client
     }
 
     /**
-     * Deletes a contact list which can be used as recipient source for the email.
-     *
-     * @param string $listId
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function deleteContactList(string $listId): Response
     {
@@ -465,14 +315,7 @@ class Client
     }
 
     /**
-     * Creates a contact list which can be used as recipient source for the email.
-     *
-     * @param string $listId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function addContactsToContactList(string $listId, array $data): Response
     {
@@ -480,14 +323,7 @@ class Client
     }
 
     /**
-     * This deletes contacts from the contact list which can be used as recipient source for the email.
-     *
-     * @param string $listId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function removeContactsFromContactList(string $listId, array $data): Response
     {
@@ -495,14 +331,7 @@ class Client
     }
 
     /**
-     * Get a list of contact IDs that are in a contact list
-     *
-     * @param string $listId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getContactsFromContactList(string $listId, array $data): Response
     {
@@ -510,15 +339,7 @@ class Client
     }
 
     /**
-     * Checks whether a specific contact is included in the defined contact list.
-     *
-     * @param int $contactId
-     * @param int $listId
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
-     * @link http://documentation.emarsys.com/resource/developers/endpoints/contacts/check-a-contact-in-a-contact-list/
+     * {@inheritDoc}
      */
     public function checkContactInList(int $contactId, int $listId): Response
     {
@@ -526,14 +347,7 @@ class Client
     }
 
     /**
-     * Returns a list of emails.
-     *
-     * @param int|null $status
-     * @param int|null $contactList
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmails($status = null, $contactList = null): Response
     {
@@ -553,28 +367,7 @@ class Client
     }
 
     /**
-     * Creates an email in eMarketing Suite and assigns it the respective parameters.
-     * Example :
-     *  $data = array(
-     *      'language' => 'en',
-     *      'name' => 'test api 010',
-     *      'fromemail' => 'sender@example.com',
-     *      'fromname' => 'sender email',
-     *      'subject' => 'subject here',
-     *      'email_category' => '17',
-     *      'html_source' => '<html>Hello $First Name$,... </html>',
-     *      'text_source' => 'email text',
-     *      'segment' => 1121,
-     *      'contactlist' => 0,
-     *      'unsubscribe' => 1,
-     *      'browse' => 0,
-     *  );
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function createEmail(array $data): Response
     {
@@ -582,14 +375,7 @@ class Client
     }
 
     /**
-     * Returns the attributes of an email and the personalized text and HTML source.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmail(string $emailId, array $data): Response
     {
@@ -597,14 +383,7 @@ class Client
     }
 
     /**
-     * Launches an email. This is an asynchronous call, which returns 'OK' if the email is able to launch.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function launchEmail(string $emailId, array $data): Response
     {
@@ -612,14 +391,7 @@ class Client
     }
 
     /**
-     * Returns the HTML or text version of the email either as content type 'application/json' or 'text/html'.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function previewEmail(string $emailId, array $data): Response
     {
@@ -627,14 +399,7 @@ class Client
     }
 
     /**
-     * Returns the summary of the responses of a launched, paused, activated or deactivated email.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailResponseSummary(string $emailId, array $data): Response
     {
@@ -642,14 +407,7 @@ class Client
     }
 
     /**
-     * Instructs the system to send a test email.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function sendEmailTest(string $emailId, array $data): Response
     {
@@ -657,14 +415,7 @@ class Client
     }
 
     /**
-     * Returns the URL to the online version of an email, provided it has been sent to the specified contact.
-     *
-     * @param string $emailId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailUrl(string $emailId, array $data): Response
     {
@@ -672,13 +423,7 @@ class Client
     }
 
     /**
-     * Returns the delivery status of an email.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailDeliveryStatus(array $data): Response
     {
@@ -686,13 +431,7 @@ class Client
     }
 
     /**
-     * Lists all the launches of an email with ID, launch date and 'done' status.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailLaunches(array $data): Response
     {
@@ -700,13 +439,7 @@ class Client
     }
 
     /**
-     * Exports the selected fields of all contacts which responded to emails in the specified time range.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailResponses(array $data): Response
     {
@@ -714,13 +447,7 @@ class Client
     }
 
     /**
-     * Flags contacts as unsubscribed for an email campaign launch so they will be included in the campaign statistics.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function unsubscribeEmail(array $data): Response
     {
@@ -728,13 +455,7 @@ class Client
     }
 
     /**
-     * Returns a list of email categories which can be used in email creation.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEmailCategories(array $data): Response
     {
@@ -742,11 +463,7 @@ class Client
     }
 
     /**
-     * Returns a list of external events which can be used in program s .
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getEvents(): Response
     {
@@ -754,14 +471,7 @@ class Client
     }
 
     /**
-     * Triggers the given event for the specified contact.
-     *
-     * @param string $eventId
-     * @param array  $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function triggerEvent(string $eventId, array $data): Response
     {
@@ -769,13 +479,7 @@ class Client
     }
 
     /**
-     * Fetches the status data of an export.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getExportStatus(array $data): Response
     {
@@ -783,11 +487,7 @@ class Client
     }
 
     /**
-     * Returns a list of fields (including custom fields and vouchers) which can be used to personalize content.
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getFields(): Response
     {
@@ -795,13 +495,7 @@ class Client
     }
 
     /**
-     * Returns the choice options of a field.
-     *
-     * @param string $fieldId Field ID or custom field name (available in fields mapping)
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getFieldChoices(string $fieldId): Response
     {
@@ -809,13 +503,7 @@ class Client
     }
 
     /**
-     * Returns a customer's files.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getFiles(array $data): Response
     {
@@ -823,13 +511,7 @@ class Client
     }
 
     /**
-     * Uploads a file to a media database.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function uploadFile(array $data): Response
     {
@@ -837,13 +519,7 @@ class Client
     }
 
     /**
-     * Returns a list of segments which can be used as recipient source for the email.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getSegments(array $data): Response
     {
@@ -851,13 +527,7 @@ class Client
     }
 
     /**
-     * Returns a customer's folders.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getFolders(array $data): Response
     {
@@ -865,13 +535,7 @@ class Client
     }
 
     /**
-     * Returns a list of the customer's forms.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getForms(array $data): Response
     {
@@ -879,11 +543,7 @@ class Client
     }
 
     /**
-     * Returns a list of languages which you can use in email creation.
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getLanguages(): Response
     {
@@ -891,11 +551,7 @@ class Client
     }
 
     /**
-     * Returns a list of sources which can be used for creating contacts.
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function getSources(): Response
     {
@@ -903,13 +559,7 @@ class Client
     }
 
     /**
-     * Deletes an existing source.
-     *
-     * @param string $sourceId
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function deleteSource(string $sourceId): Response
     {
@@ -917,13 +567,7 @@ class Client
     }
 
     /**
-     * Creates a new source for the customer with the specified name.
-     *
-     * @param array $data
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function createSource(array $data): Response
     {
@@ -931,14 +575,7 @@ class Client
     }
 
     /**
-     * Creates custom field in your Emarsys account
-     *
-     * @param string $name
-     * @param string $applicationType shorttext|longtext|largetext|date|url|numeric
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function createCustomField(string $name, string $applicationType): Response
     {
@@ -953,14 +590,7 @@ class Client
     }
 
     /**
-     * Adds a list of emails and domains to the blacklist
-     *
-     * @param array $emails
-     * @param array $domains
-     *
-     * @return Response
-     * @throws ClientException
-     * @throws ServerException
+     * {@inheritDoc}
      */
     public function addBlacklistEntries(array $emails = [], array $domains = []): Response
     {
@@ -979,13 +609,14 @@ class Client
      *
      * @param string $method
      * @param string $uri
-     * @param array  $body
+     * @param array $body
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
+     * @throws Exception
      */
-    protected function send($method = 'GET', $uri, array $body = []): Response
+    protected function send($method = 'GET', string $uri, array $body = []): Response
     {
         $headers = [
             'Content-Type' => 'application/json',

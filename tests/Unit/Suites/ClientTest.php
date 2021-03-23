@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Exception;
 use Psr\Http\Message\ResponseInterface;
 use Snowcap\Emarsys\Client;
+use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Http\Mock\Client as MockClient;
 use Snowcap\Emarsys\Exception\ServerException;
@@ -20,7 +21,7 @@ use Snowcap\Emarsys\Response;
 class ClientTest extends TestCase
 {
     /**
-     * @var MockObject|Client
+     * @var MockObject|ClientInterface
      */
     private $client;
 
