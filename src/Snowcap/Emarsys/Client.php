@@ -1029,7 +1029,7 @@ class Client
      */
     protected function getAuthenticationSignature(): string
     {
-        // the current time encoded as an ISO 8601 date string
+        // the current time formatted Y-m-d\TH:i:sP
         $created = new DateTime();
         $iso8601 = $created->format(DateTime::ATOM);
         // the md5 of a random string . e.g. a timestamp
