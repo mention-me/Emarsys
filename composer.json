@@ -1,5 +1,5 @@
 {
-    "name": "snowcap/emarsys",
+    "name": "mention-me/emarsys",
     "description": "Emarsys RestFull API client",
     "require": {
         "php": ">=5.3.3",
@@ -26,6 +26,10 @@
         {
             "name": "Jérôme Poskin",
             "email": "jerome@snowcap.be"
+        },
+        {
+            "name": "Alex Oanea",
+            "email": "alex.oanea@mention-me.com"
         }
     ],
     "minimum-stability": "dev"
