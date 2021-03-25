@@ -2,7 +2,8 @@
 
 namespace Snowcap\Emarsys\Tests\Integration;
 
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Http\Factory\Guzzle\RequestFactory;
+use Http\Factory\Guzzle\StreamFactory;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Client;
@@ -18,6 +19,10 @@ class EmarsysTest extends TestCase
      */
     private $client;
 
+    /**
+     * @throws ClientException
+     * @throws ServerException
+     */
     protected function setUp(): void
     {
         if ( ! defined('EMARSYS_API_USERNAME') || ! defined('EMARSYS_API_SECRET')) {
@@ -27,7 +32,8 @@ class EmarsysTest extends TestCase
         $httpClient = new GuzzleClient();
         $this->client = new Client(
             $httpClient,
-            new GuzzleMessageFactory(),
+            new RequestFactory(),
+            new StreamFactory(),
             'EMARSYS_API_USERNAME',
             'EMARSYS_API_SECRET',
             'https://trunk-int.s.emarsys.com/api/v2/'
@@ -41,7 +47,6 @@ class EmarsysTest extends TestCase
     }
 
     /**
-     * @test
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
@@ -58,7 +63,6 @@ class EmarsysTest extends TestCase
     }
 
     /**
-     * @test
      * @throws ServerException
      * @throws ClientException
      * @throws Exception

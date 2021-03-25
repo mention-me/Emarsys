@@ -2,7 +2,8 @@
 
 namespace Snowcap\Emarsys\Tests\Unit;
 
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Http\Factory\Guzzle\StreamFactory;
+use Http\Factory\Guzzle\RequestFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Exception;
@@ -35,7 +36,8 @@ class ClientTest extends TestCase
         $this->stubHttpClient = new MockClient();
         $this->client = new Client(
             $this->stubHttpClient,
-            new GuzzleMessageFactory(),
+            new RequestFactory(),
+            new StreamFactory(),
             'dummy-api-username',
             'dummy-api-secret',
         );
@@ -315,8 +317,6 @@ class ClientTest extends TestCase
      */
     private function createExpectedResponse(string $fileName)
     {
-        $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
-
-        return $fileContent;
+        return file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
     }
 }

@@ -4,8 +4,9 @@ namespace Snowcap\Emarsys;
 
 use DateTime;
 use Exception;
-use Http\Message\RequestFactory;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
@@ -26,7 +27,6 @@ class Client implements \Snowcap\Emarsys\ClientInterface
 
     public const LAUNCH_STATUS_NOT_LAUNCHED = 0;
     public const LAUNCH_STATUS_IN_PROGRESS = 1;
-    public const LAUNCH_STATUS_SCHEDULED = 2;
     public const LAUNCH_STATUS_ERROR = -10;
 
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
@@ -52,9 +52,14 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     private $client;
 
     /**
-     * @var RequestFactory
+     * @var RequestFactoryInterface
      */
     private $requestFactory;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    private $streamFactory;
 
     /**
      * @var array
@@ -77,17 +82,19 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     ];
 
     /**
-     * @param ClientInterface $client         HTTP client implementation
-     * @param RequestFactory  $requestFactory HTTP request factory
-     * @param string          $username       The username requested by the Emarsys API
-     * @param string          $secret         The secret requested by the Emarsys API
-     * @param string|null     $baseUrl        Overrides the default baseUrl if needed
-     * @param array           $fieldsMapping  Overrides the default fields mapping if needed
-     * @param array           $choicesMapping Overrides the default choices mapping if needed
+     * @param ClientInterface         $client         HTTP client implementation
+     * @param RequestFactoryInterface $requestFactory HTTP request factory
+     * @param StreamFactoryInterface  $streamFactory  PSR compliant stream factory
+     * @param string                  $username       The username requested by the Emarsys API
+     * @param string                  $secret         The secret requested by the Emarsys API
+     * @param string|null             $baseUrl        Overrides the default baseUrl if needed
+     * @param array                   $fieldsMapping  Overrides the default fields mapping if needed
+     * @param array                   $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
         ClientInterface $client,
-        RequestFactory $requestFactory,
+        RequestFactoryInterface $requestFactory,
+        StreamFactoryInterface $streamFactory,
         string $username,
         string $secret,
         $baseUrl = null,
@@ -96,6 +103,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
+        $this->streamFactory = $streamFactory;
         $this->username = $username;
         $this->secret = $secret;
         $this->fieldsMapping = $fieldsMapping;
@@ -609,7 +617,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      *
      * @param string $method
      * @param string $uri
-     * @param array $body
+     * @param array  $body
      *
      * @return Response
      * @throws ClientException
@@ -618,14 +626,13 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     protected function send($method = 'GET', string $uri, array $body = []): Response
     {
-        $headers = [
-            'Content-Type' => 'application/json',
-            'X-WSSE'       => $this->getAuthenticationSignature(),
-        ];
-
         $uri = $this->baseUrl . $uri;
 
-        $request = $this->requestFactory->createRequest($method, $uri, $headers, json_encode($body));
+        $request = $this->requestFactory->createRequest($method, $uri);
+
+        $request->withHeader('Content-Type', 'application/json');
+        $request->withHeader('X-WSSE', $this->getAuthenticationSignature());
+        $request->withBody($this->streamFactory->createStream(json_encode($body)));
 
         try {
             $response = $this->client->sendRequest($request);
@@ -752,6 +759,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      *  ];
      *
      * @param $data
+     *
      * @return array
      */
     private function castJsonObjectFileToFields($data): array
@@ -791,6 +799,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      *  ];
      *
      * @param $data
+     *
      * @return array
      */
     private function castJsonObjectToChoices($data): array
