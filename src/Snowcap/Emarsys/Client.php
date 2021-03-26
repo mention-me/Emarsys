@@ -112,11 +112,11 @@ class Client implements \Snowcap\Emarsys\ClientInterface
         $this->baseUrl = $baseUrl ?? $this::LIVE_BASE_URL;
 
         if (empty($this->fieldsMapping)) {
-            $this->fieldsMapping = $this->parseFieldsIniFile('fields.json');
+            $this->fieldsMapping = $this->parseFieldsJsonFile('fields.json');
         }
 
         if (empty($this->choicesMapping)) {
-            $this->choicesMapping = $this->parseChoicesIniFile('choices.json');
+            $this->choicesMapping = $this->parseChoicesJsonFile('choices.json');
         }
     }
 
@@ -724,14 +724,14 @@ class Client implements \Snowcap\Emarsys\ClientInterface
         return json_decode($json, true);
     }
 
-    private function parseFieldsIniFile($filename): array
+    private function parseFieldsJsonFile($filename): array
     {
         $jsonObject = $this->readJsonFile($filename);
 
         return $this->castJsonObjectFileToFields($jsonObject);
     }
 
-    private function parseChoicesIniFile($filename): array
+    private function parseChoicesJsonFile($filename): array
     {
         $jsonObject = $this->readJsonFile($filename);
 
