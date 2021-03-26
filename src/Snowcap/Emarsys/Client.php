@@ -630,9 +630,9 @@ class Client implements \Snowcap\Emarsys\ClientInterface
 
         $request = $this->requestFactory->createRequest($method, $uri);
 
-        $request->withHeader('Content-Type', 'application/json');
-        $request->withHeader('X-WSSE', $this->getAuthenticationSignature());
-        $request->withBody($this->streamFactory->createStream(json_encode($body)));
+        $request = $request->withHeader('Content-Type', 'application/json');
+        $request = $request->withHeader('X-WSSE', $this->getAuthenticationSignature());
+        $request = $request->withBody($this->streamFactory->createStream(json_encode($body)));
 
         try {
             $response = $this->client->sendRequest($request);
