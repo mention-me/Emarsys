@@ -33,4 +33,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
+      env: # Set the secrets as environment variables
+        EMARSYS_API_USERNAME: ${{ secrets.EMARSYS_API_USERNAME }}
+        EMARSYS_API_SECRET: ${{ secrets.EMARSYS_API_SECRET }}
       run: composer run-script test
