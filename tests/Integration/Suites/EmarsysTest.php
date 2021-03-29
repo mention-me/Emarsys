@@ -34,8 +34,8 @@ class EmarsysTest extends TestCase
             $httpClient,
             new RequestFactory(),
             new StreamFactory(),
-            'EMARSYS_API_USERNAME',
-            'EMARSYS_API_SECRET',
+            EMARSYS_API_USERNAME,
+            EMARSYS_API_SECRET,
             'https://trunk-int.s.emarsys.com/api/v2/'
         );
 
