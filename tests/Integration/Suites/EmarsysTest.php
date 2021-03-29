@@ -25,7 +25,9 @@ class EmarsysTest extends TestCase
      */
     protected function setUp(): void
     {
-        if ( ! defined('EMARSYS_API_USERNAME') || ! defined('EMARSYS_API_SECRET')) {
+        $username = getenv('EMARSYS_API_USERNAME');
+        $secret = getenv('EMARSYS_API_SECRET');
+        if ( ! $username || ! $secret) {
             self::markTestSkipped('No Emarsys credentials are specified');
         }
 
@@ -34,8 +36,8 @@ class EmarsysTest extends TestCase
             $httpClient,
             new RequestFactory(),
             new StreamFactory(),
-            EMARSYS_API_USERNAME,
-            EMARSYS_API_SECRET,
+            $username,
+            $secret,
             'https://trunk-int.s.emarsys.com/api/v2/'
         );
 
