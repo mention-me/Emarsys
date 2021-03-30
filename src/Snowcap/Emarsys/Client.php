@@ -613,6 +613,17 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getSettings(): Response
+    {
+        return $this->send(
+            $this::GET,
+            'settings'
+        );
+    }
+
+    /**
      * Send an HTTP request
      *
      * @param string $method

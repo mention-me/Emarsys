@@ -621,4 +621,13 @@ interface ClientInterface
      * @throws ServerException
      */
     public function addBlacklistEntries(array $emails = [], array $domains = []): Response;
+
+    /**
+     * Returns the current settings of the specified customer account, such as timezone or name.
+     *
+     * @return Response
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function getSettings(): Response;
 }
