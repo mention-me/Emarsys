@@ -38,13 +38,13 @@ class EmarsysTest extends TestCase
             new StreamFactory(),
             $username,
             $secret,
-            'https://trunk-int.s.emarsys.com/api/v2/'
+            'https://suite0.emarsys.net/api/v2/'
         );
 
         $connectionTestResponse = $this->client->getLanguages();
 
         if (0 !== $connectionTestResponse->getReplyCode()) {
-            self::markTestSkipped('Problem connecting to Emarsys. Check credentials in phpunit.xml.dist.');
+            self::markTestSkipped('Problem connecting to Emarsys. Check credentials in phpunit.xml.dist or in github secrets');
         }
     }
 
