@@ -409,9 +409,29 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getEmailResponseSummary(string $emailId, array $data): Response
+    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, string $launchId = null): Response
     {
-        return $this->send($this::POST, sprintf('email/%s/responsesummary', $emailId), $data);
+        $data = [];
+
+        if (null !== $startDate) {
+            $data['start_date'] = $startDate;
+        }
+
+        if (null !== $endDate) {
+            $data['end_date'] = $endDate;
+        }
+
+        if (null !== $launchId) {
+            $data['launch_id'] = $launchId;
+        }
+
+        $url = sprintf('email/%s/responsesummary', $emailId);
+
+        if (count($data) > 0) {
+            $url = sprintf('%s/%s', $url, http_build_query($data));
+        }
+
+        return $this->send($this::GET, $url);
     }
 
     /**
