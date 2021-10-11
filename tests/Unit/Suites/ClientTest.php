@@ -309,6 +309,22 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @throws ClientException
+     * @throws ServerException
+     * @throws Exception
+     */
+    public function testItReturnsEmailResponseSummary(): void
+    {
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getEmailResponseSummary'));
+        $this->stubHttpClient->addResponse($expectedResponse);
+
+        $response = $this->client->getEmailResponseSummary(12345);
+
+        self::assertEquals(90, $response->getData()['sent']);
+    }
+
+    /**
      * Get a json test data and decode it
      *
      * @param string $fileName

@@ -1,0 +1,17 @@
+{
+    "replyCode": 0,
+    "replyText": "OK",
+    "data": {
+        "sent": 90,
+        "planned": "0",
+        "soft_bounces": 0,
+        "hard_bounces": "2",
+        "block_bounces": 0,
+        "opened": "6",
+        "unsubscribe": "0",
+        "total_clicks": "0",
+        "unique_clicks": "0",
+        "complained": "0",
+        "launches": "6"
+    }
+}
