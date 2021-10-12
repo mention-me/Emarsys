@@ -363,14 +363,16 @@ interface ClientInterface
     /**
      * Returns the summary of the responses of a launched, paused, activated or deactivated email.
      *
-     * @param string $emailId
-     * @param array $data
+     * @param string      $emailId
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param string|null $launchId
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmailResponseSummary(string $emailId, array $data): Response;
+    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, string $launchId = null): Response;
 
     /**
      * Instructs the system to send a test email.
