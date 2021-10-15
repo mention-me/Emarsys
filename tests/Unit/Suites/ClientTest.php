@@ -184,7 +184,7 @@ class ClientTest extends TestCase
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
-        $response = $this->client->getEmails(Client::EMAIL_STATUS_READY);
+        $response = $this->client->getEmails(Client::API_EMAIL_STATUS_READY_TO_LAUNCH);
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
@@ -192,7 +192,7 @@ class ClientTest extends TestCase
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
-        $response = $this->client->getEmails(Client::EMAIL_STATUS_READY, 123);
+        $response = $this->client->getEmails(Client::API_EMAIL_STATUS_READY_TO_LAUNCH, 123);
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         self::assertNotEmpty($response->getData());

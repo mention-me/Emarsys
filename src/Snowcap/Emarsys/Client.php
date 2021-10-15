@@ -9,25 +9,15 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
-use Psr\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface as HttpClientInterface;
+use Snowcap\Emarsys\ClientInterface as EmarsysClientInterface;
 
-class Client implements \Snowcap\Emarsys\ClientInterface
+class Client implements EmarsysClientInterface
 {
-    public const GET = 'GET';
-    public const POST = 'POST';
-    public const PUT = 'PUT';
-    public const DELETE = 'DELETE';
-    public const PATCH = 'PATCH';
-
-    public const EMAIL_STATUS_IN_DESIGN = 1;
-    public const EMAIL_STATUS_TESTED = 2;
-    public const EMAIL_STATUS_LAUNCHED = 3;
-    public const EMAIL_STATUS_READY = 4;
-    public const EMAIL_STATUS_DEACTIVATED = -3;
-
-    public const LAUNCH_STATUS_NOT_LAUNCHED = 0;
-    public const LAUNCH_STATUS_IN_PROGRESS = 1;
-    public const LAUNCH_STATUS_ERROR = -10;
+    public const HTTP_GET = 'GET';
+    public const HTTP_POST = 'POST';
+    public const HTTP_PUT = 'PUT';
+    public const HTTP_DELETE = 'DELETE';
 
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
@@ -47,7 +37,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     private $secret;
 
     /**
-     * @var ClientInterface
+     * @var HttpClientInterface
      */
     private $client;
 
@@ -82,7 +72,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     ];
 
     /**
-     * @param ClientInterface         $client         HTTP client implementation
+     * @param HttpClientInterface     $client         HTTP client implementation
      * @param RequestFactoryInterface $requestFactory HTTP request factory
      * @param StreamFactoryInterface  $streamFactory  PSR compliant stream factory
      * @param string                  $username       The username requested by the Emarsys API
@@ -92,15 +82,16 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      * @param array                   $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
-        ClientInterface $client,
+        HttpClientInterface     $client,
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        string $username,
-        string $secret,
-        $baseUrl = null,
-        $fieldsMapping = [],
-        $choicesMapping = []
-    ) {
+        StreamFactoryInterface  $streamFactory,
+        string                  $username,
+        string                  $secret,
+                                $baseUrl = null,
+                                $fieldsMapping = [],
+                                $choicesMapping = []
+    )
+    {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
@@ -133,10 +124,10 @@ class Client implements \Snowcap\Emarsys\ClientInterface
         foreach ($mapping as $fieldStringId => $choices) {
             if (is_array($choices)) {
                 if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
-                    $this->choicesMapping[$fieldStringId] = [];
+                    $this->choicesMapping[ $fieldStringId ] = [];
                 }
 
-                $this->choicesMapping[$fieldStringId] = array_merge($this->choicesMapping[$fieldStringId], $choices);
+                $this->choicesMapping[ $fieldStringId ] = array_merge($this->choicesMapping[ $fieldStringId ], $choices);
             }
         }
     }
@@ -147,11 +138,11 @@ class Client implements \Snowcap\Emarsys\ClientInterface
             return $fieldStringId;
         }
 
-        if ( ! isset($this->fieldsMapping[$fieldStringId])) {
+        if ( ! isset($this->fieldsMapping[ $fieldStringId ])) {
             throw ClientException::unrecognizedFieldName($fieldStringId);
         }
 
-        return (int) $this->fieldsMapping[$fieldStringId];
+        return (int)$this->fieldsMapping[ $fieldStringId ];
     }
 
     public function getFieldStringId($fieldId)
@@ -171,11 +162,11 @@ class Client implements \Snowcap\Emarsys\ClientInterface
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
         }
 
-        if ( ! isset($this->choicesMapping[$fieldStringId][$choice])) {
+        if ( ! isset($this->choicesMapping[ $fieldStringId ][ $choice ])) {
             throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldStringId);
         }
 
-        return (int) $this->choicesMapping[$fieldStringId][$choice];
+        return (int)$this->choicesMapping[ $fieldStringId ][ $choice ];
     }
 
     public function getChoiceName($fieldId, int $choiceId)
@@ -189,7 +180,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
         }
         $choiceName = null;
-        foreach ($this->choicesMapping[$fieldId] as $key => $choiceValue) {
+        foreach ($this->choicesMapping[ $fieldId ] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
             if ($choiceId == $choiceValue) {
                 $choiceName = $key;
@@ -209,7 +200,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getConditions(): Response
     {
-        return $this->send($this::GET, 'condition');
+        return $this->send('condition');
     }
 
     /**
@@ -219,7 +210,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send($this::POST, 'contact', $this->mapFieldsToIds($data));
+        return $this->send('contact', $this->mapFieldsToIds($data), self::HTTP_POST);
     }
 
     /**
@@ -229,7 +220,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send($this::PUT, 'contact', $this->mapFieldsToIds($data));
+        return $this->send('contact', $this->mapFieldsToIds($data), self::HTTP_PUT);
     }
 
     /**
@@ -239,7 +230,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     {
         $data = $this->mapFieldsForMultipleContacts($data);
 
-        return $this->send($this::PUT, 'contact/?create_if_not_exists=1', $this->mapFieldsToIds($data));
+        return $this->send('contact/?create_if_not_exists=1', $this->mapFieldsToIds($data), self::HTTP_PUT);
     }
 
     /**
@@ -247,7 +238,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function deleteContact(array $data): Response
     {
-        return $this->send($this::POST, 'contact/delete', $data);
+        return $this->send('contact/delete', $data, self::HTTP_POST);
     }
 
     /**
@@ -255,7 +246,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactId(string $fieldId, string $fieldValue): int
     {
-        $response = $this->send($this::GET, sprintf('contact/%s=%s', $fieldId, $fieldValue));
+        $response = $this->send(sprintf('contact/%s=%s', $fieldId, $fieldValue));
 
         $data = $response->getData();
 
@@ -271,7 +262,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactChanges(array $data): Response
     {
-        return $this->send($this::POST, 'contact/getchanges', $data);
+        return $this->send('contact/getchanges', $data, self::HTTP_POST);
     }
 
     /**
@@ -279,7 +270,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactHistory(array $data): Response
     {
-        return $this->send($this::POST, 'contact/getcontacthistory', $data);
+        return $this->send('contact/getcontacthistory', $data, self::HTTP_POST);
     }
 
     /**
@@ -287,7 +278,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactData(array $data): Response
     {
-        return $this->send($this::POST, 'contact/getdata', $data);
+        return $this->send('contact/getdata', $data, self::HTTP_POST);
     }
 
     /**
@@ -295,7 +286,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactRegistrations(array $data): Response
     {
-        return $this->send($this::POST, 'contact/getregistrations', $data);
+        return $this->send('contact/getregistrations', $data, self::HTTP_POST);
     }
 
     /**
@@ -303,7 +294,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactList(array $data): Response
     {
-        return $this->send($this::GET, 'contactlist', $data);
+        return $this->send('contactlist', $data);
     }
 
     /**
@@ -311,7 +302,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function createContactList(array $data): Response
     {
-        return $this->send($this::POST, 'contactlist', $data);
+        return $this->send('contactlist', $data, self::HTTP_POST);
     }
 
     /**
@@ -319,7 +310,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function deleteContactList(string $listId): Response
     {
-        return $this->send($this::POST, sprintf('contactlist/%s/deletelist', $listId));
+        return $this->send(sprintf('contactlist/%s/deletelist', $listId), [], self::HTTP_POST);
     }
 
     /**
@@ -327,7 +318,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function addContactsToContactList(string $listId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('contactlist/%s/add', $listId), $data);
+        return $this->send(sprintf('contactlist/%s/add', $listId), $data, self::HTTP_POST);
     }
 
     /**
@@ -335,7 +326,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function removeContactsFromContactList(string $listId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('contactlist/%s/delete', $listId), $data);
+        return $this->send(sprintf('contactlist/%s/delete', $listId), $data, self::HTTP_POST);
     }
 
     /**
@@ -343,7 +334,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getContactsFromContactList(string $listId, array $data): Response
     {
-        return $this->send($this::GET, sprintf('contactlist/%s/contacts', $listId), $data);
+        return $this->send(printf('contactlist/%s/contacts', $listId), $data);
     }
 
     /**
@@ -351,7 +342,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function checkContactInList(int $contactId, int $listId): Response
     {
-        return $this->send($this::GET, sprintf('contactlist/%s/contacts/%s', $listId, $contactId));
+        return $this->send(printf('contactlist/%s/contacts/%s', $listId, $contactId));
     }
 
     /**
@@ -371,7 +362,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
 
-        return $this->send($this::GET, $url);
+        return $this->send($url);
     }
 
     /**
@@ -379,7 +370,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function createEmail(array $data): Response
     {
-        return $this->send($this::POST, 'email', $data);
+        return $this->send('email', $data, self::HTTP_POST);
     }
 
     /**
@@ -387,7 +378,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmail(string $emailId, array $data): Response
     {
-        return $this->send($this::GET, sprintf('email/%s', $emailId), $data);
+        return $this->send(printf('email/%s', $emailId), $data);
     }
 
     /**
@@ -395,7 +386,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function launchEmail(string $emailId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('email/%s/launch', $emailId), $data);
+        return $this->send(sprintf('email/%s/launch', $emailId), $data, self::HTTP_POST);
     }
 
     /**
@@ -403,7 +394,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function previewEmail(string $emailId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('email/%s/launch', $emailId), $data);
+        return $this->send(sprintf('email/%s/launch', $emailId), $data, self::HTTP_POST);
     }
 
     /**
@@ -431,7 +422,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
 
-        return $this->send($this::GET, $url);
+        return $this->send($url);
     }
 
     /**
@@ -439,7 +430,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function sendEmailTest(string $emailId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('email/%s/sendtestmail', $emailId), $data);
+        return $this->send(sprintf('email/%s/sendtestmail', $emailId), $data, self::HTTP_POST);
     }
 
     /**
@@ -447,7 +438,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmailUrl(string $emailId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('email/%s/url', $emailId), $data);
+        return $this->send(sprintf('email/%s/url', $emailId), $data, self::HTTP_POST);
     }
 
     /**
@@ -455,7 +446,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmailDeliveryStatus(array $data): Response
     {
-        return $this->send($this::POST, 'email/getdeliverystatus', $data);
+        return $this->send('email/getdeliverystatus', $data, self::HTTP_POST);
     }
 
     /**
@@ -463,7 +454,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmailLaunches(array $data): Response
     {
-        return $this->send($this::POST, 'email/getlaunchesofemail', $data);
+        return $this->send('email/getlaunchesofemail', $data, self::HTTP_POST);
     }
 
     /**
@@ -471,7 +462,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmailResponses(array $data): Response
     {
-        return $this->send($this::POST, 'email/getresponses', $data);
+        return $this->send('email/getresponses', $data, self::HTTP_POST);
     }
 
     /**
@@ -479,7 +470,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function unsubscribeEmail(array $data): Response
     {
-        return $this->send($this::POST, 'email/unsubscribe', $data);
+        return $this->send('email/unsubscribe', $data, self::HTTP_POST);
     }
 
     /**
@@ -487,7 +478,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEmailCategories(array $data): Response
     {
-        return $this->send($this::GET, 'emailcategory', $data);
+        return $this->send('emailcategory', $data);
     }
 
     /**
@@ -495,7 +486,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getEvents(): Response
     {
-        return $this->send($this::GET, 'event');
+        return $this->send('event');
     }
 
     /**
@@ -503,7 +494,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function triggerEvent(string $eventId, array $data): Response
     {
-        return $this->send($this::POST, sprintf('event/%s/trigger', $eventId), $data);
+        return $this->send(sprintf('event/%s/trigger', $eventId), $data, self::HTTP_POST);
     }
 
     /**
@@ -511,7 +502,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getExportStatus(array $data): Response
     {
-        return $this->send($this::GET, 'export', $data);
+        return $this->send('export', $data);
     }
 
     /**
@@ -519,7 +510,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getFields(): Response
     {
-        return $this->send($this::GET, 'field');
+        return $this->send('field');
     }
 
     /**
@@ -527,7 +518,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getFieldChoices(string $fieldId): Response
     {
-        return $this->send($this::GET, sprintf('field/%s/choice', $this->getFieldId($fieldId)));
+        return $this->send(printf('field/%s/choice', $this->getFieldId($fieldId)));
     }
 
     /**
@@ -535,7 +526,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getFiles(array $data): Response
     {
-        return $this->send($this::GET, 'file', $data);
+        return $this->send('file', $data);
     }
 
     /**
@@ -543,7 +534,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function uploadFile(array $data): Response
     {
-        return $this->send($this::POST, 'file', $data);
+        return $this->send('file', $data, self::HTTP_POST);
     }
 
     /**
@@ -551,7 +542,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getSegments(array $data): Response
     {
-        return $this->send($this::GET, 'filter', $data);
+        return $this->send('filter', $data);
     }
 
     /**
@@ -559,7 +550,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getFolders(array $data): Response
     {
-        return $this->send($this::GET, 'folder', $data);
+        return $this->send('folder', $data);
     }
 
     /**
@@ -567,7 +558,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getForms(array $data): Response
     {
-        return $this->send($this::GET, 'form', $data);
+        return $this->send('form', $data);
     }
 
     /**
@@ -575,7 +566,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getLanguages(): Response
     {
-        return $this->send($this::GET, 'language');
+        return $this->send('language');
     }
 
     /**
@@ -583,7 +574,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getSources(): Response
     {
-        return $this->send($this::GET, 'source');
+        return $this->send('source');
     }
 
     /**
@@ -591,7 +582,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function deleteSource(string $sourceId): Response
     {
-        return $this->send($this::DELETE, sprintf('source/%s/delete', $sourceId));
+        return $this->send(sprintf('source/%s/delete', $sourceId), [], self::HTTP_DELETE);
     }
 
     /**
@@ -599,7 +590,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function createSource(array $data): Response
     {
-        return $this->send($this::POST, 'source/create', $data);
+        return $this->send('source/create', $data, self::HTTP_POST);
     }
 
     /**
@@ -608,12 +599,12 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     public function createCustomField(string $name, string $applicationType): Response
     {
         return $this->send(
-            $this::POST,
             'field',
             [
                 'name'             => $name,
                 'application_type' => $applicationType,
-            ]
+            ],
+            self::HTTP_POST
         );
     }
 
@@ -623,12 +614,12 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     public function addBlacklistEntries(array $emails = [], array $domains = []): Response
     {
         return $this->send(
-            $this::POST,
             'blacklist',
             [
                 'emails'  => $emails,
                 'domains' => $domains,
-            ]
+            ],
+            self::HTTP_POST
         );
     }
 
@@ -637,25 +628,22 @@ class Client implements \Snowcap\Emarsys\ClientInterface
      */
     public function getSettings(): Response
     {
-        return $this->send(
-            $this::GET,
-            'settings'
-        );
+        return $this->send('settings');
     }
 
     /**
      * Send an HTTP request
      *
-     * @param string $method
      * @param string $uri
      * @param array  $body
+     * @param string $method
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
      * @throws Exception
      */
-    protected function send($method = 'GET', string $uri, array $body = []): Response
+    protected function send(string $uri, array $body = [], string $method = self::HTTP_GET): Response
     {
         $uri = $this->baseUrl . $uri;
 
@@ -683,6 +671,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
                     throw ServerException::jsonDecodingException(json_last_error_msg());
             }
         }
+
         if (is_array($responseArray) === false) {
             throw ServerException::jsonResponseNotArrayException($responseArray);
         }
@@ -702,7 +691,8 @@ class Client implements \Snowcap\Emarsys\ClientInterface
         $created = new DateTime();
         $iso8601 = $created->format(DateTime::ATOM);
         // the md5 of a random string . e.g. a timestamp
-        $nonce = md5($created->modify('next friday')->getTimestamp());
+        $nonce = md5($created->modify('next friday')
+                             ->getTimestamp());
         // The algorithm to generate the digest is as follows:
         // Concatenate: Nonce + Created + Secret
         // Hash the result using the SHA1 algorithm
@@ -734,9 +724,9 @@ class Client implements \Snowcap\Emarsys\ClientInterface
 
         foreach ($data as $fieldStringId => $value) {
             if (is_numeric($fieldStringId)) {
-                $mappedData[(int) $fieldStringId] = $value;
+                $mappedData[ (int)$fieldStringId ] = $value;
             } else {
-                $mappedData[$this->getFieldId($fieldStringId)] = $value;
+                $mappedData[ $this->getFieldId($fieldStringId) ] = $value;
             }
         }
 
@@ -797,7 +787,7 @@ class Client implements \Snowcap\Emarsys\ClientInterface
     {
         $mapping = [];
         foreach ($data as $field) {
-            $mapping[$field['string_id']] = $field['id'];
+            $mapping[ $field['string_id'] ] = $field['id'];
         }
 
         return $mapping;
@@ -838,9 +828,9 @@ class Client implements \Snowcap\Emarsys\ClientInterface
         $mapping = [];
         foreach ($data as $key => $value) {
             $fieldStringId = $this->getFieldStringId($key);
-            $mapping[$fieldStringId] = [];
+            $mapping[ $fieldStringId ] = [];
             foreach ($value as $choice) {
-                $mapping[$fieldStringId] = [$choice['choice'] => $choice['id']];
+                $mapping[ $fieldStringId ] = [ $choice['choice'] => $choice['id'] ];
             }
         }
 
