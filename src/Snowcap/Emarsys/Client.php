@@ -18,7 +18,6 @@ class Client implements EmarsysClientInterface
     public const HTTP_POST = 'POST';
     public const HTTP_PUT = 'PUT';
     public const HTTP_DELETE = 'DELETE';
-
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
     /**
@@ -82,16 +81,15 @@ class Client implements EmarsysClientInterface
      * @param array                   $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
-        HttpClientInterface     $client,
+        HttpClientInterface $client,
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface  $streamFactory,
-        string                  $username,
-        string                  $secret,
-                                $baseUrl = null,
-                                $fieldsMapping = [],
-                                $choicesMapping = []
-    )
-    {
+        StreamFactoryInterface $streamFactory,
+        string $username,
+        string $secret,
+        $baseUrl = null,
+        $fieldsMapping = [],
+        $choicesMapping = []
+    ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
@@ -124,10 +122,10 @@ class Client implements EmarsysClientInterface
         foreach ($mapping as $fieldStringId => $choices) {
             if (is_array($choices)) {
                 if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
-                    $this->choicesMapping[ $fieldStringId ] = [];
+                    $this->choicesMapping[$fieldStringId] = [];
                 }
 
-                $this->choicesMapping[ $fieldStringId ] = array_merge($this->choicesMapping[ $fieldStringId ], $choices);
+                $this->choicesMapping[$fieldStringId] = array_merge($this->choicesMapping[$fieldStringId], $choices);
             }
         }
     }
@@ -138,11 +136,11 @@ class Client implements EmarsysClientInterface
             return $fieldStringId;
         }
 
-        if ( ! isset($this->fieldsMapping[ $fieldStringId ])) {
+        if ( ! isset($this->fieldsMapping[$fieldStringId])) {
             throw ClientException::unrecognizedFieldName($fieldStringId);
         }
 
-        return (int)$this->fieldsMapping[ $fieldStringId ];
+        return (int) $this->fieldsMapping[$fieldStringId];
     }
 
     public function getFieldStringId($fieldId)
@@ -162,11 +160,11 @@ class Client implements EmarsysClientInterface
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
         }
 
-        if ( ! isset($this->choicesMapping[ $fieldStringId ][ $choice ])) {
+        if ( ! isset($this->choicesMapping[$fieldStringId][$choice])) {
             throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldStringId);
         }
 
-        return (int)$this->choicesMapping[ $fieldStringId ][ $choice ];
+        return (int) $this->choicesMapping[$fieldStringId][$choice];
     }
 
     public function getChoiceName($fieldId, int $choiceId)
@@ -180,7 +178,7 @@ class Client implements EmarsysClientInterface
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
         }
         $choiceName = null;
-        foreach ($this->choicesMapping[ $fieldId ] as $key => $choiceValue) {
+        foreach ($this->choicesMapping[$fieldId] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
             if ($choiceId == $choiceValue) {
                 $choiceName = $key;
@@ -400,8 +398,12 @@ class Client implements EmarsysClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, string $launchId = null): Response
-    {
+    public function getEmailResponseSummary(
+        string $emailId,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        string $launchId = null
+    ): Response {
         $data = [];
 
         if (null !== $startDate) {
@@ -691,8 +693,7 @@ class Client implements EmarsysClientInterface
         $created = new DateTime();
         $iso8601 = $created->format(DateTime::ATOM);
         // the md5 of a random string . e.g. a timestamp
-        $nonce = md5($created->modify('next friday')
-                             ->getTimestamp());
+        $nonce = md5($created->modify('next friday')->getTimestamp());
         // The algorithm to generate the digest is as follows:
         // Concatenate: Nonce + Created + Secret
         // Hash the result using the SHA1 algorithm
@@ -724,9 +725,9 @@ class Client implements EmarsysClientInterface
 
         foreach ($data as $fieldStringId => $value) {
             if (is_numeric($fieldStringId)) {
-                $mappedData[ (int)$fieldStringId ] = $value;
+                $mappedData[(int) $fieldStringId] = $value;
             } else {
-                $mappedData[ $this->getFieldId($fieldStringId) ] = $value;
+                $mappedData[$this->getFieldId($fieldStringId)] = $value;
             }
         }
 
@@ -787,7 +788,7 @@ class Client implements EmarsysClientInterface
     {
         $mapping = [];
         foreach ($data as $field) {
-            $mapping[ $field['string_id'] ] = $field['id'];
+            $mapping[$field['string_id']] = $field['id'];
         }
 
         return $mapping;
@@ -828,9 +829,9 @@ class Client implements EmarsysClientInterface
         $mapping = [];
         foreach ($data as $key => $value) {
             $fieldStringId = $this->getFieldStringId($key);
-            $mapping[ $fieldStringId ] = [];
+            $mapping[$fieldStringId] = [];
             foreach ($value as $choice) {
-                $mapping[ $fieldStringId ] = [ $choice['choice'] => $choice['id'] ];
+                $mapping[$fieldStringId] = [$choice['choice'] => $choice['id']];
             }
         }
 
