@@ -7,6 +7,29 @@ use Snowcap\Emarsys\Exception\ServerException;
 
 interface ClientInterface
 {
+    public const LAUNCH_STATUS_NOT_LAUNCHED = 0;
+    public const LAUNCH_STATUS_IN_PROGRESS = 1;
+    public const LAUNCH_STATUS_LAUNCHED_OR_SCHEDULED = 2;
+    public const LAUNCH_STATUS_ERROR = 10;
+
+    /**
+     * @see https://dev.emarsys.com/v2/personalization/email-status-and-error-codes for codes
+     */
+    public const EMAIL_STATUS_CODE_ABORTED = -6;
+    public const EMAIL_STATUS_CODE_PAUSED_ABORTED = -4;
+    public const EMAIL_STATUS_CODE_LAUNCHED_PAUSED = -3;
+    public const EMAIL_STATUS_CODE_TESTED_PAUSED = -2;
+    public const EMAIL_STATUS_CODE_IN_DESIGN = 1;
+    public const EMAIL_STATUS_CODE_TESTED = 2;
+    public const EMAIL_STATUS_CODE_LAUNCHED = 3;
+    public const EMAIL_STATUS_CODE_READY_TO_LAUNCH = 4;
+    public const EMAIL_STATUS_CODE_NOT_LAUNCHED = 5;
+
+    /**
+     * @see https://dev.emarsys.com/v2/response-codes where success is defined as zero
+     */
+    public const API_REPLY_CODE_SUCCESS = 0;
+
     /**
      * Add your custom fields mapping
      * This is useful if you want to use string identifiers instead of ids when you play with contacts fields
