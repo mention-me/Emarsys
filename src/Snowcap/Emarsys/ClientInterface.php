@@ -26,6 +26,17 @@ interface ClientInterface
     public const EMAIL_STATUS_CODE_NOT_LAUNCHED = 5;
 
     /**
+     * @see https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
+     */
+    public const CAMPAIGN_TYPE_ADHOC = 'adhoc';
+    public const CAMPAIGN_TYPE_RECURRING = 'recurring';
+    public const CAMPAIGN_TYPE_NEWSLETTER = 'newsletter';
+    public const CAMPAIGN_TYPE_ON_EVENT = 'onevent';
+    public const CAMPAIGN_TYPE_TEST_EMAIL = 'testemail';
+    public const CAMPAIGN_TYPE_MULTILANGUAGE = 'multilanguage';
+    public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
+
+    /**
      * @see https://dev.emarsys.com/v2/response-codes where success is defined as zero
      */
     public const API_REPLY_CODE_SUCCESS = 0;

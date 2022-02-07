@@ -20,24 +20,6 @@ class Client implements EmarsysClientInterface
     public const HTTP_DELETE = 'DELETE';
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
-    public const CAMPAIGN_TYPE_ADHOC = 'adhoc';
-    public const CAMPAIGN_TYPE_RECURRING = 'recurring';
-    public const CAMPAIGN_TYPE_NEWSLETTER = 'newsletter';
-    public const CAMPAIGN_TYPE_ON_EVENT = 'onevent';
-    public const CAMPAIGN_TYPE_TEST_EMAIL = 'testemail';
-    public const CAMPAIGN_TYPE_MULTILANGUAGE = 'multilanguage';
-    public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
-
-    public const CAMPAIGN_TYPES = [
-        self::CAMPAIGN_TYPE_ADHOC,
-        self::CAMPAIGN_TYPE_RECURRING,
-        self::CAMPAIGN_TYPE_NEWSLETTER,
-        self::CAMPAIGN_TYPE_ON_EVENT,
-        self::CAMPAIGN_TYPE_TEST_EMAIL,
-        self::CAMPAIGN_TYPE_MULTILANGUAGE,
-        self::CAMPAIGN_TYPE_BROADCAST,
-    ];
-
     /**
      * @var string
      */
@@ -379,7 +361,7 @@ class Client implements EmarsysClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getEmails($status = null, $contactList = null, array $campaignTypes): Response
+    public function getEmails($status = null, $contactList = null, array $campaignTypes = []): Response
     {
         $data = [];
         if (null !== $status) {
