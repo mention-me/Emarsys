@@ -42,7 +42,7 @@ interface ClientInterface
      *
      * @param array $mapping
      */
-    public function addFieldsMapping($mapping = []): void;
+    public function addFieldsMapping(array $mapping = []): void;
 
     /**
      * Add your custom field choices mapping
@@ -58,7 +58,7 @@ interface ClientInterface
      *
      * @param array $mapping
      */
-    public function addChoicesMapping($mapping = []): void;
+    public function addChoicesMapping(array $mapping = []): void;
 
     /**
      * Returns a field id from a field string_id (specified in the fields mapping)
@@ -314,12 +314,14 @@ interface ClientInterface
      *
      * @param int|null $status
      * @param int|null $contactList
+     * @param array $campaignTypes
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
+     * @link https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
      */
-    public function getEmails($status = null, $contactList = null): Response;
+    public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes): Response;
 
     /**
      * Creates an email in eMarketing Suite and assigns it the respective parameters.

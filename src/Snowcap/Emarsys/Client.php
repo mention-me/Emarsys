@@ -20,6 +20,24 @@ class Client implements EmarsysClientInterface
     public const HTTP_DELETE = 'DELETE';
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
+    public const CAMPAIGN_TYPE_ADHOC = 'adhoc';
+    public const CAMPAIGN_TYPE_RECURRING = 'recurring';
+    public const CAMPAIGN_TYPE_NEWSLETTER = 'newsletter';
+    public const CAMPAIGN_TYPE_ON_EVENT = 'onevent';
+    public const CAMPAIGN_TYPE_TEST_EMAIL = 'testemail';
+    public const CAMPAIGN_TYPE_MULTILANGUAGE = 'multilanguage';
+    public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
+
+    public const CAMPAIGN_TYPES = [
+        self::CAMPAIGN_TYPE_ADHOC,
+        self::CAMPAIGN_TYPE_RECURRING,
+        self::CAMPAIGN_TYPE_NEWSLETTER,
+        self::CAMPAIGN_TYPE_ON_EVENT,
+        self::CAMPAIGN_TYPE_TEST_EMAIL,
+        self::CAMPAIGN_TYPE_MULTILANGUAGE,
+        self::CAMPAIGN_TYPE_BROADCAST,
+    ];
+
     /**
      * @var string
      */
@@ -86,9 +104,9 @@ class Client implements EmarsysClientInterface
         StreamFactoryInterface $streamFactory,
         string $username,
         string $secret,
-        $baseUrl = null,
-        $fieldsMapping = [],
-        $choicesMapping = []
+        ?string $baseUrl = null,
+        array $fieldsMapping = [],
+        array $choicesMapping = []
     ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
@@ -112,12 +130,15 @@ class Client implements EmarsysClientInterface
     /**
      * @param array $mapping
      */
-    public function addFieldsMapping($mapping = []): void
+    public function addFieldsMapping(array $mapping = []): void
     {
         $this->fieldsMapping = array_merge($this->fieldsMapping, $mapping);
     }
 
-    public function addChoicesMapping($mapping = []): void
+    /**
+     * {@inheritDoc}
+     */
+    public function addChoicesMapping(array $mapping = []): void
     {
         foreach ($mapping as $fieldStringId => $choices) {
             if (is_array($choices)) {
@@ -130,6 +151,9 @@ class Client implements EmarsysClientInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldId(string $fieldStringId): int
     {
         if (in_array($fieldStringId, $this->systemFields)) {
@@ -143,6 +167,9 @@ class Client implements EmarsysClientInterface
         return (int) $this->fieldsMapping[$fieldStringId];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldStringId($fieldId)
     {
         $fieldName = array_search($fieldId, $this->fieldsMapping);
@@ -154,6 +181,9 @@ class Client implements EmarsysClientInterface
         return $fieldId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getChoiceId($fieldStringId, $choice): int
     {
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
@@ -167,6 +197,9 @@ class Client implements EmarsysClientInterface
         return (int) $this->choicesMapping[$fieldStringId][$choice];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getChoiceName($fieldId, int $choiceId)
     {
         $fieldStringId = $fieldId;
@@ -346,7 +379,7 @@ class Client implements EmarsysClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getEmails($status = null, $contactList = null): Response
+    public function getEmails($status = null, $contactList = null, array $campaignTypes): Response
     {
         $data = [];
         if (null !== $status) {
@@ -354,6 +387,9 @@ class Client implements EmarsysClientInterface
         }
         if (null !== $contactList) {
             $data['contactlist'] = $contactList;
+        }
+        if ( ! empty($campaignTypes)) {
+            $data['campaign_type'] = implode(',', $campaignTypes);
         }
         $url = 'email';
         if (count($data) > 0) {
@@ -735,25 +771,25 @@ class Client implements EmarsysClientInterface
     }
 
     /**
-     * @param $filename
+     * @param string $filename
      *
      * @return mixed
      */
-    private function readJsonFile($filename)
+    private function readJsonFile(string $filename)
     {
         $json = file_get_contents(__DIR__ . '/json/' . $filename);
 
         return json_decode($json, true);
     }
 
-    private function parseFieldsJsonFile($filename): array
+    private function parseFieldsJsonFile(string $filename): array
     {
         $jsonObject = $this->readJsonFile($filename);
 
         return $this->castJsonObjectFileToFields($jsonObject);
     }
 
-    private function parseChoicesJsonFile($filename): array
+    private function parseChoicesJsonFile(string $filename): array
     {
         $jsonObject = $this->readJsonFile($filename);
 
