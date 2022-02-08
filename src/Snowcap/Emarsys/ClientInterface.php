@@ -26,6 +26,17 @@ interface ClientInterface
     public const EMAIL_STATUS_CODE_NOT_LAUNCHED = 5;
 
     /**
+     * @see https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
+     */
+    public const CAMPAIGN_TYPE_ADHOC = 'adhoc';
+    public const CAMPAIGN_TYPE_RECURRING = 'recurring';
+    public const CAMPAIGN_TYPE_NEWSLETTER = 'newsletter';
+    public const CAMPAIGN_TYPE_ON_EVENT = 'onevent';
+    public const CAMPAIGN_TYPE_TEST_EMAIL = 'testemail';
+    public const CAMPAIGN_TYPE_MULTILANGUAGE = 'multilanguage';
+    public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
+
+    /**
      * @see https://dev.emarsys.com/v2/response-codes where success is defined as zero
      */
     public const API_REPLY_CODE_SUCCESS = 0;
@@ -42,7 +53,7 @@ interface ClientInterface
      *
      * @param array $mapping
      */
-    public function addFieldsMapping($mapping = []): void;
+    public function addFieldsMapping(array $mapping = []): void;
 
     /**
      * Add your custom field choices mapping
@@ -58,7 +69,7 @@ interface ClientInterface
      *
      * @param array $mapping
      */
-    public function addChoicesMapping($mapping = []): void;
+    public function addChoicesMapping(array $mapping = []): void;
 
     /**
      * Returns a field id from a field string_id (specified in the fields mapping)
@@ -314,12 +325,14 @@ interface ClientInterface
      *
      * @param int|null $status
      * @param int|null $contactList
+     * @param array $campaignTypes
      *
      * @return Response
      * @throws ClientException
      * @throws ServerException
+     * @link https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
      */
-    public function getEmails($status = null, $contactList = null): Response;
+    public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes): Response;
 
     /**
      * Creates an email in eMarketing Suite and assigns it the respective parameters.

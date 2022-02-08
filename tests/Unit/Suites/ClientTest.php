@@ -195,6 +195,10 @@ class ClientTest extends TestCase
         $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH, 123);
         self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
+        $this->stubHttpClient->addResponse($expectedResponse);
+        $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH, 123, [ClientInterface::CAMPAIGN_TYPE_ON_EVENT]);
+        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+
         self::assertNotEmpty($response->getData());
 
         foreach ($response->getData() as $data) {

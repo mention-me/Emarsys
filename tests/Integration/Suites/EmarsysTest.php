@@ -49,6 +49,7 @@ class EmarsysTest extends TestCase
     }
 
     /**
+     * @covers Client::getLanguages
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
@@ -56,15 +57,18 @@ class EmarsysTest extends TestCase
     public function testItShouldGetAvailableLanguages(): void
     {
         $response = $this->client->getLanguages();
+
+        // The language string values used to be all lowercase, but now they are capitalized
         $expectation = [
             'id'       => 'en',
-            'language' => 'english',
+            'language' => 'English',
         ];
 
         self::assertContains($expectation, $response->getData());
     }
 
     /**
+     * @covers Client::getFields
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
