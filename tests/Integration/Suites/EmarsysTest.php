@@ -49,6 +49,7 @@ class EmarsysTest extends TestCase
     }
 
     /**
+     * @covers \Snowcap\Emarsys\Client::getLanguages
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
@@ -58,13 +59,14 @@ class EmarsysTest extends TestCase
         $response = $this->client->getLanguages();
         $expectation = [
             'id'       => 'en',
-            'language' => 'english',
+            'language' => 'English',
         ];
 
         self::assertContains($expectation, $response->getData());
     }
 
     /**
+     * @covers \Snowcap\Emarsys\Client::getFields
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
