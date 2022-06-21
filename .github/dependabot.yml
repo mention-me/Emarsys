@@ -6,9 +6,15 @@ updates:
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "daily"    
+    # Assignees can't be a team unfortunately
+    reviewers:
+      - "mention-me/partnerships"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    # Assignees can't be a team unfortunately
+    reviewers:
+      - "mention-me/partnerships"
