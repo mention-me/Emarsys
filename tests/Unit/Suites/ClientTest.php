@@ -2,6 +2,7 @@
 
 namespace Snowcap\Emarsys\Tests\Unit;
 
+use GuzzleHttp\Psr7\Utils;
 use Http\Factory\Guzzle\StreamFactory;
 use Http\Factory\Guzzle\RequestFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -306,7 +307,9 @@ class ClientTest extends TestCase
         }
 
         $expectedResponse = $this->createMock(ResponseInterface::class);
-        $expectedResponse->method("getBody")->willReturn(json_encode($nestedStructure));
+        $expectedResponse->method("getBody")
+            ->willReturn(Utils::streamFor(json_encode($nestedStructure, JSON_THROW_ON_ERROR)));
+
         $this->stubHttpClient->addResponse($expectedResponse);
 
         $this->client->createContact([]);
@@ -337,6 +340,6 @@ class ClientTest extends TestCase
      */
     private function createExpectedResponse(string $fileName)
     {
-        return file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
+        return Utils::streamFor(file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json'));
     }
 }
