@@ -2,16 +2,17 @@
 
 namespace Snowcap\Emarsys\Tests\Unit;
 
-use Http\Factory\Guzzle\StreamFactory;
+use GuzzleHttp\Psr7\Utils;
 use Http\Factory\Guzzle\RequestFactory;
+use Http\Factory\Guzzle\StreamFactory;
+use Http\Mock\Client as MockClient;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Exception;
 use Psr\Http\Message\ResponseInterface;
 use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
-use Http\Mock\Client as MockClient;
 use Snowcap\Emarsys\Exception\ServerException;
 use Snowcap\Emarsys\Response;
 
@@ -126,7 +127,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized field name "non-existing-field-name"');
+        $this->expectExceptionMessage('Unrecognized field name "non-existing-field-name"');
         $this->client->getFieldId('non-existing-field-name');
     }
 
@@ -136,7 +137,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
+        $this->expectExceptionMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
         $this->client->getChoiceId('non-existing-field-name', 'choice-name');
     }
 
@@ -146,7 +147,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized choice "choice-name" for field "myCustomField"');
+        $this->expectExceptionMessage('Unrecognized choice "choice-name" for field "myCustomField"');
         $fieldName = 'myCustomField';
         $mapping = [$fieldName => []];
 
@@ -299,14 +300,16 @@ class ClientTest extends TestCase
     public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('JSON response could not be decoded, maximum depth reached.');
+        $this->expectExceptionMessage('JSON response could not be decoded, maximum depth reached.');
         $nestedStructure = [];
         for ($i = 0; $i < 511; $i++) {
             $nestedStructure = [$nestedStructure];
         }
 
         $expectedResponse = $this->createMock(ResponseInterface::class);
-        $expectedResponse->method("getBody")->willReturn(json_encode($nestedStructure));
+        $expectedResponse->method("getBody")
+            ->willReturn(Utils::streamFor(json_encode($nestedStructure, JSON_THROW_ON_ERROR)));
+
         $this->stubHttpClient->addResponse($expectedResponse);
 
         $this->client->createContact([]);
@@ -337,6 +340,6 @@ class ClientTest extends TestCase
      */
     private function createExpectedResponse(string $fileName)
     {
-        return file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
+        return Utils::streamFor(file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json'));
     }
 }

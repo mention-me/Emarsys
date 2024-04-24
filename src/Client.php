@@ -5,12 +5,12 @@ namespace Snowcap\Emarsys;
 use DateTime;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Snowcap\Emarsys\ClientInterface as EmarsysClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
-use Psr\Http\Client\ClientInterface as HttpClientInterface;
-use Snowcap\Emarsys\ClientInterface as EmarsysClientInterface;
 
 class Client implements EmarsysClientInterface
 {

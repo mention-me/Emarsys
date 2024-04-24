@@ -1,8 +1,8 @@
 {
     "name": "mention-me/emarsys",
-    "description": "Emarsys RestFull API client",
+    "description": "Emarsys API client",
     "require": {
-        "php": ">=7.3",
+        "php": "^8.2",
         "psr/http-client": "^1.0.1",
         "ext-json": "*"
     },
@@ -12,9 +12,21 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "http-interop/http-factory-guzzle": "^1.0.0"
     },
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
     "autoload": {
-        "psr-0": {
-            "Snowcap\\Emarsys": "src/"
+        "psr-4": {
+            "Snowcap\\Emarsys\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Snowcap\\Emarsys\\Tests\\Unit\\": "tests/Unit/Suites/",
+            "Snowcap\\Emarsys\\Tests\\Integration\\": "tests/Integration/Suites/"
         }
     },
     "scripts": {
@@ -30,6 +42,5 @@
             "name": "Alex Oanea",
             "email": "alex.oanea@mention-me.com"
         }
-    ],
-    "minimum-stability": "dev"
+    ]
 }

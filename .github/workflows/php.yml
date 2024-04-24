@@ -1,6 +1,12 @@
 name: PHP Composer
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   build:
@@ -12,7 +18,7 @@ jobs:
 
     - uses: shivammathur/setup-php@2.30.3
       with:
-        php-version: '7.3'
+        php-version: '8.2'
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -27,13 +33,13 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: composer run-script test
+      run: composer test
       env: # Set the secrets as environment variables
         EMARSYS_API_USERNAME: ${{ secrets.EMARSYS_API_USERNAME }}
         EMARSYS_API_SECRET: ${{ secrets.EMARSYS_API_SECRET }}
