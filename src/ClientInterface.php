@@ -50,8 +50,6 @@ interface ClientInterface
      *      'myCustomField' => 7147,
      *      'myCustomField2' => 7148,
      *  ];
-     *
-     * @param array $mapping
      */
     public function addFieldsMapping(array $mapping = []): void;
 
@@ -66,15 +64,12 @@ interface ClientInterface
      *          'myCustomChoice2' => 2,
      *      ]
      *  ];
-     *
-     * @param array $mapping
      */
     public function addChoicesMapping(array $mapping = []): void;
 
     /**
      * Returns a field id from a field string_id (specified in the fields mapping)
      *
-     * @param string $fieldStringId
      *
      * @return int
      * @throws ClientException
@@ -106,7 +101,6 @@ interface ClientInterface
      * mapping is found
      *
      * @param string|int $fieldId
-     * @param int $choiceId
      *
      * @return string|int
      * @throws ClientException
@@ -131,7 +125,6 @@ interface ClientInterface
      *      'source_id' => '123',
      *  );
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -142,7 +135,6 @@ interface ClientInterface
     /**
      * Updates one or more contacts/recipients, identified by an external ID.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -154,7 +146,6 @@ interface ClientInterface
      * Updates one or more contacts/recipients, identified by an external ID. If the contact does not exist in the
      * database, it is created.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -165,7 +156,6 @@ interface ClientInterface
     /**
      * Deletes a single contact/recipient, identified by an external ID.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -176,8 +166,6 @@ interface ClientInterface
     /**
      * Returns the internal ID of a contact specified by its external ID.
      *
-     * @param string $fieldId
-     * @param string $fieldValue
      *
      * @return int
      * @throws ClientException
@@ -188,7 +176,6 @@ interface ClientInterface
     /**
      * Exports the selected fields of all contacts with properties changed in the time range specified.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -199,7 +186,6 @@ interface ClientInterface
     /**
      * Returns the list of emails sent to the specified contacts.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -219,7 +205,6 @@ interface ClientInterface
      *                                                                          // the column used to select contacts.
      *  );
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -230,7 +215,6 @@ interface ClientInterface
     /**
      * Exports the selected fields of all contacts which registered in the specified time range.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -241,7 +225,6 @@ interface ClientInterface
     /**
      * Returns a list of contact lists which can be used as recipient source for the email.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -252,7 +235,6 @@ interface ClientInterface
     /**
      * Creates a contact list which can be used as recipient source for the email.
      *
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -263,7 +245,6 @@ interface ClientInterface
     /**
      * Deletes a contact list which can be used as recipient source for the email.
      *
-     * @param string $listId
      *
      * @return Response
      * @throws ClientException
@@ -274,8 +255,6 @@ interface ClientInterface
     /**
      * Creates a contact list which can be used as recipient source for the email.
      *
-     * @param string $listId
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -286,8 +265,6 @@ interface ClientInterface
     /**
      * This deletes contacts from the contact list which can be used as recipient source for the email.
      *
-     * @param string $listId
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -298,8 +275,6 @@ interface ClientInterface
     /**
      * Get a list of contact IDs that are in a contact list
      *
-     * @param string $listId
-     * @param array $data
      *
      * @return Response
      * @throws ClientException
@@ -310,8 +285,6 @@ interface ClientInterface
     /**
      * Checks whether a specific contact is included in the defined contact list.
      *
-     * @param int $contactId
-     * @param int $listId
      *
      * @return Response
      * @throws ClientException
@@ -323,13 +296,9 @@ interface ClientInterface
     /**
      * Returns a list of emails.
      *
-     * @param int|null $status
-     * @param int|null $contactList
-     * @param array $campaignTypes
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
+     *
      * @link https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
      */
     public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes): Response;
@@ -352,9 +321,6 @@ interface ClientInterface
      *      'browse' => 0,
      *  );
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -363,10 +329,6 @@ interface ClientInterface
     /**
      * Returns the attributes of an email and the personalized text and HTML source.
      *
-     * @param string $emailId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -375,10 +337,6 @@ interface ClientInterface
     /**
      * Launches an email. This is an asynchronous call, which returns 'OK' if the email is able to launch.
      *
-     * @param string $emailId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -387,10 +345,6 @@ interface ClientInterface
     /**
      * Returns the HTML or text version of the email either as content type 'application/json' or 'text/html'.
      *
-     * @param string $emailId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -399,24 +353,14 @@ interface ClientInterface
     /**
      * Returns the summary of the responses of a launched, paused, activated or deactivated email.
      *
-     * @param string      $emailId
-     * @param string|null $startDate
-     * @param string|null $endDate
-     * @param string|null $launchId
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, string $launchId = null): Response;
+    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, ?string $launchId = null): Response;
 
     /**
      * Instructs the system to send a test email.
      *
-     * @param string $emailId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -425,10 +369,6 @@ interface ClientInterface
     /**
      * Returns the URL to the online version of an email, provided it has been sent to the specified contact.
      *
-     * @param string $emailId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -437,9 +377,6 @@ interface ClientInterface
     /**
      * Returns the delivery status of an email.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -448,9 +385,6 @@ interface ClientInterface
     /**
      * Lists all the launches of an email with ID, launch date and 'done' status.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -459,9 +393,6 @@ interface ClientInterface
     /**
      * Exports the selected fields of all contacts which responded to emails in the specified time range.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -470,9 +401,6 @@ interface ClientInterface
     /**
      * Flags contacts as unsubscribed for an email campaign launch so they will be included in the campaign statistics.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -481,9 +409,6 @@ interface ClientInterface
     /**
      * Returns a list of email categories which can be used in email creation.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -492,7 +417,6 @@ interface ClientInterface
     /**
      * Returns a list of external events which can be used in program s .
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -501,10 +425,6 @@ interface ClientInterface
     /**
      * Triggers the given event for the specified contact.
      *
-     * @param string $eventId
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -513,9 +433,6 @@ interface ClientInterface
     /**
      * Fetches the status data of an export.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -524,7 +441,6 @@ interface ClientInterface
     /**
      * Returns a list of fields (including custom fields and vouchers) which can be used to personalize content.
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -535,7 +451,6 @@ interface ClientInterface
      *
      * @param string $fieldId Field ID or custom field name (available in fields mapping)
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -544,9 +459,6 @@ interface ClientInterface
     /**
      * Returns a customer's files.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -555,9 +467,6 @@ interface ClientInterface
     /**
      * Uploads a file to a media database.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -566,9 +475,6 @@ interface ClientInterface
     /**
      * Returns a list of segments which can be used as recipient source for the email.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -577,9 +483,6 @@ interface ClientInterface
     /**
      * Returns a customer's folders.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -588,9 +491,6 @@ interface ClientInterface
     /**
      * Returns a list of the customer's forms.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -599,7 +499,6 @@ interface ClientInterface
     /**
      * Returns a list of languages which you can use in email creation.
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -608,7 +507,6 @@ interface ClientInterface
     /**
      * Returns a list of sources which can be used for creating contacts.
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -617,9 +515,6 @@ interface ClientInterface
     /**
      * Deletes an existing source.
      *
-     * @param string $sourceId
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -628,9 +523,6 @@ interface ClientInterface
     /**
      * Creates a new source for the customer with the specified name.
      *
-     * @param array $data
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -639,10 +531,8 @@ interface ClientInterface
     /**
      * Creates custom field in your Emarsys account
      *
-     * @param string $name
      * @param string $applicationType shorttext|longtext|largetext|date|url|numeric
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -651,10 +541,6 @@ interface ClientInterface
     /**
      * Adds a list of emails and domains to the blacklist
      *
-     * @param array $emails
-     * @param array $domains
-     *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -663,7 +549,6 @@ interface ClientInterface
     /**
      * Returns the current settings of the specified customer account, such as timezone or name.
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */

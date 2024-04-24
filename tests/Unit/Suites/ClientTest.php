@@ -10,6 +10,7 @@ use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
@@ -331,14 +332,7 @@ class ClientTest extends TestCase
         self::assertEquals(90, $response->getData()['sent']);
     }
 
-    /**
-     * Get a json test data and decode it
-     *
-     * @param string $fileName
-     *
-     * @return mixed
-     */
-    private function createExpectedResponse(string $fileName)
+    private function createExpectedResponse(string $fileName): StreamInterface
     {
         return Utils::streamFor(file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json'));
     }

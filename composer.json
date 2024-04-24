@@ -10,7 +10,8 @@
         "phpunit/phpunit": "^9",
         "php-http/mock-client": "^1.4.1",
         "guzzlehttp/guzzle": "^7.0.1",
-        "http-interop/http-factory-guzzle": "^1.0.0"
+        "http-interop/http-factory-guzzle": "^1.0.0",
+        "rector/rector": "^1.0"
     },
     "minimum-stability": "stable",
     "config": {

@@ -26,41 +26,6 @@ class Client implements EmarsysClientInterface
     private $baseUrl;
 
     /**
-     * @var string
-     */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @var HttpClientInterface
-     */
-    private $client;
-
-    /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
-
-    /**
-     * @var array
-     */
-    private $fieldsMapping;
-
-    /**
-     * @var array
-     */
-    private $choicesMapping;
-
-    /**
      * @var array
      */
     private $systemFields = [
@@ -81,23 +46,15 @@ class Client implements EmarsysClientInterface
      * @param array                   $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
-        HttpClientInterface $client,
-        RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        string $username,
-        string $secret,
+        private readonly HttpClientInterface $client,
+        private readonly RequestFactoryInterface $requestFactory,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly string $username,
+        private readonly string $secret,
         ?string $baseUrl = null,
-        array $fieldsMapping = [],
-        array $choicesMapping = []
+        private array $fieldsMapping = [],
+        private array $choicesMapping = []
     ) {
-        $this->client = $client;
-        $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
-        $this->username = $username;
-        $this->secret = $secret;
-        $this->fieldsMapping = $fieldsMapping;
-        $this->choicesMapping = $choicesMapping;
-
         $this->baseUrl = $baseUrl ?? $this::LIVE_BASE_URL;
 
         if (empty($this->fieldsMapping)) {
@@ -654,9 +611,6 @@ class Client implements EmarsysClientInterface
     /**
      * Send an HTTP request
      *
-     * @param string $uri
-     * @param array  $body
-     * @param string $method
      *
      * @return Response
      * @throws ClientException
@@ -732,7 +686,6 @@ class Client implements EmarsysClientInterface
     /**
      * Convert field string ids to field ids
      *
-     * @param array $data
      *
      * @return array
      * @throws ClientException
@@ -753,8 +706,6 @@ class Client implements EmarsysClientInterface
     }
 
     /**
-     * @param string $filename
-     *
      * @return mixed
      */
     private function readJsonFile(string $filename)
@@ -857,8 +808,6 @@ class Client implements EmarsysClientInterface
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      */
     private function mapFieldsForMultipleContacts(array $data): array
@@ -871,10 +820,7 @@ class Client implements EmarsysClientInterface
             $data,
             [
                 'contacts' => array_map(
-                    [
-                        $this,
-                        'mapFieldsToIds',
-                    ],
+                    $this->mapFieldsToIds(...),
                     $data['contacts']
                 ),
             ]

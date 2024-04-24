@@ -66,12 +66,7 @@ class ResponseTest extends TestCase
         self::assertEmpty($result->getData());
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return mixed
-     */
-    private function createExpectedResponse(string $fileName)
+    private function createExpectedResponse(string $fileName): array
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 
