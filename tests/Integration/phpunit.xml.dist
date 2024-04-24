@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
         backupGlobals="false"
         backupStaticAttributes="false"
         bootstrap="../../vendor/autoload.php"
@@ -24,7 +24,7 @@
                 <directory>.</directory>
         </testsuite>
         <php>
-                <const name="EMARSYS_API_USERNAME" value="your_username"/>
-                <const name="EMARSYS_API_SECRET" value="your_secret"/>
+                <env name="EMARSYS_API_USERNAME" value="your_username"/>
+                <env name="EMARSYS_API_SECRET" value="your_secret"/>
         </php>
 </phpunit>

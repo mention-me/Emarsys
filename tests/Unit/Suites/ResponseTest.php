@@ -2,13 +2,12 @@
 
 namespace Snowcap\Emarsys\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Response;
 
-/**
- * @covers \Snowcap\Emarsys\Response
- */
+#[CoversClass(Response::class)]
 class ResponseTest extends TestCase
 {
     /**
@@ -28,9 +27,9 @@ class ResponseTest extends TestCase
     public function testItGetsResponseData(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertNotEmpty($result);
+        self::assertNotEmpty($response);
     }
 
     /**
@@ -39,9 +38,9 @@ class ResponseTest extends TestCase
     public function testItSetsAndGetsReplyCode(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertSame(Response::REPLY_CODE_OK, $result->getReplyCode());
+        self::assertSame(Response::REPLY_CODE_OK, $response->getReplyCode());
     }
 
     /**
@@ -50,9 +49,9 @@ class ResponseTest extends TestCase
     public function testItSetsAndGetsReplyText(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertEquals('OK', $result->getReplyText());
+        self::assertEquals('OK', $response->getReplyText());
     }
 
     /**
@@ -61,17 +60,12 @@ class ResponseTest extends TestCase
     public function testItResponseWithoutData(): void
     {
         $expectedResponse = $this->createExpectedResponse('insertRecord');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertEmpty($result->getData());
+        self::assertEmpty($response->getData());
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return mixed
-     */
-    private function createExpectedResponse(string $fileName)
+    private function createExpectedResponse(string $fileName): array
     {
         $fileContent = file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json');
 

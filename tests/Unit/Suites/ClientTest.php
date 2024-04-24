@@ -6,31 +6,32 @@ use GuzzleHttp\Psr7\Utils;
 use Http\Factory\Guzzle\RequestFactory;
 use Http\Factory\Guzzle\StreamFactory;
 use Http\Mock\Client as MockClient;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use Snowcap\Emarsys\Response;
 
-/**
- * @covers \Snowcap\Emarsys\Client
- * @uses   \Snowcap\Emarsys\Response
- */
+#[CoversClass(Client::class)]
+#[UsesClass(Response::class)]
 class ClientTest extends TestCase
 {
     /**
      * @var MockObject|ClientInterface
      */
-    private $client;
+    private Client $client;
 
     /**
      * @var MockObject|MockClient
      */
-    private $stubHttpClient;
+    private MockClient $stubHttpClient;
 
     protected function setUp(): void
     {
@@ -302,7 +303,7 @@ class ClientTest extends TestCase
         $this->expectException(ClientException::class);
         $this->expectExceptionMessage('JSON response could not be decoded, maximum depth reached.');
         $nestedStructure = [];
-        for ($i = 0; $i < 511; $i++) {
+        for ($i = 0; $i < 511; ++$i) {
             $nestedStructure = [$nestedStructure];
         }
 
@@ -331,14 +332,7 @@ class ClientTest extends TestCase
         self::assertEquals(90, $response->getData()['sent']);
     }
 
-    /**
-     * Get a json test data and decode it
-     *
-     * @param string $fileName
-     *
-     * @return mixed
-     */
-    private function createExpectedResponse(string $fileName)
+    private function createExpectedResponse(string $fileName): StreamInterface
     {
         return Utils::streamFor(file_get_contents(__DIR__ . '/TestData/' . $fileName . '.json'));
     }

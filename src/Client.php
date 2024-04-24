@@ -15,55 +15,21 @@ use Snowcap\Emarsys\Exception\ServerException;
 class Client implements EmarsysClientInterface
 {
     public const HTTP_GET = 'GET';
+
     public const HTTP_POST = 'POST';
+
     public const HTTP_PUT = 'PUT';
+
     public const HTTP_DELETE = 'DELETE';
+
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
-    /**
-     * @var string
-     */
-    private $baseUrl;
+    private string $baseUrl;
 
     /**
-     * @var string
+     * @var string[]
      */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @var HttpClientInterface
-     */
-    private $client;
-
-    /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
-
-    /**
-     * @var array
-     */
-    private $fieldsMapping;
-
-    /**
-     * @var array
-     */
-    private $choicesMapping;
-
-    /**
-     * @var array
-     */
-    private $systemFields = [
+    private array $systemFields = [
         'key_id',
         'id',
         'contacts',
@@ -71,7 +37,7 @@ class Client implements EmarsysClientInterface
     ];
 
     /**
-     * @param HttpClientInterface     $client         HTTP client implementation
+     * @param HttpClientInterface $httpClient HTTP client implementation
      * @param RequestFactoryInterface $requestFactory HTTP request factory
      * @param StreamFactoryInterface  $streamFactory  PSR compliant stream factory
      * @param string                  $username       The username requested by the Emarsys API
@@ -81,37 +47,26 @@ class Client implements EmarsysClientInterface
      * @param array                   $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
-        HttpClientInterface $client,
-        RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        string $username,
-        string $secret,
+        private readonly HttpClientInterface $httpClient,
+        private readonly RequestFactoryInterface $requestFactory,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly string $username,
+        private readonly string $secret,
         ?string $baseUrl = null,
-        array $fieldsMapping = [],
-        array $choicesMapping = []
+        private array $fieldsMapping = [],
+        private array $choicesMapping = []
     ) {
-        $this->client = $client;
-        $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
-        $this->username = $username;
-        $this->secret = $secret;
-        $this->fieldsMapping = $fieldsMapping;
-        $this->choicesMapping = $choicesMapping;
-
         $this->baseUrl = $baseUrl ?? $this::LIVE_BASE_URL;
 
-        if (empty($this->fieldsMapping)) {
+        if ($this->fieldsMapping === []) {
             $this->fieldsMapping = $this->parseFieldsJsonFile('fields.json');
         }
 
-        if (empty($this->choicesMapping)) {
+        if ($this->choicesMapping === []) {
             $this->choicesMapping = $this->parseChoicesJsonFile('choices.json');
         }
     }
 
-    /**
-     * @param array $mapping
-     */
     public function addFieldsMapping(array $mapping = []): void
     {
         $this->fieldsMapping = array_merge($this->fieldsMapping, $mapping);
@@ -154,7 +109,7 @@ class Client implements EmarsysClientInterface
      */
     public function getFieldStringId($fieldId)
     {
-        $fieldName = array_search($fieldId, $this->fieldsMapping);
+        $fieldName = array_search($fieldId, $this->fieldsMapping, true);
 
         if ($fieldName) {
             return $fieldName;
@@ -192,6 +147,7 @@ class Client implements EmarsysClientInterface
         if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
             throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
         }
+
         $choiceName = null;
         foreach ($this->choicesMapping[$fieldId] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
@@ -367,14 +323,17 @@ class Client implements EmarsysClientInterface
         if (null !== $status) {
             $data['status'] = $status;
         }
+
         if (null !== $contactList) {
             $data['contactlist'] = $contactList;
         }
-        if ( ! empty($campaignTypes)) {
+
+        if ( $campaignTypes !== []) {
             $data['campaign_type'] = implode(',', $campaignTypes);
         }
+
         $url = 'email';
-        if (count($data) > 0) {
+        if ($data !== []) {
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
 
@@ -438,7 +397,7 @@ class Client implements EmarsysClientInterface
 
         $url = sprintf('email/%s/responsesummary', $emailId);
 
-        if (count($data) > 0) {
+        if ($data !== []) {
             $url = sprintf('%s/%s', $url, http_build_query($data));
         }
 
@@ -654,11 +613,7 @@ class Client implements EmarsysClientInterface
     /**
      * Send an HTTP request
      *
-     * @param string $uri
-     * @param array  $body
-     * @param string $method
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      * @throws Exception
@@ -674,7 +629,7 @@ class Client implements EmarsysClientInterface
         $request = $request->withBody($this->streamFactory->createStream(json_encode($body)));
 
         try {
-            $response = $this->client->sendRequest($request);
+            $response = $this->httpClient->sendRequest($request);
         } catch (Exception $e) {
             throw new ServerException($e->getMessage());
         } catch (ClientExceptionInterface $e) {
@@ -702,39 +657,33 @@ class Client implements EmarsysClientInterface
     /**
      * Generate X-WSSE signature used to authenticate
      *
-     * @return string
      * @throws Exception
      */
     protected function getAuthenticationSignature(): string
     {
         // the current time formatted Y-m-d\TH:i:sP
-        $created = new DateTime();
-        $iso8601 = $created->format(DateTime::ATOM);
+        $dateTime = new DateTime();
+        $iso8601 = $dateTime->format(DateTime::ATOM);
         // the md5 of a random string . e.g. a timestamp
-        $nonce = md5($created->modify('next friday')->getTimestamp());
+        $nonce = md5($dateTime->modify('next friday')->getTimestamp());
         // The algorithm to generate the digest is as follows:
         // Concatenate: Nonce + Created + Secret
         // Hash the result using the SHA1 algorithm
         // Encode the result to base64
         $digest = base64_encode(sha1($nonce . $iso8601 . $this->secret));
 
-        $signature = sprintf(
+        return sprintf(
             'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"',
             $this->username,
             $digest,
             $nonce,
             $iso8601
         );
-
-        return $signature;
     }
 
     /**
      * Convert field string ids to field ids
      *
-     * @param array $data
-     *
-     * @return array
      * @throws ClientException
      */
     private function mapFieldsToIds(array $data): array
@@ -753,8 +702,6 @@ class Client implements EmarsysClientInterface
     }
 
     /**
-     * @param string $filename
-     *
      * @return mixed
      */
     private function readJsonFile(string $filename)
@@ -782,6 +729,7 @@ class Client implements EmarsysClientInterface
      * This will take a JSON object with the following structure (same as the data property of the result when making a
      * https://dev.emarsys.com/v2/fields/list-available-fields request)
      *
+     * ```
      * [
      *   {
      *   "id": 0,
@@ -790,19 +738,18 @@ class Client implements EmarsysClientInterface
      *   "string_id": "interests"
      *   }
      * ]
+     * ```
      *
      * and cast it into the fields mapping structure
      *
-     *  $fieldsMapping = [
-     *      'myCustomField' => 7147,
-     *      'myCustomField2' => 7148,
-     *  ];
-     *
-     * @param $data
-     *
-     * @return array
+     * ```
+     * $fieldsMapping = [
+     *     'myCustomField' => 7147,
+     *     'myCustomField2' => 7148,
+     * ];
+     * ```
      */
-    private function castJsonObjectFileToFields($data): array
+    private function castJsonObjectFileToFields(array $data): array
     {
         $mapping = [];
         foreach ($data as $field) {
@@ -816,6 +763,7 @@ class Client implements EmarsysClientInterface
      * This will take a JSON object with the following structure (which can easily be put together from responses from
      * the https://dev.emarsys.com/v2/fields/list-available-choices-of-a-single-field endpoint)
      *
+     * ```
      * {
      *  "9": [
      *    {
@@ -828,19 +776,18 @@ class Client implements EmarsysClientInterface
      *    }
      *  ]
      * }
+     * ```
      *
      * and cast it into the choices mapping structure
      *
+     * ```
      * $choicesMapping = [
      *      'fieldId' => [
      *          'choiceName1' => 1,
      *          'choiceName2' => 2,
      *      ]
-     *  ];
-     *
-     * @param $data
-     *
-     * @return array
+     * ];
+     * ```
      */
     private function castJsonObjectToChoices($data): array
     {
@@ -856,11 +803,6 @@ class Client implements EmarsysClientInterface
         return $mapping;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
     private function mapFieldsForMultipleContacts(array $data): array
     {
         if ( ! isset($data['contacts']) || ! is_array($data['contacts'])) {
@@ -871,10 +813,7 @@ class Client implements EmarsysClientInterface
             $data,
             [
                 'contacts' => array_map(
-                    [
-                        $this,
-                        'mapFieldsToIds',
-                    ],
+                    $this->mapFieldsToIds(...),
                     $data['contacts']
                 ),
             ]
