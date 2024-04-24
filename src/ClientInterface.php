@@ -90,7 +90,7 @@ interface ClientInterface
      *
      * @throws ClientException
      */
-    public function getFieldId(string $fieldStringId): int;
+    public function getFieldId(string $fieldStringId): string|int;
 
     /**
      * Returns a field name from a field id (specified in the fields mapping) or the field id if no mapping is found

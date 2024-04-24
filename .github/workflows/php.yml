@@ -38,8 +38,14 @@ jobs:
     - name: Run Rector
       run: composer rector --dry-run
 
-    - name: Run test suite
+    - name: Run PHP CodeSniffer
+      run: composer phpcs
+
+    - name: Run Psalm
+      run: composer psalm
+
+    - name: Run PHPUnit
       run: composer test
-      env: # Set the secrets as environment variables
+      env:
         EMARSYS_API_USERNAME: ${{ secrets.EMARSYS_API_USERNAME }}
         EMARSYS_API_SECRET: ${{ secrets.EMARSYS_API_SECRET }}

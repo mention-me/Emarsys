@@ -37,14 +37,14 @@ class Client implements EmarsysClientInterface
     ];
 
     /**
-     * @param HttpClientInterface $httpClient HTTP client implementation
-     * @param RequestFactoryInterface $requestFactory HTTP request factory
-     * @param StreamFactoryInterface  $streamFactory  PSR compliant stream factory
-     * @param string                  $username       The username requested by the Emarsys API
-     * @param string                  $secret         The secret requested by the Emarsys API
-     * @param string|null             $baseUrl        Overrides the default baseUrl if needed
-     * @param array                   $fieldsMapping  Overrides the default fields mapping if needed
-     * @param array                   $choicesMapping Overrides the default choices mapping if needed
+     * @param HttpClientInterface                    $httpClient HTTP client implementation
+     * @param RequestFactoryInterface                $requestFactory HTTP request factory
+     * @param StreamFactoryInterface                 $streamFactory  PSR compliant stream factory
+     * @param string                                 $username       The username requested by the Emarsys API
+     * @param string                                 $secret         The secret requested by the Emarsys API
+     * @param string|null                            $baseUrl        Overrides the default baseUrl if needed
+     * @param array<string, int>                     $fieldsMapping  Overrides the default fields mapping if needed
+     * @param array<string, array<string, int>>      $choicesMapping Overrides the default choices mapping if needed
      */
     public function __construct(
         private readonly HttpClientInterface $httpClient,
@@ -79,7 +79,7 @@ class Client implements EmarsysClientInterface
     {
         foreach ($mapping as $fieldStringId => $choices) {
             if (is_array($choices)) {
-                if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
+                if (! array_key_exists($fieldStringId, $this->choicesMapping)) {
                     $this->choicesMapping[$fieldStringId] = [];
                 }
 
@@ -91,17 +91,17 @@ class Client implements EmarsysClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getFieldId(string $fieldStringId): int
+    public function getFieldId(string $fieldStringId): string|int
     {
         if (in_array($fieldStringId, $this->systemFields)) {
             return $fieldStringId;
         }
 
-        if ( ! isset($this->fieldsMapping[$fieldStringId])) {
+        if (! isset($this->fieldsMapping[$fieldStringId])) {
             throw ClientException::unrecognizedFieldName($fieldStringId);
         }
 
-        return (int) $this->fieldsMapping[$fieldStringId];
+        return $this->fieldsMapping[$fieldStringId];
     }
 
     /**
@@ -111,7 +111,7 @@ class Client implements EmarsysClientInterface
     {
         $fieldName = array_search($fieldId, $this->fieldsMapping, true);
 
-        if ($fieldName) {
+        if ($fieldName !== false) {
             return $fieldName;
         }
 
@@ -123,15 +123,15 @@ class Client implements EmarsysClientInterface
      */
     public function getChoiceId($fieldStringId, $choice): int
     {
-        if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
-            throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
+        if (! array_key_exists($fieldStringId, $this->choicesMapping)) {
+            throw ClientException::unrecognizedFieldStringIdForChoice((string) $fieldStringId, (string) $choice);
         }
 
-        if ( ! isset($this->choicesMapping[$fieldStringId][$choice])) {
-            throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldStringId);
+        if (! isset($this->choicesMapping[$fieldStringId][$choice])) {
+            throw ClientException::unrecognizedChoiceForFieldStringId((string) $choice, (string) $fieldStringId);
         }
 
-        return (int) $this->choicesMapping[$fieldStringId][$choice];
+        return $this->choicesMapping[$fieldStringId][$choice];
     }
 
     /**
@@ -144,20 +144,20 @@ class Client implements EmarsysClientInterface
             $fieldStringId = $this->getFieldStringId($fieldId);
         }
 
-        if ( ! array_key_exists($fieldStringId, $this->choicesMapping)) {
-            throw ClientException::unrecognizedFieldStringIdForChoice($fieldId, $choiceId);
+        if (! array_key_exists($fieldStringId, $this->choicesMapping)) {
+            throw ClientException::unrecognizedFieldStringIdForChoice((string) $fieldId, (string) $choiceId);
         }
 
         $choiceName = null;
-        foreach ($this->choicesMapping[$fieldId] as $key => $choiceValue) {
+        foreach ($this->choicesMapping[(string) $fieldId] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
-            if ($choiceId == $choiceValue) {
+            if ($choiceId === $choiceValue) {
                 $choiceName = $key;
                 break;
             }
         }
 
-        if ($choiceName) {
+        if ($choiceName !== null) {
             return $choiceName;
         }
 
@@ -303,7 +303,7 @@ class Client implements EmarsysClientInterface
      */
     public function getContactsFromContactList(string $listId, array $data): Response
     {
-        return $this->send(printf('contactlist/%s/contacts', $listId), $data);
+        return $this->send(sprintf('contactlist/%s/contacts', $listId), $data);
     }
 
     /**
@@ -311,13 +311,13 @@ class Client implements EmarsysClientInterface
      */
     public function checkContactInList(int $contactId, int $listId): Response
     {
-        return $this->send(printf('contactlist/%s/contacts/%s', $listId, $contactId));
+        return $this->send(sprintf('contactlist/%s/contacts/%s', $listId, $contactId));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getEmails($status = null, $contactList = null, array $campaignTypes = []): Response
+    public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes = []): Response
     {
         $data = [];
         if (null !== $status) {
@@ -328,7 +328,7 @@ class Client implements EmarsysClientInterface
             $data['contactlist'] = $contactList;
         }
 
-        if ( $campaignTypes !== []) {
+        if ($campaignTypes !== []) {
             $data['campaign_type'] = implode(',', $campaignTypes);
         }
 
@@ -353,7 +353,7 @@ class Client implements EmarsysClientInterface
      */
     public function getEmail(string $emailId, array $data): Response
     {
-        return $this->send(printf('email/%s', $emailId), $data);
+        return $this->send(sprintf('email/%s', $emailId), $data);
     }
 
     /**
@@ -497,7 +497,7 @@ class Client implements EmarsysClientInterface
      */
     public function getFieldChoices(string $fieldId): Response
     {
-        return $this->send(printf('field/%s/choice', $this->getFieldId($fieldId)));
+        return $this->send(sprintf('field/%s/choice', $this->getFieldId($fieldId)));
     }
 
     /**
@@ -636,7 +636,7 @@ class Client implements EmarsysClientInterface
             throw new ClientException($e->getMessage());
         }
 
-        $responseArray = json_decode($response->getBody(), true);
+        $responseArray = json_decode((string) $response->getBody(), true);
 
         if ($responseArray === null) {
             switch (json_last_error()) {
@@ -664,8 +664,10 @@ class Client implements EmarsysClientInterface
         // the current time formatted Y-m-d\TH:i:sP
         $dateTime = new DateTime();
         $iso8601 = $dateTime->format(DateTime::ATOM);
+
         // the md5 of a random string . e.g. a timestamp
-        $nonce = md5($dateTime->modify('next friday')->getTimestamp());
+        $nonce = md5((string) $dateTime->modify('next friday')->getTimestamp());
+
         // The algorithm to generate the digest is as follows:
         // Concatenate: Nonce + Created + Secret
         // Hash the result using the SHA1 algorithm
@@ -748,6 +750,8 @@ class Client implements EmarsysClientInterface
      *     'myCustomField2' => 7148,
      * ];
      * ```
+     *
+     * @return array<string, int>
      */
     private function castJsonObjectFileToFields(array $data): array
     {
@@ -788,13 +792,16 @@ class Client implements EmarsysClientInterface
      *      ]
      * ];
      * ```
+     *
+     * @return array<string|int, array<string, int>>
      */
-    private function castJsonObjectToChoices($data): array
+    private function castJsonObjectToChoices(array $data): array
     {
         $mapping = [];
         foreach ($data as $key => $value) {
             $fieldStringId = $this->getFieldStringId($key);
             $mapping[$fieldStringId] = [];
+
             foreach ($value as $choice) {
                 $mapping[$fieldStringId] = [$choice['choice'] => $choice['id']];
             }
@@ -805,7 +812,7 @@ class Client implements EmarsysClientInterface
 
     private function mapFieldsForMultipleContacts(array $data): array
     {
-        if ( ! isset($data['contacts']) || ! is_array($data['contacts'])) {
+        if (! isset($data['contacts']) || ! is_array($data['contacts'])) {
             return $data;
         }
 

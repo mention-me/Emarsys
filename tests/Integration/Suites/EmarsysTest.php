@@ -27,7 +27,7 @@ class EmarsysTest extends TestCase
     {
         $username = getenv('EMARSYS_API_USERNAME');
         $secret = getenv('EMARSYS_API_SECRET');
-        if ( ! $username || ! $secret) {
+        if (! $username || ! $secret) {
             $this->markTestSkipped('No Emarsys credentials are specified');
         }
 
