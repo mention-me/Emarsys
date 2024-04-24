@@ -32,7 +32,7 @@
     },
     "scripts": {
         "test": "phpunit tests/",
-        "rector": "rector"
+        "rector": "rector --dry-run"
     },
     "license": "MIT",
     "authors": [
