@@ -19,12 +19,12 @@
         }
     },
     "autoload": {
-        "psr-0": {
-            "Snowcap\\Emarsys": "src/"
+        "psr-4": {
+            "Snowcap\\Emarsys\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-0": {
+        "psr-4": {
             "Snowcap\\Emarsys\\Tests\\Unit\\": "tests/Unit/Suites/",
             "Snowcap\\Emarsys\\Tests\\Integration\\": "tests/Integration/Suites/"
         }

@@ -2,6 +2,7 @@
 
 namespace Snowcap\Emarsys\Tests\Integration;
 
+use GuzzleHttp\Client as GuzzleClient;
 use Http\Factory\Guzzle\RequestFactory;
 use Http\Factory\Guzzle\StreamFactory;
 use PHPUnit\Framework\Exception;
@@ -10,7 +11,6 @@ use Snowcap\Emarsys\Client;
 use Snowcap\Emarsys\ClientInterface;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
-use GuzzleHttp\Client as GuzzleClient;
 
 class EmarsysTest extends TestCase
 {
