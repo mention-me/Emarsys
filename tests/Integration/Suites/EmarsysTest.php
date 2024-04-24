@@ -28,7 +28,7 @@ class EmarsysTest extends TestCase
         $username = getenv('EMARSYS_API_USERNAME');
         $secret = getenv('EMARSYS_API_SECRET');
         if ( ! $username || ! $secret) {
-            self::markTestSkipped('No Emarsys credentials are specified');
+            $this->markTestSkipped('No Emarsys credentials are specified');
         }
 
         $httpClient = new GuzzleClient();
@@ -44,7 +44,7 @@ class EmarsysTest extends TestCase
         $connectionTestResponse = $this->client->getLanguages();
 
         if (0 !== $connectionTestResponse->getReplyCode()) {
-            self::markTestSkipped('Problem connecting to Emarsys. Check credentials in phpunit.xml.dist or in github secrets');
+            $this->markTestSkipped('Problem connecting to Emarsys. Check credentials in phpunit.xml.dist or in github secrets');
         }
     }
 
@@ -63,7 +63,7 @@ class EmarsysTest extends TestCase
             'language' => 'English',
         ];
 
-        self::assertContains($expectation, $response->getData());
+        $this->assertContains($expectation, $response->getData());
     }
 
     /**
@@ -82,6 +82,6 @@ class EmarsysTest extends TestCase
                 'string_id'        => 'first_name',
             ];
 
-        self::assertContains($expectation, $response->getData());
+        $this->assertContains($expectation, $response->getData());
     }
 }
