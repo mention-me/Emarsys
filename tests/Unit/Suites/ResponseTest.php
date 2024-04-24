@@ -2,13 +2,12 @@
 
 namespace Snowcap\Emarsys\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Response;
 
-/**
- * @covers \Snowcap\Emarsys\Response
- */
+#[CoversClass(Response::class)]
 class ResponseTest extends TestCase
 {
     /**

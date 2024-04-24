@@ -49,7 +49,6 @@ class EmarsysTest extends TestCase
     }
 
     /**
-     * @covers Client::getLanguages
      * @throws ServerException
      * @throws ClientException
      * @throws Exception
@@ -68,7 +67,6 @@ class EmarsysTest extends TestCase
     }
 
     /**
-     * @covers Client::getFields
      * @throws ServerException
      * @throws ClientException
      * @throws Exception

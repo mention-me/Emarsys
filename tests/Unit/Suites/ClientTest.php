@@ -6,6 +6,8 @@ use GuzzleHttp\Psr7\Utils;
 use Http\Factory\Guzzle\RequestFactory;
 use Http\Factory\Guzzle\StreamFactory;
 use Http\Mock\Client as MockClient;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -17,10 +19,8 @@ use Snowcap\Emarsys\Exception\ClientException;
 use Snowcap\Emarsys\Exception\ServerException;
 use Snowcap\Emarsys\Response;
 
-/**
- * @covers \Snowcap\Emarsys\Client
- * @uses   \Snowcap\Emarsys\Response
- */
+#[CoversClass(Client::class)]
+#[UsesClass(Response::class)]
 class ClientTest extends TestCase
 {
     /**
