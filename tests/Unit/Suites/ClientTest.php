@@ -127,7 +127,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized field name "non-existing-field-name"');
+        $this->expectExceptionMessage('Unrecognized field name "non-existing-field-name"');
         $this->client->getFieldId('non-existing-field-name');
     }
 
@@ -137,7 +137,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfChoiceFieldDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
+        $this->expectExceptionMessage('Unrecognized field "non-existing-field-name" for choice "choice-name"');
         $this->client->getChoiceId('non-existing-field-name', 'choice-name');
     }
 
@@ -147,7 +147,7 @@ class ClientTest extends TestCase
     public function testItThrowsAnExceptionIfChoiceDoesNotExist(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unrecognized choice "choice-name" for field "myCustomField"');
+        $this->expectExceptionMessage('Unrecognized choice "choice-name" for field "myCustomField"');
         $fieldName = 'myCustomField';
         $mapping = [$fieldName => []];
 
@@ -300,7 +300,7 @@ class ClientTest extends TestCase
     public function testThrowsExceptionIfJsonDepthExceedsLimit(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('JSON response could not be decoded, maximum depth reached.');
+        $this->expectExceptionMessage('JSON response could not be decoded, maximum depth reached.');
         $nestedStructure = [];
         for ($i = 0; $i < 511; $i++) {
             $nestedStructure = [$nestedStructure];

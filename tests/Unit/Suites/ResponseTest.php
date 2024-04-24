@@ -17,7 +17,7 @@ class ResponseTest extends TestCase
     public function testItThrowsClientException(): void
     {
         $this->expectException(ClientException::class);
-        $this->expectErrorMessage('Unexpect response structure, no replyCode or replyText');
+        $this->expectExceptionMessage('Unexpect response structure, no replyCode or replyText');
         $dummyResult = ['dummy'];
         new Response($dummyResult);
     }
