@@ -8,32 +8,49 @@ use Snowcap\Emarsys\Exception\ServerException;
 interface ClientInterface
 {
     public const LAUNCH_STATUS_NOT_LAUNCHED = 0;
+
     public const LAUNCH_STATUS_IN_PROGRESS = 1;
+
     public const LAUNCH_STATUS_LAUNCHED_OR_SCHEDULED = 2;
+
     public const LAUNCH_STATUS_ERROR = 10;
 
     /**
      * @see https://dev.emarsys.com/v2/personalization/email-status-and-error-codes for codes
      */
     public const EMAIL_STATUS_CODE_ABORTED = -6;
+
     public const EMAIL_STATUS_CODE_PAUSED_ABORTED = -4;
+
     public const EMAIL_STATUS_CODE_LAUNCHED_PAUSED = -3;
+
     public const EMAIL_STATUS_CODE_TESTED_PAUSED = -2;
+
     public const EMAIL_STATUS_CODE_IN_DESIGN = 1;
+
     public const EMAIL_STATUS_CODE_TESTED = 2;
+
     public const EMAIL_STATUS_CODE_LAUNCHED = 3;
+
     public const EMAIL_STATUS_CODE_READY_TO_LAUNCH = 4;
+
     public const EMAIL_STATUS_CODE_NOT_LAUNCHED = 5;
 
     /**
      * @see https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
      */
     public const CAMPAIGN_TYPE_ADHOC = 'adhoc';
+
     public const CAMPAIGN_TYPE_RECURRING = 'recurring';
+
     public const CAMPAIGN_TYPE_NEWSLETTER = 'newsletter';
+
     public const CAMPAIGN_TYPE_ON_EVENT = 'onevent';
+
     public const CAMPAIGN_TYPE_TEST_EMAIL = 'testemail';
+
     public const CAMPAIGN_TYPE_MULTILANGUAGE = 'multilanguage';
+
     public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
 
     /**
@@ -71,7 +88,6 @@ interface ClientInterface
      * Returns a field id from a field string_id (specified in the fields mapping)
      *
      *
-     * @return int
      * @throws ClientException
      */
     public function getFieldId(string $fieldStringId): int;
@@ -91,7 +107,6 @@ interface ClientInterface
      * @param string|int $fieldStringId
      * @param string|int $choice
      *
-     * @return int
      * @throws ClientException
      */
     public function getChoiceId($fieldStringId, $choice): int;
@@ -110,7 +125,6 @@ interface ClientInterface
     /**
      * Returns a list of condition rules.
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -126,7 +140,6 @@ interface ClientInterface
      *  );
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -136,7 +149,6 @@ interface ClientInterface
      * Updates one or more contacts/recipients, identified by an external ID.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -147,7 +159,6 @@ interface ClientInterface
      * database, it is created.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -157,7 +168,6 @@ interface ClientInterface
      * Deletes a single contact/recipient, identified by an external ID.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -167,7 +177,6 @@ interface ClientInterface
      * Returns the internal ID of a contact specified by its external ID.
      *
      *
-     * @return int
      * @throws ClientException
      * @throws ServerException
      */
@@ -177,7 +186,6 @@ interface ClientInterface
      * Exports the selected fields of all contacts with properties changed in the time range specified.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -187,7 +195,6 @@ interface ClientInterface
      * Returns the list of emails sent to the specified contacts.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -206,7 +213,6 @@ interface ClientInterface
      *  );
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -216,7 +222,6 @@ interface ClientInterface
      * Exports the selected fields of all contacts which registered in the specified time range.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -226,7 +231,6 @@ interface ClientInterface
      * Returns a list of contact lists which can be used as recipient source for the email.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -236,7 +240,6 @@ interface ClientInterface
      * Creates a contact list which can be used as recipient source for the email.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -246,7 +249,6 @@ interface ClientInterface
      * Deletes a contact list which can be used as recipient source for the email.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -256,7 +258,6 @@ interface ClientInterface
      * Creates a contact list which can be used as recipient source for the email.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -266,7 +267,6 @@ interface ClientInterface
      * This deletes contacts from the contact list which can be used as recipient source for the email.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -276,7 +276,6 @@ interface ClientInterface
      * Get a list of contact IDs that are in a contact list
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      */
@@ -286,7 +285,6 @@ interface ClientInterface
      * Checks whether a specific contact is included in the defined contact list.
      *
      *
-     * @return Response
      * @throws ClientException
      * @throws ServerException
      * @link http://documentation.emarsys.com/resource/developers/endpoints/contacts/check-a-contact-in-a-contact-list/
@@ -301,7 +299,7 @@ interface ClientInterface
      *
      * @link https://dev.emarsys.com/docs/emarsys-api/b3A6MjQ4OTk4Njg-list-email-campaigns
      */
-    public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes): Response;
+    public function getEmails(?int $status = null, ?int $contactList = null, array $campaignTypes = []): Response;
 
     /**
      * Creates an email in eMarketing Suite and assigns it the respective parameters.

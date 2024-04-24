@@ -7,6 +7,7 @@ use Exception;
 class ServerException extends Exception
 {
     public const JSON_DECODING_EXCEPTION = 'JSON response could not be decoded:\n%s';
+
     public const JSON_RESPONSE_NOT_ARRAY_EXCEPTION = 'JSON response is not an array:\n%s';
 
     public static function jsonDecodingException(string $msg): ServerException

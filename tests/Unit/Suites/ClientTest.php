@@ -303,7 +303,7 @@ class ClientTest extends TestCase
         $this->expectException(ClientException::class);
         $this->expectExceptionMessage('JSON response could not be decoded, maximum depth reached.');
         $nestedStructure = [];
-        for ($i = 0; $i < 511; $i++) {
+        for ($i = 0; $i < 511; ++$i) {
             $nestedStructure = [$nestedStructure];
         }
 

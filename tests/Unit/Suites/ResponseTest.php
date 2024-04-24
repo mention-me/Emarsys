@@ -28,9 +28,9 @@ class ResponseTest extends TestCase
     public function testItGetsResponseData(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertNotEmpty($result);
+        self::assertNotEmpty($response);
     }
 
     /**
@@ -39,9 +39,9 @@ class ResponseTest extends TestCase
     public function testItSetsAndGetsReplyCode(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertSame(Response::REPLY_CODE_OK, $result->getReplyCode());
+        self::assertSame(Response::REPLY_CODE_OK, $response->getReplyCode());
     }
 
     /**
@@ -50,9 +50,9 @@ class ResponseTest extends TestCase
     public function testItSetsAndGetsReplyText(): void
     {
         $expectedResponse = $this->createExpectedResponse('createContact');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertEquals('OK', $result->getReplyText());
+        self::assertEquals('OK', $response->getReplyText());
     }
 
     /**
@@ -61,9 +61,9 @@ class ResponseTest extends TestCase
     public function testItResponseWithoutData(): void
     {
         $expectedResponse = $this->createExpectedResponse('insertRecord');
-        $result = new Response($expectedResponse);
+        $response = new Response($expectedResponse);
 
-        self::assertEmpty($result->getData());
+        self::assertEmpty($response->getData());
     }
 
     private function createExpectedResponse(string $fileName): array

@@ -21,12 +21,19 @@ class Response
      * https://dev.emarsys.com/v2/response-codes/error-codes
      */
     public const REPLY_CODE_OK = 0;
+
     public const REPLY_CODE_INTERNAL_ERROR = 1;
+
     public const REPLY_CODE_INVALID_KEY_FIELD = 2004;
+
     public const REPLY_CODE_MISSING_KEY_FIELD = 2005;
+
     public const REPLY_CODE_CONTACT_NOT_FOUND = 2008;
+
     public const REPLY_CODE_NON_UNIQUE_RESULT = 2010;
+
     public const REPLY_CODE_INVALID_STATUS = 6003;
+
     public const REPLY_CODE_INVALID_DATA = 10001;
 
     /**
@@ -58,25 +65,16 @@ class Response
         $this->data = $result['data'] ?? [];
     }
 
-    /**
-     * @return array
-     */
     public function getData(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return int
-     */
     public function getReplyCode(): int
     {
         return $this->replyCode;
     }
 
-    /**
-     * @return string
-     */
     public function getReplyText(): string
     {
         return $this->replyText;
