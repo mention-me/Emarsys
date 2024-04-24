@@ -298,6 +298,26 @@ class ClientTest extends TestCase
         $this->assertEquals(2140, $response->getData()['id']);
     }
 
+    public function testItCanGetFields(): void
+    {
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getFields'));
+
+        $this->stubHttpClient->addResponse($expectedResponse);
+
+        $this->assertCount(72, $this->client->getFields()->getData());
+    }
+
+    public function testItCanGetSettings(): void
+    {
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getSettings'));
+
+        $this->stubHttpClient->addResponse($expectedResponse);
+
+        $this->assertEquals(2230, $this->client->getSettings()->getData()["id"]);
+    }
+
     /**
      * @throws ClientException
      * @throws ServerException

@@ -1,0 +1,13 @@
+{
+  "replyCode": 0,
+  "replyText": "OK",
+  "data": {
+    "id": 2230,
+    "environment": "suite0.emarsys.net",
+    "timezone": "Europe\/Vienna",
+    "name": "sandbox",
+    "password_history_queue_size": 1,
+    "country": "",
+    "totalContacts": "1"
+  }
+}
