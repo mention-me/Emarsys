@@ -1,8 +1,8 @@
 {
     "name": "mention-me/emarsys",
-    "description": "Emarsys RestFull API client",
+    "description": "Emarsys API client",
     "require": {
-        "php": ">=7.3",
+        "php": "^8.2",
         "psr/http-client": "^1.0.1",
         "ext-json": "*"
     },
