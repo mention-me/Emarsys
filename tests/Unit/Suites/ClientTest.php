@@ -26,12 +26,12 @@ class ClientTest extends TestCase
     /**
      * @var MockObject|ClientInterface
      */
-    private $client;
+    private Client $client;
 
     /**
      * @var MockObject|MockClient
      */
-    private $stubHttpClient;
+    private MockClient $stubHttpClient;
 
     protected function setUp(): void
     {

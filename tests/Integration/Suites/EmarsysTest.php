@@ -17,7 +17,7 @@ class EmarsysTest extends TestCase
     /**
      * @var ClientInterface
      */
-    private $client;
+    private Client $client;
 
     /**
      * @throws ClientException

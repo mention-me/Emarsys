@@ -24,15 +24,12 @@ class Client implements EmarsysClientInterface
 
     public const LIVE_BASE_URL = 'https://api.emarsys.net/api/v2/';
 
-    /**
-     * @var string
-     */
-    private $baseUrl;
+    private string $baseUrl;
 
     /**
-     * @var array
+     * @var string[]
      */
-    private $systemFields = [
+    private array $systemFields = [
         'key_id',
         'id',
         'contacts',
