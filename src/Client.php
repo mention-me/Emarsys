@@ -124,11 +124,11 @@ class Client implements EmarsysClientInterface
     public function getChoiceId($fieldStringId, $choice): int
     {
         if (! array_key_exists($fieldStringId, $this->choicesMapping)) {
-            throw ClientException::unrecognizedFieldStringIdForChoice((string) $fieldStringId, (string) $choice);
+            throw ClientException::unrecognizedFieldStringIdForChoice($fieldStringId, $choice);
         }
 
         if (! isset($this->choicesMapping[$fieldStringId][$choice])) {
-            throw ClientException::unrecognizedChoiceForFieldStringId((string) $choice, (string) $fieldStringId);
+            throw ClientException::unrecognizedChoiceForFieldStringId($choice, $fieldStringId);
         }
 
         return $this->choicesMapping[$fieldStringId][$choice];

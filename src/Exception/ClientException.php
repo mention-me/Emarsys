@@ -42,17 +42,7 @@ class ClientException extends Exception
         );
     }
 
-    public static function unrecognizedFieldStringId(string $fieldStringId): ClientException
-    {
-        return new self(
-            sprintf(
-                self::UNRECOGNIZED_FIELD_STRING_ID,
-                $fieldStringId
-            )
-        );
-    }
-
-    public static function unrecognizedFieldStringIdForChoice(string $fieldStringId, string $choice): ClientException
+    public static function unrecognizedFieldStringIdForChoice(string|int $fieldStringId, string|int $choice): ClientException
     {
         return new self(
             sprintf(
@@ -63,7 +53,7 @@ class ClientException extends Exception
         );
     }
 
-    public static function unrecognizedChoiceForFieldStringId(string $choice, string $fieldStringId): ClientException
+    public static function unrecognizedChoiceForFieldStringId(string|int $choice, string|int $fieldStringId): ClientException
     {
         return new self(
             sprintf(
