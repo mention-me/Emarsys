@@ -31,7 +31,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit tests/ --verbose"
+        "test": "phpunit tests/ --verbose",
+        "rector": "rector"
     },
     "license": "MIT",
     "authors": [
