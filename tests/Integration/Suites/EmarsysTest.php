@@ -44,7 +44,9 @@ class EmarsysTest extends TestCase
         $connectionTestResponse = $this->client->getLanguages();
 
         if (0 !== $connectionTestResponse->getReplyCode()) {
-            $this->markTestSkipped('Problem connecting to Emarsys. Check credentials in phpunit.xml.dist or in github secrets');
+            $this->markTestSkipped(
+                'Problem connecting to Emarsys. Check credentials in phpunit.xml.dist or in github secrets'
+            );
         }
     }
 

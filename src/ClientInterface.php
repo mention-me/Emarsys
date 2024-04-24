@@ -354,7 +354,12 @@ interface ClientInterface
      * @throws ClientException
      * @throws ServerException
      */
-    public function getEmailResponseSummary(string $emailId, ?string $startDate = null, ?string $endDate = null, ?string $launchId = null): Response;
+    public function getEmailResponseSummary(
+        string $emailId,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        ?string $launchId = null
+    ): Response;
 
     /**
      * Instructs the system to send a test email.
