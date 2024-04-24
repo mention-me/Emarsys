@@ -151,7 +151,7 @@ class Client implements EmarsysClientInterface
         $choiceName = null;
         foreach ($this->choicesMapping[(string) $fieldId] as $key => $choiceValue) {
             // The id in the choicesMapping is a string so we only use == for comparison
-            if ($choiceId === $choiceValue) {
+            if ($choiceId == $choiceValue) {
                 $choiceName = $key;
                 break;
             }
