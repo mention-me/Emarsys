@@ -17,6 +17,12 @@
             "Snowcap\\Emarsys": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "Snowcap\\Emarsys\\Tests\\Unit\\": "tests/Unit/Suites/",
+            "Snowcap\\Emarsys\\Tests\\Integration\\": "tests/Integration/Suites/"
+        }
+    },
     "scripts": {
         "test": "phpunit tests/ --verbose"
     },
