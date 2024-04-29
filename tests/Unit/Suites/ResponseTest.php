@@ -29,7 +29,7 @@ class ResponseTest extends TestCase
         $expectedResponse = $this->createExpectedResponse('createContact');
         $response = new Response($expectedResponse);
 
-        self::assertNotEmpty($response);
+        $this->assertNotEmpty($response);
     }
 
     /**
@@ -40,7 +40,7 @@ class ResponseTest extends TestCase
         $expectedResponse = $this->createExpectedResponse('createContact');
         $response = new Response($expectedResponse);
 
-        self::assertSame(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertSame(Response::REPLY_CODE_OK, $response->getReplyCode());
     }
 
     /**
@@ -51,7 +51,7 @@ class ResponseTest extends TestCase
         $expectedResponse = $this->createExpectedResponse('createContact');
         $response = new Response($expectedResponse);
 
-        self::assertEquals('OK', $response->getReplyText());
+        $this->assertEquals('OK', $response->getReplyText());
     }
 
     /**
@@ -62,7 +62,7 @@ class ResponseTest extends TestCase
         $expectedResponse = $this->createExpectedResponse('insertRecord');
         $response = new Response($expectedResponse);
 
-        self::assertEmpty($response->getData());
+        $this->assertEmpty($response->getData());
     }
 
     private function createExpectedResponse(string $fileName): array

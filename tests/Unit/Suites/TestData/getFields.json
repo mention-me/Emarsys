@@ -1,0 +1,438 @@
+{
+  "replyCode": 0,
+  "replyText": "OK",
+  "data": [
+    {
+      "id": 0,
+      "name": "Interests",
+      "application_type": "interests",
+      "string_id": "interests"
+    },
+    {
+      "id": 9,
+      "name": "Title",
+      "application_type": "singlechoice",
+      "string_id": "title"
+    },
+    {
+      "id": 46,
+      "name": "Salutation",
+      "application_type": "singlechoice",
+      "string_id": "salutation"
+    },
+    {
+      "id": 1,
+      "name": "First Name",
+      "application_type": "shorttext",
+      "string_id": "first_name"
+    },
+    {
+      "id": 2,
+      "name": "Last Name",
+      "application_type": "shorttext",
+      "string_id": "last_name"
+    },
+    {
+      "id": 3,
+      "name": "Email",
+      "application_type": "longtext",
+      "string_id": "email"
+    },
+    {
+      "id": 26,
+      "name": "Preferred email format",
+      "application_type": "singlechoice",
+      "string_id": "preferred_email_format"
+    },
+    {
+      "id": 10,
+      "name": "Address",
+      "application_type": "longtext",
+      "string_id": "address"
+    },
+    {
+      "id": 13,
+      "name": "ZIP Code",
+      "application_type": "shorttext",
+      "string_id": "zip_code"
+    },
+    {
+      "id": 11,
+      "name": "City",
+      "application_type": "shorttext",
+      "string_id": "city"
+    },
+    {
+      "id": 12,
+      "name": "State",
+      "application_type": "shorttext",
+      "string_id": "state"
+    },
+    {
+      "id": 14,
+      "name": "Country or region",
+      "application_type": "singlechoice",
+      "string_id": "country"
+    },
+    {
+      "id": 15,
+      "name": "Phone",
+      "application_type": "shorttext",
+      "string_id": "phone"
+    },
+    {
+      "id": 37,
+      "name": "Mobile",
+      "application_type": "shorttext",
+      "string_id": "mobile"
+    },
+    {
+      "id": 16,
+      "name": "Fax",
+      "application_type": "fax",
+      "string_id": "fax"
+    },
+    {
+      "id": 5,
+      "name": "Gender",
+      "application_type": "singlechoice",
+      "string_id": "gender"
+    },
+    {
+      "id": 4,
+      "name": "Date of Birth",
+      "application_type": "birthdate",
+      "string_id": "birth_date"
+    },
+    {
+      "id": 8,
+      "name": "Education",
+      "application_type": "singlechoice",
+      "string_id": "education"
+    },
+    {
+      "id": 6,
+      "name": "Marital Status",
+      "application_type": "singlechoice",
+      "string_id": "marital_status"
+    },
+    {
+      "id": 38,
+      "name": "First Name of Partner",
+      "application_type": "shorttext",
+      "string_id": "partner_first_name"
+    },
+    {
+      "id": 39,
+      "name": "Birthdate of Partner",
+      "application_type": "birthdate",
+      "string_id": "partner_birth_date"
+    },
+    {
+      "id": 40,
+      "name": "Anniversary",
+      "application_type": "date",
+      "string_id": "anniversary"
+    },
+    {
+      "id": 7,
+      "name": "Children",
+      "application_type": "singlechoice",
+      "string_id": "children"
+    },
+    {
+      "id": 18,
+      "name": "Company",
+      "application_type": "longtext",
+      "string_id": "company_name"
+    },
+    {
+      "id": 41,
+      "name": "Company Address",
+      "application_type": "longtext",
+      "string_id": "company_address"
+    },
+    {
+      "id": 42,
+      "name": "Zip Code (office)",
+      "application_type": "shorttext",
+      "string_id": "company_zip_code"
+    },
+    {
+      "id": 43,
+      "name": "City (office)",
+      "application_type": "shorttext",
+      "string_id": "company_city"
+    },
+    {
+      "id": 44,
+      "name": "State (office)",
+      "application_type": "shorttext",
+      "string_id": "company_state"
+    },
+    {
+      "id": 45,
+      "name": "Country or region (office)",
+      "application_type": "singlechoice",
+      "string_id": "company_country"
+    },
+    {
+      "id": 21,
+      "name": "Phone (office)",
+      "application_type": "shorttext",
+      "string_id": "company_phone"
+    },
+    {
+      "id": 22,
+      "name": "Fax (office)",
+      "application_type": "fax",
+      "string_id": "company_fax"
+    },
+    {
+      "id": 25,
+      "name": "URL",
+      "application_type": "url",
+      "string_id": "url"
+    },
+    {
+      "id": 17,
+      "name": "Job Position",
+      "application_type": "singlechoice",
+      "string_id": "company_position"
+    },
+    {
+      "id": 19,
+      "name": "Department",
+      "application_type": "singlechoice",
+      "string_id": "company_department"
+    },
+    {
+      "id": 20,
+      "name": "Industry",
+      "application_type": "singlechoice",
+      "string_id": "company_industry"
+    },
+    {
+      "id": 23,
+      "name": "Number of Employees",
+      "application_type": "singlechoice",
+      "string_id": "company_employees"
+    },
+    {
+      "id": 24,
+      "name": "Annual Revenue (in 000 EUR)",
+      "application_type": "singlechoice",
+      "string_id": "company_annual_revenue"
+    },
+    {
+      "id": 3294,
+      "name": "Do not track me",
+      "application_type": "singlechoice",
+      "string_id": "do_not_track_me"
+    },
+    {
+      "id": 3295,
+      "name": "Do not track me in Email",
+      "application_type": "singlechoice",
+      "string_id": "do_not_track_me_in_email"
+    },
+    {
+      "id": 3296,
+      "name": "IETF language tag",
+      "application_type": "shorttext",
+      "string_id": "ietf_language_tag"
+    },
+    {
+      "id": 5261,
+      "name": "Mobile SMS Opt-In",
+      "application_type": "singlechoice",
+      "string_id": ""
+    },
+    {
+      "id": 5262,
+      "name": "Mobile SMS Bad Number",
+      "application_type": "shorttext",
+      "string_id": ""
+    },
+    {
+      "id": 5263,
+      "name": "Mobile SMS Last Sent",
+      "application_type": "date",
+      "string_id": ""
+    },
+    {
+      "id": 5264,
+      "name": "Mobile SMS Operator Code",
+      "application_type": "numeric",
+      "string_id": ""
+    },
+    {
+      "id": 5265,
+      "name": "Mobile SMS Normalized",
+      "application_type": "numeric",
+      "string_id": ""
+    },
+    {
+      "id": 5337,
+      "name": "Mobile Advertising ID",
+      "application_type": "shorttext",
+      "string_id": "mobile_advertising_id"
+    },
+    {
+      "id": 8817,
+      "name": "predictUserID",
+      "application_type": "shorttext",
+      "string_id": "predictuserid"
+    },
+    {
+      "id": 8818,
+      "name": "predictSecret",
+      "application_type": "shorttext",
+      "string_id": ""
+    },
+    {
+      "id": 8819,
+      "name": "predict top categories",
+      "application_type": "largetext",
+      "string_id": "predict_top_categories"
+    },
+    {
+      "id": 8820,
+      "name": "predict last session date",
+      "application_type": "date",
+      "string_id": "predict_last_session_date"
+    },
+    {
+      "id": 8821,
+      "name": "predict last session time spent",
+      "application_type": "numeric",
+      "string_id": "predict_last_session_time_spent"
+    },
+    {
+      "id": 8822,
+      "name": "predict last session products",
+      "application_type": "largetext",
+      "string_id": "predict_last_session_products"
+    },
+    {
+      "id": 8823,
+      "name": "predict last session categories",
+      "application_type": "largetext",
+      "string_id": "predict_last_session_categories"
+    },
+    {
+      "id": 8824,
+      "name": "predict last abandoned date",
+      "application_type": "date",
+      "string_id": "predict_last_abandoned_date"
+    },
+    {
+      "id": 8825,
+      "name": "predict last abandoned products",
+      "application_type": "largetext",
+      "string_id": "predict_last_abandoned_products"
+    },
+    {
+      "id": 8826,
+      "name": "predict last abandoned categories",
+      "application_type": "largetext",
+      "string_id": "predict_last_abandoned_categorie"
+    },
+    {
+      "id": 8827,
+      "name": "predict last abandoned total price",
+      "application_type": "numeric",
+      "string_id": "predict_last_abandoned_total_pri"
+    },
+    {
+      "id": 8828,
+      "name": "predict last purchase date",
+      "application_type": "date",
+      "string_id": "predict_last_purchase_date"
+    },
+    {
+      "id": 8829,
+      "name": "predict last purchase products",
+      "application_type": "largetext",
+      "string_id": "predict_last_purchase_products"
+    },
+    {
+      "id": 8830,
+      "name": "predict last purchase categories",
+      "application_type": "largetext",
+      "string_id": "predict_last_purchase_categories"
+    },
+    {
+      "id": 8831,
+      "name": "predict last purchase total price",
+      "application_type": "numeric",
+      "string_id": "predict_last_purchase_total_pric"
+    },
+    {
+      "id": 27,
+      "name": "Avg. length of visit (minutes)",
+      "application_type": "special",
+      "string_id": "average_visit_duration"
+    },
+    {
+      "id": 28,
+      "name": "Page views per day",
+      "application_type": "special",
+      "string_id": "pageviews_per_day"
+    },
+    {
+      "id": 29,
+      "name": "Days since last email sent",
+      "application_type": "special",
+      "string_id": "days_since_last_email_sent"
+    },
+    {
+      "id": 31,
+      "name": "Opt-In",
+      "application_type": "special",
+      "string_id": "optin"
+    },
+    {
+      "id": 32,
+      "name": "User status",
+      "application_type": "special",
+      "string_id": "status"
+    },
+    {
+      "id": 33,
+      "name": "Contact source",
+      "application_type": "special",
+      "string_id": "source"
+    },
+    {
+      "id": 34,
+      "name": "Contact form",
+      "application_type": "special",
+      "string_id": "form"
+    },
+    {
+      "id": 35,
+      "name": "Registration Language",
+      "application_type": "singlechoice",
+      "string_id": "registration_language"
+    },
+    {
+      "id": 36,
+      "name": "Newsletter",
+      "application_type": "special",
+      "string_id": "newsletter"
+    },
+    {
+      "id": 47,
+      "name": "Email valid",
+      "application_type": "special",
+      "string_id": "email_valid"
+    },
+    {
+      "id": 48,
+      "name": "Date of first registration",
+      "application_type": "special",
+      "string_id": "registration_date"
+    }
+  ]
+}

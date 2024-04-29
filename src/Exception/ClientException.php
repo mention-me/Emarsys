@@ -42,18 +42,10 @@ class ClientException extends Exception
         );
     }
 
-    public static function unrecognizedFieldStringId(string $fieldStringId): ClientException
-    {
-        return new self(
-            sprintf(
-                self::UNRECOGNIZED_FIELD_STRING_ID,
-                $fieldStringId
-            )
-        );
-    }
-
-    public static function unrecognizedFieldStringIdForChoice(string $fieldStringId, string $choice): ClientException
-    {
+    public static function unrecognizedFieldStringIdForChoice(
+        string|int $fieldStringId,
+        string|int $choice
+    ): ClientException {
         return new self(
             sprintf(
                 self::UNRECOGNIZED_FIELD_ID_FOR_CHOICE,
@@ -63,28 +55,15 @@ class ClientException extends Exception
         );
     }
 
-    public static function unrecognizedChoiceForFieldStringId(string $choice, string $fieldStringId): ClientException
-    {
+    public static function unrecognizedChoiceForFieldStringId(
+        string|int $choice,
+        string|int $fieldStringId
+    ): ClientException {
         return new self(
             sprintf(
                 self::UNRECOGNIZED_CHOICE_FOR_FIELD_ID,
                 $choice,
                 $fieldStringId
-            )
-        );
-    }
-
-    public static function cannotCreateSystemTypeException(): ClientException
-    {
-        return new self(self::SYSTEM_TYPE_NOT_CREATABLE_EXCEPTION);
-    }
-
-    public static function typeNotCreatableViaApiException(string $type): ClientException
-    {
-        return new self(
-            sprintf(
-                self::TYPE_NOT_CREATABLE_VIA_API_EXCEPTION,
-                $type
             )
         );
     }

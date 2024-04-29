@@ -67,10 +67,10 @@ class ClientTest extends TestCase
         $resultField2Id = $this->client->getFieldId($customField2StringId);
         $resultField2StringId = $this->client->getFieldStringId($customField2Id);
 
-        self::assertEquals($customField1Id, $resultField1Id);
-        self::assertEquals($customField1StringId, $resultField1StringId);
-        self::assertEquals($customField2Id, $resultField2Id);
-        self::assertEquals($customField2StringId, $resultField2StringId);
+        $this->assertEquals($customField1Id, $resultField1Id);
+        $this->assertEquals($customField1StringId, $resultField1StringId);
+        $this->assertEquals($customField2Id, $resultField2Id);
+        $this->assertEquals($customField2StringId, $resultField2StringId);
     }
 
     /**
@@ -114,12 +114,12 @@ class ClientTest extends TestCase
         $resultChoice3Id = $this->client->getChoiceId($customFieldStringId, $customChoice3Name);
         $resultChoice3Name = $this->client->getChoiceName($customFieldStringId, $customChoice3Id);
 
-        self::assertEquals($customChoice1Id, $resultChoice1Id);
-        self::assertEquals($customChoice1Name, $resultChoice1Name);
-        self::assertEquals($customChoice2Id, $resultChoice2Id);
-        self::assertEquals($customChoice2Name, $resultChoice2Name);
-        self::assertEquals($customChoice3Id, $resultChoice3Id);
-        self::assertEquals($customChoice3Name, $resultChoice3Name);
+        $this->assertEquals($customChoice1Id, $resultChoice1Id);
+        $this->assertEquals($customChoice1Name, $resultChoice1Name);
+        $this->assertEquals($customChoice2Id, $resultChoice2Id);
+        $this->assertEquals($customChoice2Name, $resultChoice2Name);
+        $this->assertEquals($customChoice3Id, $resultChoice3Id);
+        $this->assertEquals($customChoice3Name, $resultChoice3Name);
     }
 
     /**
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
         $this->client->addChoicesMapping($mapping);
         $result = $this->client->getChoiceName($fieldName, $choiceId);
 
-        self::assertEquals($choiceId, $result);
+        $this->assertEquals($choiceId, $result);
     }
 
     /**
@@ -183,30 +183,34 @@ class ClientTest extends TestCase
 
         $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails();
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH);
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(null, 123);
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH, 123);
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
         $this->stubHttpClient->addResponse($expectedResponse);
-        $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH, 123, [ClientInterface::CAMPAIGN_TYPE_ON_EVENT]);
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $response = $this->client->getEmails(
+            ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH,
+            123,
+            [ClientInterface::CAMPAIGN_TYPE_ON_EVENT]
+        );
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        self::assertNotEmpty($response->getData());
+        $this->assertNotEmpty($response->getData());
 
         foreach ($response->getData() as $data) {
-            self::assertArrayHasKey('id', $data);
-            self::assertArrayHasKey('name', $data);
-            self::assertArrayHasKey('status', $data);
+            $this->assertArrayHasKey('id', $data);
+            $this->assertArrayHasKey('name', $data);
+            $this->assertArrayHasKey('status', $data);
         }
     }
 
@@ -238,8 +242,8 @@ class ClientTest extends TestCase
 
         $response = $this->client->createEmail($data);
 
-        self::assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
-        self::assertArrayHasKey('id', $response->getData());
+        $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
+        $this->assertArrayHasKey('id', $response->getData());
     }
 
     /**
@@ -255,7 +259,7 @@ class ClientTest extends TestCase
         $response = $this->client->getContactId('3', 'sender@example.com');
 
         $expectedData = json_decode($expectedResponse->getBody(), true);
-        self::assertEquals($expectedData['data']['id'], $response);
+        $this->assertEquals($expectedData['data']['id'], $response);
     }
 
     /**
@@ -271,7 +275,7 @@ class ClientTest extends TestCase
 
         $response = $this->client->getContactData([]);
 
-        self::assertEquals("123456", $response->getData()['result'][0]['emailId']);
+        $this->assertEquals("123456", $response->getData()['result'][0]['emailId']);
     }
 
     /**
@@ -291,7 +295,27 @@ class ClientTest extends TestCase
         ];
         $response = $this->client->createContact($data);
 
-        self::assertEquals(2140, $response->getData()['id']);
+        $this->assertEquals(2140, $response->getData()['id']);
+    }
+
+    public function testItCanGetFields(): void
+    {
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getFields'));
+
+        $this->stubHttpClient->addResponse($expectedResponse);
+
+        $this->assertCount(72, $this->client->getFields()->getData());
+    }
+
+    public function testItCanGetSettings(): void
+    {
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getSettings'));
+
+        $this->stubHttpClient->addResponse($expectedResponse);
+
+        $this->assertEquals(2230, $this->client->getSettings()->getData()["id"]);
     }
 
     /**
@@ -329,7 +353,7 @@ class ClientTest extends TestCase
 
         $response = $this->client->getEmailResponseSummary(12345);
 
-        self::assertEquals(90, $response->getData()['sent']);
+        $this->assertEquals(90, $response->getData()['sent']);
     }
 
     private function createExpectedResponse(string $fileName): StreamInterface

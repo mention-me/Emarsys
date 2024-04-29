@@ -56,7 +56,7 @@ class Response
      */
     public function __construct(array $result = [])
     {
-        if ( ! isset($result['replyCode']) || ! isset($result['replyText'])) {
+        if (! isset($result['replyCode']) || ! isset($result['replyText'])) {
             throw ClientException::invalidResponseStructure();
         }
 
