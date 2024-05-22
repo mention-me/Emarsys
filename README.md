@@ -66,7 +66,7 @@ New tagged releases _will not_ be picked up, and bumped, by Dependabot. Which me
 
 To release a new version of the Emarsys client, follow these steps:
 - Raise a PR to the client ([example](https://github.com/mention-me/Emarsys/pull/94)).
-- Merge these changes into `master`, once tests have passed, reviews are complete, and the PR is approved.
+- Merge these changes into `master` once tests have passed, reviews are complete, and the PR is approved.
 - Tag a new release following Semver versioning (e.g. [`v1.8.0`](https://github.com/mention-me/Emarsys/pull/94)).
 - Raise a PR in the monolith to update the Emarsys client to the new version ([example](https://github.com/mention-me/MentionMe/pull/18800)).
 
