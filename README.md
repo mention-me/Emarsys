@@ -56,7 +56,7 @@ composer require mention-me/Emarsys:^v<version number>
 
 ## Releases
 
-Past releases of this client (since Mention Me took over maintenance) on the [releases page](https://github.com/mention-me/Emarsys/releases).
+Past releases of this client (since Mention Me took over maintenance) are available on the [releases page](https://github.com/mention-me/Emarsys/releases).
 
 ### Tagging New Releases
 
