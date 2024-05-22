@@ -1,181 +1,71 @@
-Emarsys, PHP HTTP client for Emarsys webservice
-================================================
+# Emarsys Client
+This is a simple client which acts as a wrapper around the Emarsys API, and allows us to perform common operations against Emarsys abstracted away from the actual API requests.
 
-Emarsys is a PHP HTTP client based on the official Emarsys web service documentation.
+Originally, this was a fork of the Emarsys client open-sourced by Snowcap. However, they have long since dissolved, and as such upstream is effectively abandoned.
 
-At the time of writing, __only methods related to contacts are production ready__.
+With this in mind Mention Me (the Iris team) maintain and update this client for use in the monolith.
 
-__All the other methods__ have been implemented following the documentation but __not yet tested__.
+## Usage
+The Emarsys client is included via Composer, and can be found in the monolith's [`composer.json`](https://github.com/mention-me/MentionMe/blob/main/composer.json) file.
 
-### Installing via Composer
+At the time of writing, our usage of the Emarsys client is limited to one single service in the monolith, called [`EmarsysService`](https://github.com/mention-me/MentionMe/blob/main/src/Nora/EmarsysBundle/EmarsysService.php).
 
-The recommended way to install Emarsys is through [Composer](http://getcomposer.org).
+It's main purposes are to: 
+1. Fetch data for a contact by email (or ID).
+2. Fetch lists of running campaigns.
+3. Fetch 'Settings' for the Emarsys account.
 
+### Divergence
+
+Over time, in order to keep pace with modern practices, this client has diverged quite substantially from the original upstream client.
+
+The most notable differences are:
+1. Official support for PHP 8.2 and above
+2. Support for more API endpoints (tailored to our use cases)
+3. PSR 4 namespacing
+4. Full CI process and many more tests (both unit and integration)
+
+## Testing
+
+Although not extensive, theres a number of tests which cover most of the main use cases we have for the Emarsys client.
+
+Tests are broken down into two main categories:
+1. **Unit** - These test the individual methods of the client, are located in the `tests/Unit` directory, and always mock Emarsys API responses (where required).
+2. **Integration** - These test the client's ability to interact with the Emarsys API, are located in the `tests/Integration` directory, and require a valid Emarsys API key to run.
+
+The unit tests are much more extensive than the integration tests, particularly in the context of testing responses from the Emarsys API, because the integration tests
+are more prone to non-deterministic failures, because they **must** use a sandbox environment which we cannot control the state of (i.e. fixtures).
+
+### Manual Testing
+
+Outside of the automated tests, the client can be manually tested in the monolith.
+
+This can either be **before** or **after** tagging a new release of the client - if its before, the commit hash should be what is required.
+
+To require a particular **commit** of the Emarsys client, the following command can be run in the monolith's root directory:
 ```bash
-# Install Composer
-curl -sS https://getcomposer.org/installer | php
-
-# Add Emarsys as a dependency
-php composer.phar require snowcap/emarsys:*
+composer require mention-me/Emarsys:dev-<branch name>#<commit hash>
 ```
 
-After installing, you need to require Composer's autoloader:
-
-```php
-require 'vendor/autoload.php';
+To require a particular **version** of the Emarsys client, the following command can be run in the monolith's root directory:
+```bash
+composer require mention-me/Emarsys:^v<version number>
 ```
 
-### Basics
+## Releases
 
-To use the client, you need to instantiate a new one with your credentials. You also need to create an HTTP client and inject it into Emarsys Client. Snowcap/Emarsys is shipped with cURL HTTP client but it can be replaced with any other custom implementation.
+You can see past releases of this client (since we took over maintenance) on the [releases page](https://github.com/mention-me/Emarsys/releases).
 
-```php
-define('EMARSYS_API_USERNAME', 'your_username');
-define('EMARSYS_API_SECRET', 'your_secret');
+### Tagging New Releases
 
-$httpClient = new CurlClient();
-$client = new Client($httpClient, EMARSYS_API_USERNAME, EMARSYS_API_SECRET);
-```
+The monolith uses Composer to manage **tagged releases** of the Emarsys client. This is to ensure reproducible builds of the monolith.
 
-At this point, you have access to all the methods implemented by the Emarsys API
+New tagged releases _will not_ be picked up, and bumped, by Dependabot. Which means any new changes that need to be released to the monolith require a manual PR to be raised.
 
-For example :
+To release a new version of the Emarsys client, follow these steps:
+- Raise a PR to the client ([example](https://github.com/mention-me/Emarsys/pull/94)).
+- Merge these changes into `master`, once tests have passed, reviews are complete, and the PR is approved.
+- Tag a new release following Semver versioning (e.g. [`v1.8.0`](https://github.com/mention-me/Emarsys/pull/94)).
+- Raise a PR in the monolith to update the Emarsys client to the new version ([example](https://github.com/mention-me/MentionMe/pull/18800)).
 
-```php
-// Retrieve a contact from his email address
-$response = $client->getContact(array(3 => 'example@example.com'));
-
-// Create a contact with just his email information
-$response = $client->createContact(array(3 => 'example@example.com'));
-
-// Create a more complex contact
-$response = $client->createContact(array(
-    'email' => 'johndoe@gmail.com',
-    'gender' => $client->getChoiceId('gender', 'male'),
-    'salutation' => $client->getChoiceId('salutation', 'mr'),
-    'firstName' => 'John',
-    'lastName' => 'Doe',
-    'birthDate' => '2014-03-27',
-    'address' => 'Forgotten street 85B',
-    'zip' => '1000',
-    'city' => 'Brussels',
-    'country' => 17,
-    'language' => 3,
-));
-```
-
-### Custom field mapping
-
-As explained in the Emarsys documentation, each field is referenced by an ID.
-
-You can do a `$response = $client->getFields();` to get the complete list with their ids and names.
-
-But dealing with IDs is not always the easiest way to work.
-
-So, extra methods have been implemented to handle custom mapping.
-
-First of all, a default (non-exhaustive) mapping has been set for the Emarsys pre-defined fields.
-You can find it in `src/Snowcap/Emarsys/ini/fields.ini`
-
-But you can add your own by calling :
-
-```php
-$client->addFieldsMapping(array('petName' => 7849, 'twitter' => 7850));`
-```
-
-In that way, the default mapping and your own are merged and become available instantly as a replacement of these boring IDs.
-
-It means that you can use both IDs and custom names to reference fields, so the two samples below do the same :
-
-```php
-$response = $client->createContact(array(1 => 'John', 2 => 'Doe', 3 => 'example@example.com'));
-$response = $client->createContact(array('firstName' => 'John', 'lastName' => 'Doe', 'email' => 'example@example.com'));
-```
-
-You also have access to additional methods to retrieve a particular ID by name and vice versa.
-
-```php
-$fieldId = $client->getFieldId('firstName');
-// will return 1;
-$fieldName= $client->getFieldName(1);
-// will return 'firstName';
-```
-
-Last but not least, you can completely override the default mappings by passing an array as the third argument of the constructor.
-
-```php
-$client = new Client(EMARSYS_API_USERNAME, EMARSYS_API_SECRET, array('firstName' => 1, 'lastName' => 2));
-```
-
-You just have to refer to the official Emarsys documentation or the `getFields()` method to identify the right IDs.
-
-### Custom field choice mapping
-
-When we use choice fields, each choice has its own ID, like a field.
-
-You can do a `$response = $client->getFieldChoices(5);` to get the complete list of choices with their ids and names for a specific field (the gender for instance [5]).
-
-But dealing with IDs is still not the easiest way to work.
-
-So, extra methods have been implemented to handle custom mapping.
-
-First of all, a default (non-exhaustive) mapping has been set for the Emarsys pre-defined field choices.
-You can find it in `src/Snowcap/Emarsys/ini/choices.ini`
-
-But you can add your own by calling :
-
-```php
-$client->addChoicesMapping(array('gender' => array('male' => 1, 'female' => 2)));
-```
-
-It means that you can use both IDs and custom names to reference field choices, so the two samples below do the same :
-
-```php
-$response = $client->getFieldChoices(5);
-$response = $client->getFieldChoices('gender');
-```
-
-You also have access to additional methods to retrieve a particular ID by name and vice versa.
-
-```php
-$choiceId = $client->getChoiceId('gender', 'male');
-// will return 1;
-$choiceName= $client->getChoiceName('gender', 1);
-// will return 'male';
-```
-
-You can of course override  completely the default mappings by passing an array as the fourth argument of the constructor.
-
-```php
-$client = new Client(EMARSYS_API_USERNAME, EMARSYS_API_SECRET, array(), array('gender' => array('male' => 1, 'female' => 2)));
-```
-
-You just have to refer to the official Emarsys documentation or the `getFieldChoices()` method to identify the right IDs.
-
-### The response
-
-Almost every methods implementing the API return a new Response object.
-
-This response is a simple class with three properties :
-
-* a _replyCode_
-* a _replyText_
-* and the _data_
-
-This matches the json response sent by the Emarsys API.
-
-The reply code and reply text are the official reply returned by the Emarsys API.
-The data become an associative array representing the actual data (read the official Emarsys documentation, check the inline documentation in the code or var_dump the response)
-
-### Exceptions
-
-The client throws 2 types of exceptions
-
-* a _ClientException_ : which is related to wrong usage of this client
-* a _ServerException_ : which is related to wrong usage of the API itself
- 
-The _ServerException_ is carrying the original reply text and reply code sent by the API.
-
-Some of the reply codes have already been handled as constants, but not all.
-
-This could be very useful, for example : we could check the exception code to see if the contact was not found, then we could create it.
+**Note:** For internal dependency bumps (i.e. merging Dependabot PRs to development dependencies) you _do not_ need to tag a new release. Only changes that need to be reflected in the monolith require a new release.
