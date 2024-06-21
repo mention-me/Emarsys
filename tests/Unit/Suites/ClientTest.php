@@ -31,13 +31,13 @@ class ClientTest extends TestCase
     /**
      * @var MockObject|MockClient
      */
-    private MockClient $stubHttpClient;
+    private MockClient $mockClient;
 
     protected function setUp(): void
     {
-        $this->stubHttpClient = new MockClient();
+        $this->mockClient = new MockClient();
         $this->client = new Client(
-            $this->stubHttpClient,
+            $this->mockClient,
             new RequestFactory(),
             new StreamFactory(),
             'dummy-api-username',
@@ -181,23 +181,23 @@ class ClientTest extends TestCase
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('emails'));
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
         $response = $this->client->getEmails();
         $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH);
         $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(null, 123);
         $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH, 123);
         $this->assertEquals(Response::REPLY_CODE_OK, $response->getReplyCode());
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
         $response = $this->client->getEmails(
             ClientInterface::EMAIL_STATUS_CODE_READY_TO_LAUNCH,
             123,
@@ -223,7 +223,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $data = [
             'language'       => 'en',
@@ -254,7 +254,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getContactId'));
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $response = $this->client->getContactId('3', 'sender@example.com');
 
@@ -271,7 +271,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getContactData'));
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $response = $this->client->getContactData([]);
 
@@ -287,7 +287,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('createContact'));
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $data = [
             '3'      => 'recipient@example.com',
@@ -303,7 +303,7 @@ class ClientTest extends TestCase
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getFields'));
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $this->assertCount(72, $this->client->getFields()->getData());
     }
@@ -313,7 +313,7 @@ class ClientTest extends TestCase
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getSettings'));
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $this->assertEquals(2230, $this->client->getSettings()->getData()["id"]);
     }
@@ -335,7 +335,7 @@ class ClientTest extends TestCase
         $expectedResponse->method("getBody")
             ->willReturn(Utils::streamFor(json_encode($nestedStructure, JSON_THROW_ON_ERROR)));
 
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $this->client->createContact([]);
     }
@@ -349,7 +349,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
         $expectedResponse->method("getBody")->willReturn($this->createExpectedResponse('getEmailResponseSummary'));
-        $this->stubHttpClient->addResponse($expectedResponse);
+        $this->mockClient->addResponse($expectedResponse);
 
         $response = $this->client->getEmailResponseSummary(12345);
 
