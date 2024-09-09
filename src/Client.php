@@ -703,10 +703,7 @@ class Client implements EmarsysClientInterface
         return $mappedData;
     }
 
-    /**
-     * @return mixed
-     */
-    private function readJsonFile(string $filename)
+    private function readJsonFile(string $filename): mixed
     {
         $json = file_get_contents(__DIR__ . '/json/' . $filename);
 
