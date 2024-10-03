@@ -14,9 +14,6 @@ use Snowcap\Emarsys\Exception\ServerException;
 
 class EmarsysTest extends TestCase
 {
-    /**
-     * @var ClientInterface
-     */
     private Client $client;
 
     /**
