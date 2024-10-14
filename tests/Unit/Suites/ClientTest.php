@@ -23,14 +23,8 @@ use Snowcap\Emarsys\Response;
 #[UsesClass(Response::class)]
 class ClientTest extends TestCase
 {
-    /**
-     * @var MockObject|ClientInterface
-     */
     private Client $client;
 
-    /**
-     * @var MockObject|MockClient
-     */
     private MockClient $mockClient;
 
     protected function setUp(): void
