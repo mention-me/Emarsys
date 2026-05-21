@@ -631,9 +631,9 @@ class Client implements EmarsysClientInterface
         try {
             $response = $this->httpClient->sendRequest($request);
         } catch (Exception $e) {
-            throw new ServerException($e->getMessage());
+            throw new ServerException($e->getMessage(), $e->getCode(), $e);
         } catch (ClientExceptionInterface $e) {
-            throw new ClientException($e->getMessage());
+            throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }
 
         $responseArray = json_decode((string) $response->getBody(), true);
