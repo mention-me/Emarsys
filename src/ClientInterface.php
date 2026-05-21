@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowcap\Emarsys;
 
 use Snowcap\Emarsys\Exception\ClientException;
